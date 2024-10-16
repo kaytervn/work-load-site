@@ -64,7 +64,7 @@ const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
       };
       if (form.localIsChecked) {
         newItem.local = {
-          url: `localhost:${form.localUrl}`,
+          url: `http://localhost:${form.localUrl}`,
           isInit: true,
         };
       }
@@ -111,7 +111,7 @@ const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
             onChangeText={(value: any) => handleChange("localUrl", value)}
             icon={MapPinIcon}
             error={errors.localUrl}
-            prepend="localhost:"
+            prepend="http://localhost:"
             isChecked={form.localIsChecked}
             onCheckboxChange={() =>
               setForm({ ...form, localIsChecked: !form.localIsChecked })
