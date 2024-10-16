@@ -21,7 +21,7 @@ const ConfimationDialog = ({
   message,
   color = "green",
   onConfirm,
-  confirmText = "Đồng ý",
+  confirmText = "Accept",
   onCancel,
 }: any) => {
   return (
@@ -36,7 +36,7 @@ const ConfimationDialog = ({
           onClick={onCancel}
           className="p-3 rounded-md bg-gray-200 w-full text-gray-800 text-center text-lg font-semibold"
         >
-          Hủy
+          Cancel
         </button>
         <button
           onClick={onConfirm}
@@ -52,7 +52,7 @@ const ConfimationDialog = ({
 
 const AlertDialog = ({
   isVisible,
-  title = "Thông báo",
+  title = "Information",
   message,
   color = "green",
   onAccept,
@@ -79,8 +79,8 @@ const AlertDialog = ({
 
 const LoadingDialog = ({
   isVisible,
-  title = "Đang xử lý",
-  message = "Vui lòng chờ trong giây lát...",
+  title = "Processing",
+  message = "Please wait a moment...",
   color = "royalblue",
 }: any) => {
   return (

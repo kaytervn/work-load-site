@@ -1,9 +1,8 @@
 import { ArrowLeftRightIcon, CodeXmlIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { getRandomGif } from "../types/utils";
 import { CRUD_GENERATOR, GORGEOUS_SWAGGER } from "../types/constant";
 
-const Sidebar = ({ activeItem }: any) => {
+const Sidebar = ({ activeItem, imgSrc }: any) => {
   const navigate = useNavigate();
   const menuItems = [
     {
@@ -27,9 +26,9 @@ const Sidebar = ({ activeItem }: any) => {
   };
   return (
     <div className="w-100 h-screen flex flex-col sticky top-0">
-      <div className="w-full bg-gray-900 text-white flex-none flex flex-col">
+      <div className="w-full bg-gray-700 text-white flex-none flex flex-col">
         <div className="flex flex-col items-center m-2">
-          <img src={getRandomGif()} className="w-80 rounded-lg" alt="Logo" />
+          <img src={imgSrc} className="w-80 rounded-lg" alt="Logo" />
         </div>
       </div>
       <div className="w-full bg-blue-900 text-white flex-grow flex flex-col">

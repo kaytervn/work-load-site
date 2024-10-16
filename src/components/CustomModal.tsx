@@ -1,5 +1,4 @@
 import { XIcon } from "lucide-react";
-import { LoadingDialog } from "./Dialog";
 
 const CustomModal = ({
   onClose,
@@ -8,21 +7,22 @@ const CustomModal = ({
   bodyComponent,
   buttonText = "OK",
   onButtonClick,
-  loading,
   color = "blue",
 }: any) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl w-[40rem] p-6 relative">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
-        >
-          <XIcon size={30} />
-        </button>
-        <h2 className={`text-2xl font-bold mb-6 text-center text-${color}-500`}>
-          {title}
-        </h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className={`text-2xl font-bold text-center text-${color}-500`}>
+            {title}
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-1 text-gray-500 hover:text-gray-700 text-2xl hover:bg-gray-100 rounded-full"
+          >
+            <XIcon size={30} />
+          </button>
+        </div>
         {topComponent && (
           <div className="flex justify-center mb-6">{topComponent}</div>
         )}
@@ -36,7 +36,6 @@ const CustomModal = ({
           </button>
         </div>
       </div>
-      <LoadingDialog isVisible={loading} />
     </div>
   );
 };

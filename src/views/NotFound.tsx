@@ -1,4 +1,4 @@
-import notFoundImage from "../assets/error_404.png"; // Điều chỉnh đường dẫn đến ảnh 404
+import notFoundImage from "../assets/error_404.png";
 
 const NotFound = () => {
   return (

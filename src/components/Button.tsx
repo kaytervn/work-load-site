@@ -1,14 +1,11 @@
-const Button = ({ onPress, title, color, icon: Icon }: any) => {
+const Button = ({ onPress, title, icon: Icon }: any) => {
   return (
     <button
-      className="w-full py-3 rounded-lg mt-6 flex flex-row justify-center items-center"
-      style={{ backgroundColor: color }}
       onClick={onPress}
+      className="bg-blue-500 flex items-center justify-center text-white py-2 px-4 rounded w-full hover:bg-blue-700 transition duration-200"
     >
       {Icon && <Icon className="mr-2" size={20} color="#fff" />}
-      <span className="text-center text-white font-semibold text-lg">
-        {title}
-      </span>
+      <span className="font-semibold text-lg text-center">{title}</span>
     </button>
   );
 };

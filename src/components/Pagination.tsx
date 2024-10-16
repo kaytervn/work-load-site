@@ -15,7 +15,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
           className={`w-8 h-8 mx-1 rounded-lg transition-colors duration-200 ${
             currentPage === number
               ? "bg-blue-500 text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-blue-100"
+              : "bg-gray-200 text-gray-700 hover:bg-blue-200"
           }`}
         >
           {number + 1}
@@ -71,21 +71,21 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 0}
-        className={`w-8 h-8 rounded bg-gray-100 mr-2 flex items-center justify-center ${
+        className={`w-8 h-8 rounded bg-gray-100 mr-2 flex items-center justify-center hover:bg-blue-100 ${
           currentPage === 0 ? "cursor-not-allowed opacity-50" : ""
         }`}
       >
-        <ChevronLeftIcon size={20} />
+        <ChevronLeftIcon size={20} strokeWidth={1} />
       </button>
       {renderPageNumbers()}
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages - 1}
-        className={`w-8 h-8 rounded bg-gray-100 ml-2 flex items-center justify-center ${
+        className={`w-8 h-8 rounded bg-gray-100 ml-2 flex items-center justify-center hover:bg-blue-100 ${
           currentPage === totalPages - 1 ? "cursor-not-allowed opacity-50" : ""
         }`}
       >
-        <ChevronRightIcon size={20} />
+        <ChevronRightIcon size={20} strokeWidth={1} />
       </button>
     </div>
   );
