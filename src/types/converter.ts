@@ -59,10 +59,10 @@ const createBaseStructure = (swaggerCollection: any) => {
     variable: [
       {
         key: "localUrl",
-        value: `http://localhost:${localUrl}`,
+        value: `${localUrl}`,
         type: "string",
       },
-      { key: "remoteUrl", value: `https://${remoteUrl}`, type: "string" },
+      { key: "remoteUrl", value: `${remoteUrl}`, type: "string" },
       { key: "clientId", value: "abc_client", type: "string" },
       { key: "clientSecret", value: "abc123", type: "string" },
       { key: "accessToken", value: "", type: "string" },
