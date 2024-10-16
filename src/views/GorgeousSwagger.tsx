@@ -32,7 +32,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
   const [itemId, setItemId] = useState(null);
   const [fetchedJson, setFetchedJson] = useState<any>(null);
   const { isLoading, showLoading, hideLoading } = useLoading();
-  const size = 8;
+  const size = 6;
 
   useEffect(() => {
     fetchData(0, searchValue);
@@ -137,7 +137,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
         />
         {data.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {data.map((item) => (
                 <Card
                   key={item.id}
