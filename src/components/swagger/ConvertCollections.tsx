@@ -23,6 +23,13 @@ const ConvertCollection = ({
       return () => clearTimeout(timer);
     }
   }, [copied]);
+  const handleButtonClick = () => {
+    const jsonString = JSON.stringify(json, null, 2);
+    navigator.clipboard.writeText(jsonString).then(() => {
+      toast.success("Copied to clipboard");
+      onButtonClick();
+    });
+  };
   return (
     <CustomModal
       color="blue"
@@ -60,9 +67,7 @@ const ConvertCollection = ({
               </button>
             </CopyToClipboard>
           </div>
-          <div
-            className="overflow-auto p-4 bg-gray-900 rounded-lg shadow-lg"
-          >
+          <div className="overflow-auto p-4 bg-gray-900 rounded-lg shadow-lg">
             <SyntaxHighlighter
               language="json"
               style={darcula}
@@ -77,8 +82,8 @@ const ConvertCollection = ({
           </div>
         </div>
       }
-      buttonText="CLOSE"
-      onButtonClick={() => onButtonClick()}
+      buttonText="COPY"
+      onButtonClick={handleButtonClick}
     />
   );
 };
