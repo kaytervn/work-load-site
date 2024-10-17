@@ -35,6 +35,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
   const size = 6;
 
   useEffect(() => {
+    document.title = "Gorgeous Swagger";
     fetchData(0, searchValue);
   }, []);
 
