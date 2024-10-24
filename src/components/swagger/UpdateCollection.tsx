@@ -13,7 +13,7 @@ import {
   validateCollectionForm,
 } from "../../types/utils";
 import InputFieldWithCheckbox from "../InputFieldWithCheckbox";
-import { GORGEOUS_SWAGGER, PathPattern } from "../../types/constant";
+import { GORGEOUS_SWAGGER } from "../../types/constant";
 import useRequestHandlers from "../../hooks/useRequestHandlers";
 import ListRequestsComponent from "./ListRequestsComponent";
 
@@ -39,6 +39,13 @@ const UpdateCollection = ({
     );
   const { handleAddRequest, handleRemoveRequest, handleChangeRequest } =
     useRequestHandlers(form, setForm, errors, setErrors);
+  const getNewName = (newName: string) => {
+    const col = getItemById(GORGEOUS_SWAGGER, itemId);
+    if (col.collectionName.toLowerCase() !== newName.toLowerCase()) {
+      return getNewCollectionName(newName);
+    }
+    return col.collectionName;
+  };
   useEffect(() => {
     if (itemId) {
       const item = getItemById(GORGEOUS_SWAGGER, itemId);
@@ -80,7 +87,7 @@ const UpdateCollection = ({
       }
       const newItem: any = {
         id: itemId,
-        collectionName: getNewCollectionName(form.collectionName),
+        collectionName: getNewName(form.collectionName),
         color: getRandomColor(),
         createdAt: form.createdAt,
       };
