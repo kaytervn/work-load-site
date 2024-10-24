@@ -149,9 +149,12 @@ const GorgeousSwagger = ({ sidebar }: any) => {
   };
 
   const onExportButtonClick = (value: any) => {
+    const count = value.length;
     setExportedText(encrypt(JSON.stringify(value, null, 2)));
     setExportModalVisible(true);
-    toast.success("Collection exported successfully");
+    toast.success(
+      `Exported ${count} ${count === 1 ? "collection" : "collections"}`
+    );
   };
 
   return (

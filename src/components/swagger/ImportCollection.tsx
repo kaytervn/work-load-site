@@ -17,8 +17,10 @@ const ImportCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
     useForm({ data: "" }, {}, validate);
   const handleButtonClick = () => {
     if (isValidForm()) {
-      importCollectionData(form.data);
-      toast.success("Collections imported successfully");
+      const count = importCollectionData(form.data);
+      toast.success(
+        `Imported ${count} ${count === 1 ? "collection" : "collections"}`
+      );
       onButtonClick();
     } else {
       toast.error("Please fill all the fields");

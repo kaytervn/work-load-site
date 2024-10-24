@@ -27,7 +27,7 @@ const ExportCollection = ({
     <CustomModal
       color="gray"
       onClose={() => setVisible(false)}
-      title="Export Collection"
+      title="Export Data"
       bodyComponent={
         <div className="relative font-mono text-sm">
           <div className="absolute top-2 right-2">
