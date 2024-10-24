@@ -11,6 +11,7 @@ import BG2 from "../assets/GIF_02.gif";
 import BG3 from "../assets/GIF_03.gif";
 import BG4 from "../assets/GIF_04.gif";
 import BG5 from "../assets/GIF_05.gif";
+import { color } from "@uiw/react-codemirror";
 
 const getCurrentDate = () => {
   const now = new Date();
@@ -273,6 +274,27 @@ const mapCollectionRequests = (requests: any) => {
   );
 };
 
+const importCollectionData = (data: string) => {
+  try {
+    const decryptedData = JSON.parse(decrypt(data));
+    if (!Array.isArray(decryptedData)) {
+      return 0;
+    }
+    for (const item of decryptedData) {
+      addItemToStorage(GORGEOUS_SWAGGER, {
+        ...item,
+        collectionName: getNewCollectionName(item.collectionName),
+        id: generateUniqueId(),
+        color: getRandomColor(),
+        createdAt: new Date(),
+      });
+    }
+    return decryptedData.length;
+  } catch (ignored) {
+    return 0;
+  }
+};
+
 export {
   getRandomGif,
   getRandomColor,
@@ -294,4 +316,5 @@ export {
   getCurrentDate_2,
   findStorageItemBy,
   getNewCollectionName,
+  importCollectionData,
 };

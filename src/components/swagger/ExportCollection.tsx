@@ -1,15 +1,13 @@
-import CustomModal from "../CustomModal";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { solarizedlight } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { toast } from "react-toastify";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { CheckCircleIcon, CopyIcon } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import CustomModal from "../CustomModal";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { CheckCircleIcon, CopyIcon } from "lucide-react";
 
-const ConvertCollection = ({
+const ExportCollection = ({
   isVisible,
   setVisible,
-  json,
+  text,
   onButtonClick,
 }: any) => {
   if (!isVisible) return null;
@@ -20,24 +18,20 @@ const ConvertCollection = ({
     setTimeout(() => setCopied(false), 1000);
   };
   const handleButtonClick = () => {
-    const jsonString = JSON.stringify(json, null, 2);
-    navigator.clipboard.writeText(jsonString).then(() => {
+    navigator.clipboard.writeText(text).then(() => {
       toast.success("Copied to clipboard");
       onButtonClick();
     });
   };
   return (
     <CustomModal
-      color="blue"
+      color="gray"
       onClose={() => setVisible(false)}
-      title="Gorgeous Swagger Converter"
+      title="Export Collection"
       bodyComponent={
         <div className="relative font-mono text-sm">
           <div className="absolute top-2 right-2">
-            <CopyToClipboard
-              text={JSON.stringify(json, null, 2)}
-              onCopy={handleCopy}
-            >
+            <CopyToClipboard text={text} onCopy={handleCopy}>
               <button
                 className={`
               flex items-center px-3 py-1 rounded
@@ -63,18 +57,8 @@ const ConvertCollection = ({
               </button>
             </CopyToClipboard>
           </div>
-          <div className="overflow-auto p-4 bg-gray-200 rounded-lg shadow-lg">
-            <SyntaxHighlighter
-              language="json"
-              style={solarizedlight}
-              customStyle={{
-                margin: 0,
-                padding: 0,
-                background: "transparent",
-              }}
-            >
-              {JSON.stringify(json, null, 2)}
-            </SyntaxHighlighter>
+          <div className="p-4 bg-gray-200 rounded-lg shadow-lg break-words">
+            {text}
           </div>
         </div>
       }
@@ -84,4 +68,4 @@ const ConvertCollection = ({
   );
 };
 
-export default ConvertCollection;
+export default ExportCollection;

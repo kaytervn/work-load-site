@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { GORGEOUS_SWAGGER } from "../types/constant";
 import {
   deleteItemFromStorage,
+  encrypt,
   getItemById,
   getPaginatedStorageData,
+  getStorageData,
   parseResponseText,
 } from "../types/utils";
 import Header from "../components/Header";
@@ -21,18 +23,23 @@ import ConvertCollection from "../components/swagger/ConvertCollections";
 import { transformJson } from "../types/converter";
 import { useLoading } from "../hooks/useLoading";
 import UpdateCollection from "../components/swagger/UpdateCollection";
+import ExportCollection from "../components/swagger/ExportCollection";
+import ImportCollection from "../components/swagger/ImportCollection";
 
 const GorgeousSwagger = ({ sidebar }: any) => {
   const { isDialogVisible, showDialog, hideDialog } = useDialog();
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [convertModalVisible, setConvertModalVisible] = useState(false);
+  const [exportModalVisible, setExportModalVisible] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [importModalVisible, setImportModalVisible] = useState(false);
   const [data, setData] = useState<SwaggerCollection[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [itemId, setItemId] = useState(null);
   const [fetchedJson, setFetchedJson] = useState<any>(null);
+  const [exportedText, setExportedText] = useState<string>("");
   const { isLoading, showLoading, hideLoading } = useLoading();
   const size = 6;
 
@@ -79,6 +86,16 @@ const GorgeousSwagger = ({ sidebar }: any) => {
     fetchData(0, "");
   };
 
+  const handleExport = () => {
+    setExportModalVisible(false);
+    setExportedText("");
+  };
+
+  const handleImport = () => {
+    setImportModalVisible(false);
+    fetchData(currentPage, searchValue);
+  };
+
   const handleUpdate = () => {
     setItemId(null);
     setUpdateModalVisible(false);
@@ -110,6 +127,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
         item
       );
       setFetchedJson(transformedJson);
+      toast.success("Collection converted successfully");
       setConvertModalVisible(true);
     } catch (error: any) {
       toast.error("Error: " + error.message);
@@ -130,14 +148,24 @@ const GorgeousSwagger = ({ sidebar }: any) => {
     setFetchedJson(null);
   };
 
+  const onExportButtonClick = (value: any) => {
+    setExportedText(encrypt(JSON.stringify(value, null, 2)));
+    setExportModalVisible(true);
+    toast.success("Collection exported successfully");
+  };
+
   return (
     <div className="flex bg-gray-50">
       {sidebar}
       <div className="flex-grow p-6">
         <Header
           onCreate={() => setCreateModalVisible(true)}
-          onImport={() => console.log("Import")}
-          onExport={() => console.log("Export")}
+          onImport={() => {
+            setImportModalVisible(true);
+          }}
+          onExport={() => {
+            onExportButtonClick(getStorageData(GORGEOUS_SWAGGER));
+          }}
           SearchBoxes={
             <InputBox
               placeholder="Searching..."
@@ -154,6 +182,9 @@ const GorgeousSwagger = ({ sidebar }: any) => {
                 <Card
                   key={item.id}
                   item={item}
+                  onExport={(id: any) => {
+                    onExportButtonClick([getItemById(GORGEOUS_SWAGGER, id)]);
+                  }}
                   onUpdate={(id: any) => {
                     setItemId(id);
                     setUpdateModalVisible(true);
@@ -178,7 +209,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
         )}
       </div>
       <LoadingDialog isVisible={isLoading} />
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
       <ConfimationDialog
         isVisible={isDialogVisible}
         title="Delete collection"
@@ -204,6 +235,17 @@ const GorgeousSwagger = ({ sidebar }: any) => {
         setVisible={setConvertModalVisible}
         json={fetchedJson}
         onButtonClick={handleCloseConvertModal}
+      />
+      <ExportCollection
+        isVisible={exportModalVisible}
+        setVisible={setExportModalVisible}
+        onButtonClick={handleExport}
+        text={exportedText}
+      />
+      <ImportCollection
+        isVisible={importModalVisible}
+        setVisible={setImportModalVisible}
+        onButtonClick={handleImport}
       />
     </div>
   );

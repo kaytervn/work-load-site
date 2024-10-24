@@ -6,11 +6,7 @@ const TextareaField = ({
   value,
   placeholder,
   onChangeText,
-  onPress,
-  children,
   error,
-  maxLength = 500,
-  editable = true,
   minRows = 3,
   maxHeight = 200,
   errorClass = "text-red-500 bg-red-50 border-red-500",
@@ -46,7 +42,6 @@ const TextareaField = ({
         {isRequire && <span className="text-red-500">{" *"}</span>}
       </label>
       <div
-        onClick={onPress}
         className={`flex items-start border rounded-md p-2 ${
           error ? errorClass : "border-gray-300"
         }`}
@@ -59,8 +54,6 @@ const TextareaField = ({
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}
-          maxLength={maxLength}
-          disabled={!editable || !!onPress}
           rows={minRows}
           style={{
             overflowY: "auto",
@@ -69,7 +62,6 @@ const TextareaField = ({
         />
       </div>
       {error && <p className="text-red-500 text-sm mt-1 text-left">{error}</p>}
-      {children}
     </div>
   );
 };
