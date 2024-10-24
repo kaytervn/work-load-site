@@ -71,8 +71,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 0}
-        className={`w-8 h-8 rounded bg-gray-100 mr-2 flex items-center justify-center hover:bg-blue-100 ${
-          currentPage === 0 ? "cursor-not-allowed opacity-50" : ""
+        className={`w-8 h-8 rounded bg-gray-100 mr-2 flex items-center justify-center ${
+          currentPage === 0
+            ? "cursor-not-allowed opacity-50"
+            : "hover:bg-blue-100"
         }`}
       >
         <ChevronLeftIcon size={20} strokeWidth={1} />
@@ -81,8 +83,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages - 1}
-        className={`w-8 h-8 rounded bg-gray-100 ml-2 flex items-center justify-center hover:bg-blue-100 ${
-          currentPage === totalPages - 1 ? "cursor-not-allowed opacity-50" : ""
+        className={`w-8 h-8 rounded bg-gray-100 ml-2 flex items-center justify-center ${
+          currentPage === totalPages - 1
+            ? "cursor-not-allowed opacity-50"
+            : "hover:bg-blue-100"
         }`}
       >
         <ChevronRightIcon size={20} strokeWidth={1} />

@@ -1,6 +1,11 @@
-interface PMVarriable {
-  key: string;
-  value: string;
+interface Request {
+  name: string;
+  path: string;
+  method: string;
+  body: string;
+  preScript: string;
+  postScript: string;
+  basicAuth: boolean;
 }
 
 interface SwaggerCollection {
@@ -14,9 +19,9 @@ interface SwaggerCollection {
     url: string;
     isInit: boolean;
   };
-  addinVars: PMVarriable[];
+  requests: Request[];
   color: string;
   createdAt: Date;
 }
 
-export type { SwaggerCollection };
+export type { SwaggerCollection, Request };

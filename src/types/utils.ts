@@ -1,6 +1,11 @@
 import * as CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
-import { colors, myPublicSecretKey } from "./constant";
+import {
+  colors,
+  GORGEOUS_SWAGGER,
+  myPublicSecretKey,
+  PathPattern,
+} from "./constant";
 import BG1 from "../assets/GIF_01.gif";
 import BG2 from "../assets/GIF_02.gif";
 import BG3 from "../assets/GIF_03.gif";
@@ -20,6 +25,17 @@ const getCurrentDate = () => {
     })
     .replace(/\//g, "/");
   return formatter.replace(",", "");
+};
+
+const getCurrentDate_2 = () => {
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, "0");
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  const seconds = String(now.getSeconds()).padStart(2, "0");
+  return `${day}${month}${year}.${hours}${minutes}${seconds}`;
 };
 
 const encrypt = (value: any) => {
@@ -42,8 +58,33 @@ const getRandomColor = () => {
 };
 
 const initializeStorage = (storageKey: string, defaultValue: any) => {
-  localStorage.setItem(storageKey, encrypt(JSON.stringify(defaultValue)));
+  localStorage.setItem(storageKey, JSON.stringify(defaultValue));
   return defaultValue;
+};
+
+const getNewCollectionName = (name: string): string => {
+  let newName = name;
+  let count = 1;
+  while (findStorageItemBy(GORGEOUS_SWAGGER, "collectionName", newName)) {
+    newName = `${name} (${count})`;
+    count++;
+  }
+  return newName;
+};
+
+const findStorageItemBy = (
+  storageKey: string,
+  searchKey: string,
+  searchValue: string
+): any => {
+  const data = getStorageData(storageKey);
+  if (data === null) {
+    return initializeStorage(storageKey, []);
+  }
+  return data.find(
+    (item: any) =>
+      String(item[searchKey]).toLowerCase() === searchValue.toLowerCase()
+  );
 };
 
 const getPaginatedStorageData = (
@@ -58,7 +99,7 @@ const getPaginatedStorageData = (
     return initializeStorage(storageKey, []);
   }
   try {
-    const parsedData = JSON.parse(decrypt(data));
+    const parsedData = JSON.parse(data);
     let filteredData = parsedData;
     if (searchKey && searchValue) {
       filteredData = parsedData.filter((item: any) =>
@@ -86,16 +127,11 @@ const getPaginatedStorageData = (
 
 const getStorageData = (storageKey: string): any => {
   const data = localStorage.getItem(storageKey);
-  const initializeStorage = (key: string, initialValue: any) => {
-    const encryptedData = encrypt(JSON.stringify(initialValue));
-    localStorage.setItem(key, encryptedData);
-    return initialValue;
-  };
   if (data === null) {
     return initializeStorage(storageKey, []);
   }
   try {
-    return JSON.parse(decrypt(data));
+    return JSON.parse(data);
   } catch (err) {
     return initializeStorage(storageKey, []);
   }
@@ -104,8 +140,7 @@ const getStorageData = (storageKey: string): any => {
 const addItemToStorage = (storageKey: string, newItem: any) => {
   const storageData = getStorageData(storageKey);
   storageData.push(newItem);
-  const encryptedData = encrypt(JSON.stringify(storageData));
-  localStorage.setItem(storageKey, encryptedData);
+  localStorage.setItem(storageKey, JSON.stringify(storageData));
 };
 
 const updateItemInStorage = (
@@ -118,8 +153,18 @@ const updateItemInStorage = (
   if (itemIndex !== -1) {
     const updatedItem = { ...storageData[itemIndex], ...updatedFields };
     storageData[itemIndex] = updatedItem;
-    const encryptedData = encrypt(JSON.stringify(storageData));
-    localStorage.setItem(storageKey, encryptedData);
+    localStorage.setItem(storageKey, JSON.stringify(storageData));
+  }
+};
+
+const overwriteItemInStorage = (storageKey: string, newItem: any) => {
+  const storageData = getStorageData(storageKey);
+  const itemIndex = storageData.findIndex(
+    (item: any) => item.id === newItem.id
+  );
+  if (itemIndex !== -1) {
+    storageData[itemIndex] = { ...newItem };
+    localStorage.setItem(storageKey, JSON.stringify(storageData));
   }
 };
 
@@ -128,8 +173,7 @@ const deleteItemFromStorage = (storageKey: string, id: any) => {
   const itemIndex = storageData.findIndex((item: any) => item.id === id);
   if (itemIndex !== -1) {
     storageData.splice(itemIndex, 1);
-    const encryptedData = encrypt(JSON.stringify(storageData));
-    localStorage.setItem(storageKey, encryptedData);
+    localStorage.setItem(storageKey, JSON.stringify(storageData));
   }
 };
 
@@ -152,6 +196,83 @@ const parseResponseText = (text: string): string => {
   return text;
 };
 
+const truncateString = (str: any, limit: any) => {
+  if (str.length > limit) {
+    return str.slice(0, limit) + "...";
+  }
+  return str;
+};
+
+const validateCollectionForm = (form: any) => {
+  const newErrors: any = {};
+  if (!form.collectionName.trim()) {
+    newErrors.collectionName = "Collection name is required";
+  }
+  if (form.localIsChecked && !form.localUrl.trim()) {
+    newErrors.localUrl = "Local URL can not be empty";
+  }
+  if (form.remoteIsChecked && !form.remoteUrl.trim()) {
+    newErrors.remoteUrl = "Remote URL can not be empty";
+  }
+  if (form.requests.length > 0) {
+    const childErrors: any = form.requests.map((req: any) => {
+      const newChildErrors: any = {};
+      if (!req.name.trim()) {
+        newChildErrors.name = "Name is required";
+      }
+      if (!req.path.trim()) {
+        newChildErrors.path = "Path is required";
+      } else if (!PathPattern.test(req.path)) {
+        newChildErrors.path = "Path is invalid";
+      }
+      if (req.method === "post" || req.method === "put") {
+        if (!req.body.trim()) {
+          newChildErrors.body = "Body JSON can not be empty";
+        } else {
+          try {
+            JSON.parse(req.body);
+          } catch (err) {
+            newChildErrors.body = "Body JSON is invalid";
+          }
+        }
+      }
+      if (req.preScriptIsChecked && !req.preScript.trim()) {
+        newChildErrors.preScript = "Pre-script can not be empty";
+      }
+      if (req.postScriptIsChecked && !req.postScript.trim()) {
+        newChildErrors.postScript = "Post-script can not be empty";
+      }
+      return newChildErrors;
+    });
+    newErrors.childErrors = childErrors;
+  }
+  return newErrors;
+};
+
+const mapCollectionRequests = (requests: any) => {
+  return requests.map(
+    ({
+      name,
+      method,
+      body,
+      path,
+      preScriptIsChecked,
+      preScript,
+      postScriptIsChecked,
+      postScript,
+      basicAuthIsChecked,
+    }: any) => ({
+      name,
+      method,
+      ...(["post", "put"].includes(method) && { body }),
+      path,
+      ...(preScriptIsChecked && { preScript }),
+      ...(postScriptIsChecked && { postScript }),
+      basicAuth: basicAuthIsChecked || false,
+    })
+  );
+};
+
 export {
   getRandomGif,
   getRandomColor,
@@ -166,4 +287,11 @@ export {
   getPaginatedStorageData,
   getItemById,
   parseResponseText,
+  truncateString,
+  overwriteItemInStorage,
+  validateCollectionForm,
+  mapCollectionRequests,
+  getCurrentDate_2,
+  findStorageItemBy,
+  getNewCollectionName,
 };

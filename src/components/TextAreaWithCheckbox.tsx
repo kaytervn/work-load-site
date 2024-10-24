@@ -1,15 +1,13 @@
-const InputFieldWithCheckbox = ({
+const TextAreaWithCheckbox = ({
   title,
   value,
-  placeholder,
   onChangeText,
-  icon: Icon,
+  placeholder,
   error,
-  prepend,
-  type = "text",
   isChecked = false,
   onCheckboxChange,
-  maxLength = 100,
+  maxLength,
+  maxHeight = "120px",
 }: any) => {
   return (
     <div className="mb-4">
@@ -47,29 +45,15 @@ const InputFieldWithCheckbox = ({
                 error ? "border-red-500 bg-red-50" : "border-gray-300"
               }`}
             >
-              {Icon && (
-                <Icon
-                  className={`w-5 h-5 ${
-                    error ? "text-red-500" : "text-gray-400"
-                  }`}
-                />
-              )}
-              {prepend && (
-                <div className="ml-2 font-semibold text-red-700">{prepend}</div>
-              )}
-              <input
-                className={`flex-1 ml-2 text-base outline-none ${
+              <textarea
+                className={`flex-1 ml-2 text-base outline-none resize-none ${
                   error ? "text-red-500 bg-red-50" : "text-gray-700"
                 }`}
                 placeholder={placeholder}
                 value={value}
-                onChange={(e) => onChangeText(e.target.value)}
-                type={type}
                 maxLength={maxLength}
-                {...(type === "number" && {
-                  min: 1,
-                  max: 65535,
-                })}
+                onChange={(e) => onChangeText(e.target.value)}
+                style={{ height: maxHeight }}
               />
             </div>
           </div>
@@ -82,4 +66,4 @@ const InputFieldWithCheckbox = ({
   );
 };
 
-export default InputFieldWithCheckbox;
+export default TextAreaWithCheckbox;

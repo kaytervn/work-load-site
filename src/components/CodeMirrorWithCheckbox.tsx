@@ -1,15 +1,15 @@
-const InputFieldWithCheckbox = ({
+import { javascript } from "@codemirror/lang-javascript";
+import CodeMirror from "@uiw/react-codemirror";
+
+const CodeMirrorWithCheckbox = ({
   title,
   value,
-  placeholder,
   onChangeText,
-  icon: Icon,
   error,
-  prepend,
-  type = "text",
   isChecked = false,
   onCheckboxChange,
-  maxLength = 100,
+  maxHeight = "100px",
+  width = "688px",
 }: any) => {
   return (
     <div className="mb-4">
@@ -47,29 +47,12 @@ const InputFieldWithCheckbox = ({
                 error ? "border-red-500 bg-red-50" : "border-gray-300"
               }`}
             >
-              {Icon && (
-                <Icon
-                  className={`w-5 h-5 ${
-                    error ? "text-red-500" : "text-gray-400"
-                  }`}
-                />
-              )}
-              {prepend && (
-                <div className="ml-2 font-semibold text-red-700">{prepend}</div>
-              )}
-              <input
-                className={`flex-1 ml-2 text-base outline-none ${
-                  error ? "text-red-500 bg-red-50" : "text-gray-700"
-                }`}
-                placeholder={placeholder}
+              <CodeMirror
                 value={value}
-                onChange={(e) => onChangeText(e.target.value)}
-                type={type}
-                maxLength={maxLength}
-                {...(type === "number" && {
-                  min: 1,
-                  max: 65535,
-                })}
+                height={maxHeight}
+                width={width}
+                extensions={[javascript()]}
+                onChange={(value) => onChangeText(value)}
               />
             </div>
           </div>
@@ -82,4 +65,4 @@ const InputFieldWithCheckbox = ({
   );
 };
 
-export default InputFieldWithCheckbox;
+export default CodeMirrorWithCheckbox;

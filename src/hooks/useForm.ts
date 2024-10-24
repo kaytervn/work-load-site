@@ -10,13 +10,21 @@ const useForm = (
 
   const handleChange = (field: any, value: any) => {
     setForm((prevForm: any) => ({ ...prevForm, [field]: value }));
-    setErrors((prevErrors: any) => ({ ...prevErrors, [field]: "" }));
+    setErrors((prevErrors: any) => ({ ...prevErrors, [field]: null }));
   };
 
   const isValidForm = () => {
     const newErrors = validate(form);
     setErrors(newErrors);
-    return !Object.values(newErrors).some((error) => error);
+    return !Object.values(newErrors).some((error) => {
+      if (Array.isArray(error)) {
+        return error.some(
+          (item) => item && Object.values(item).some((val) => val)
+        );
+      } else {
+        return !!error;
+      }
+    });
   };
 
   return {

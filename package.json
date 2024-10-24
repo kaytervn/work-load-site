@@ -11,6 +11,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.2",
+    "@uiw/react-codemirror": "^4.23.5",
+    "codemirror": "^5.65.18",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.13",
     "install": "^0.13.0",

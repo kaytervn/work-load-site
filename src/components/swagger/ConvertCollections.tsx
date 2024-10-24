@@ -4,7 +4,7 @@ import { darcula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { toast } from "react-toastify";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CheckCircleIcon, CopyIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const ConvertCollection = ({
   isVisible,
@@ -15,14 +15,10 @@ const ConvertCollection = ({
   if (!isVisible) return null;
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
+    toast.success("Copied to clipboard");
     setCopied(true);
+    setTimeout(() => setCopied(false), 1000);
   };
-  useEffect(() => {
-    if (copied) {
-      const timer = setTimeout(() => setCopied(false), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [copied]);
   const handleButtonClick = () => {
     const jsonString = JSON.stringify(json, null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {

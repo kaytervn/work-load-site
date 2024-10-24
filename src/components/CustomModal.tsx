@@ -11,7 +11,10 @@ const CustomModal = ({
 }: any) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-[40rem] p-6 relative">
+      <div
+        className="bg-white rounded-lg shadow-xl p-6 relative"
+        style={{ width: "800px" }}
+      >
         <div className="flex items-center justify-between mb-6">
           <h2 className={`text-2xl font-bold text-center text-${color}-500`}>
             {title}
@@ -26,7 +29,9 @@ const CustomModal = ({
         {topComponent && (
           <div className="flex justify-center mb-6">{topComponent}</div>
         )}
-        <div className="max-h-96 overflow-y-auto pr-2">{bodyComponent}</div>
+        <div className="overflow-y-auto pr-2" style={{ maxHeight: "650px" }}>
+          {bodyComponent}
+        </div>
         <div className="mt-6">
           <button
             onClick={onButtonClick}

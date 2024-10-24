@@ -29,9 +29,23 @@ const colors = [
   "#2A4F4F",
 ];
 
+const PathPattern = /^\/([a-zA-Z0-9_-]+\/)*([a-zA-Z0-9_-]+)(\?[^#]*)?$/;
 const defaultInteger = 0;
 const defaultLong = 6969696969696969;
 const defaultPageSize = 20;
+const defaultBasicAuth = {
+  type: "basic",
+  basic: [
+    { key: "username", value: "{{clientId}}", type: "string" },
+    { key: "password", value: "{{clientSecret}}", type: "string" },
+  ],
+};
+const defaultTenantHeader = {
+  key: "X-tenant",
+  value: "{{tenantId}}",
+  type: "text",
+  disabled: true,
+};
 
 const myPublicSecretKey = "D@y1aK3yDu0cC0n9";
 
@@ -43,8 +57,11 @@ export {
   defaultInteger,
   defaultLong,
   defaultPageSize,
+  defaultBasicAuth,
+  defaultTenantHeader,
   colors,
   myPublicSecretKey,
   GORGEOUS_SWAGGER,
   CRUD_GENERATOR,
+  PathPattern,
 };

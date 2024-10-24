@@ -20,11 +20,13 @@ import useDialog from "../hooks/useDialog";
 import ConvertCollection from "../components/swagger/ConvertCollections";
 import { transformJson } from "../types/converter";
 import { useLoading } from "../hooks/useLoading";
+import UpdateCollection from "../components/swagger/UpdateCollection";
 
 const GorgeousSwagger = ({ sidebar }: any) => {
   const { isDialogVisible, showDialog, hideDialog } = useDialog();
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [convertModalVisible, setConvertModalVisible] = useState(false);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [data, setData] = useState<SwaggerCollection[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
@@ -74,12 +76,19 @@ const GorgeousSwagger = ({ sidebar }: any) => {
 
   const handleCreate = () => {
     setCreateModalVisible(false);
+    fetchData(0, "");
+  };
+
+  const handleUpdate = () => {
+    setItemId(null);
+    setUpdateModalVisible(false);
     fetchData(currentPage, searchValue);
   };
 
   const handleDelete = async () => {
     hideDialog();
     deleteItemFromStorage(GORGEOUS_SWAGGER, itemId);
+    toast.success("Collection deleted successfully");
     fetchData(currentPage, searchValue);
   };
 
@@ -127,6 +136,8 @@ const GorgeousSwagger = ({ sidebar }: any) => {
       <div className="flex-grow p-6">
         <Header
           onCreate={() => setCreateModalVisible(true)}
+          onImport={() => console.log("Import")}
+          onExport={() => console.log("Export")}
           SearchBoxes={
             <InputBox
               placeholder="Searching..."
@@ -143,6 +154,10 @@ const GorgeousSwagger = ({ sidebar }: any) => {
                 <Card
                   key={item.id}
                   item={item}
+                  onUpdate={(id: any) => {
+                    setItemId(id);
+                    setUpdateModalVisible(true);
+                  }}
                   onDelete={(id: any) => {
                     handleDeleteDialog(id);
                   }}
@@ -177,6 +192,12 @@ const GorgeousSwagger = ({ sidebar }: any) => {
         isVisible={createModalVisible}
         setVisible={setCreateModalVisible}
         onButtonClick={handleCreate}
+      />
+      <UpdateCollection
+        isVisible={updateModalVisible}
+        setVisible={setUpdateModalVisible}
+        itemId={itemId}
+        onButtonClick={handleUpdate}
       />
       <ConvertCollection
         isVisible={convertModalVisible}

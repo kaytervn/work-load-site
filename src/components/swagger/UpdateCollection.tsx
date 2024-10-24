@@ -5,19 +5,24 @@ import CustomModal from "../CustomModal";
 import useForm from "../../hooks/useForm";
 import InputField from "../InputField";
 import {
-  addItemToStorage,
-  generateUniqueId,
+  getItemById,
   getNewCollectionName,
   getRandomColor,
   mapCollectionRequests,
+  overwriteItemInStorage,
   validateCollectionForm,
 } from "../../types/utils";
 import InputFieldWithCheckbox from "../InputFieldWithCheckbox";
-import { GORGEOUS_SWAGGER } from "../../types/constant";
+import { GORGEOUS_SWAGGER, PathPattern } from "../../types/constant";
 import useRequestHandlers from "../../hooks/useRequestHandlers";
 import ListRequestsComponent from "./ListRequestsComponent";
 
-const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
+const UpdateCollection = ({
+  itemId,
+  isVisible,
+  setVisible,
+  onButtonClick,
+}: any) => {
   const { form, errors, setForm, setErrors, handleChange, isValidForm } =
     useForm(
       {
@@ -26,6 +31,7 @@ const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
         localIsChecked: false,
         remoteUrl: "",
         remoteIsChecked: false,
+        createdAt: "",
         requests: [],
       },
       { childErrors: [] },
@@ -33,40 +39,60 @@ const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
     );
   const { handleAddRequest, handleRemoveRequest, handleChangeRequest } =
     useRequestHandlers(form, setForm, errors, setErrors);
-
   useEffect(() => {
-    setForm({
-      collectionName: "",
-      localUrl: "",
-      localIsChecked: false,
-      remoteUrl: "",
-      remoteIsChecked: false,
-      requests: [],
-    });
-    setErrors({ childErrors: [] });
-  }, [isVisible]);
+    if (itemId) {
+      const item = getItemById(GORGEOUS_SWAGGER, itemId);
+      const requests = [];
+      if (item.requests?.length > 0) {
+        for (const i in item.requests) {
+          const req = item.requests[i];
+          requests.push({
+            name: req.name,
+            method: req.method,
+            body: req.body ? req.body : "",
+            preScript: req.preScript ? req.preScript : "",
+            preScriptIsChecked: req.preScript ? true : false,
+            postScript: req.postScript ? req.postScript : "",
+            postScriptIsChecked: req.postScript ? true : false,
+            path: req.path,
+            basicAuthIsChecked: req.basicAuth,
+          });
+        }
+      }
+      setForm({
+        collectionName: item.collectionName,
+        localUrl: item.local ? item.local.url : "",
+        localIsChecked: item.local ? true : false,
+        remoteUrl: item.remote ? item.remote.url : "",
+        remoteIsChecked: item.remote ? true : false,
+        createdAt: item.createdAt,
+        requests: requests,
+      });
+      setErrors({ childErrors: [] });
+    }
+  }, [isVisible, itemId]);
 
-  const handleCreate = async () => {
+  const handleUpdate = async () => {
     if (isValidForm()) {
       if (!form.localIsChecked && !form.remoteIsChecked) {
         toast.error("Please select at least one URL option");
         return;
       }
       const newItem: any = {
-        id: generateUniqueId(),
+        id: itemId,
         collectionName: getNewCollectionName(form.collectionName),
         color: getRandomColor(),
-        createdAt: new Date(),
+        createdAt: form.createdAt,
       };
       if (form.localIsChecked) {
         newItem.local = {
-          url: `http://localhost:${form.localUrl}`,
+          url: form.localUrl,
           isInit: true,
         };
       }
       if (form.remoteIsChecked) {
         newItem.remote = {
-          url: `https://${form.remoteUrl}`,
+          url: form.remoteUrl,
           isInit: true,
         };
       }
@@ -76,8 +102,8 @@ const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
       if (form.requests.length > 0) {
         newItem.requests = mapCollectionRequests(form.requests);
       }
-      addItemToStorage(GORGEOUS_SWAGGER, newItem);
-      toast.success("Collection created successfully");
+      overwriteItemInStorage(GORGEOUS_SWAGGER, newItem);
+      toast.success("Collection updated successfully");
       onButtonClick();
     } else {
       toast.error("Please fill in all required fields");
@@ -88,9 +114,9 @@ const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
 
   return (
     <CustomModal
-      color="gray"
+      color="blue"
       onClose={() => setVisible(false)}
-      title="Create New Collection"
+      title="Update Collection Form"
       bodyComponent={
         <>
           <InputField
@@ -105,13 +131,11 @@ const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
           <InputFieldWithCheckbox
             title="Local URL"
             isRequire={false}
-            type="number"
-            placeholder="Enter port number"
+            placeholder="Enter local URL"
             value={form.localUrl}
             onChangeText={(value: any) => handleChange("localUrl", value)}
             icon={MapPinIcon}
             error={errors.localUrl}
-            prepend="http://localhost:"
             isChecked={form.localIsChecked}
             onCheckboxChange={() =>
               setForm({ ...form, localIsChecked: !form.localIsChecked })
@@ -125,7 +149,6 @@ const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
             onChangeText={(value: any) => handleChange("remoteUrl", value)}
             icon={LaptopMinimalIcon}
             error={errors.remoteUrl}
-            prepend="https://"
             isChecked={form.remoteIsChecked}
             onCheckboxChange={() =>
               setForm({ ...form, remoteIsChecked: !form.remoteIsChecked })
@@ -142,10 +165,10 @@ const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
           )}
         </>
       }
-      buttonText="CREATE"
-      onButtonClick={handleCreate}
+      buttonText="UPDATE"
+      onButtonClick={handleUpdate}
     />
   );
 };
 
-export default CreateCollection;
+export default UpdateCollection;

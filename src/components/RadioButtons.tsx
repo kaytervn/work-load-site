@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { truncateString } from "../types/utils";
 
 const RadioButtons = ({ options, selectedValue, onValueChange }: any) => {
   const [selectedOption, setSelectedOption] = useState(selectedValue);
@@ -27,7 +28,7 @@ const RadioButtons = ({ options, selectedValue, onValueChange }: any) => {
               <span className="h-2 w-2 bg-white rounded-full"></span>
             )}
           </span>
-          {option.label}
+          {truncateString(option.label, 45)}
         </label>
       ))}
     </div>
