@@ -150,6 +150,10 @@ const GorgeousSwagger = ({ sidebar }: any) => {
 
   const onExportButtonClick = (value: any) => {
     const count = value.length;
+    if (!count) {
+      toast.error("There is no collection to export");
+      return;
+    }
     setExportedText(encrypt(JSON.stringify(value, null, 2)));
     setExportModalVisible(true);
     toast.success(
