@@ -49,7 +49,7 @@ const CreateCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
   const handleCreate = async () => {
     if (isValidForm()) {
       if (!form.localIsChecked && !form.remoteIsChecked) {
-        toast.error("Please select at least one URL option");
+        toast.error("Select at least one URL option");
         return;
       }
       const newItem: any = {

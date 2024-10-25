@@ -317,4 +317,5 @@ export {
   findStorageItemBy,
   getNewCollectionName,
   importCollectionData,
+  initializeStorage,
 };

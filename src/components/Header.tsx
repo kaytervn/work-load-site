@@ -1,9 +1,24 @@
-import { DownloadIcon, PlusIcon, UploadIcon } from "lucide-react";
+import { CircleX, DownloadIcon, PlusIcon, UploadIcon } from "lucide-react";
 
-const Header = ({ SearchBoxes, onCreate, onImport, onExport }: any) => (
+const Header = ({
+  SearchBoxes,
+  onCreate,
+  onImport,
+  onExport,
+  onDeleteAll,
+}: any) => (
   <div className="flex items-center justify-between mb-4">
     <div className="flex items-center">{SearchBoxes}</div>
     <div className="flex items-center space-x-4">
+      {onDeleteAll && (
+        <button
+          onClick={onDeleteAll}
+          className="border border-red-500 border-dashed text-red-500 hover:text-red-800 hover:border-red-800 hover:bg-gray-50 transition duration-200 ease-in-out p-2 rounded-lg flex items-center justify-center"
+        >
+          <CircleX size={20} className="mr-2" />
+          <span className="font-semibold text-lg text-center">Delete All</span>
+        </button>
+      )}
       {onExport && (
         <button
           onClick={onExport}

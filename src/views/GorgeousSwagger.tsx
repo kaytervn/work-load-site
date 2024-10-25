@@ -6,6 +6,7 @@ import {
   getItemById,
   getPaginatedStorageData,
   getStorageData,
+  initializeStorage,
   parseResponseText,
 } from "../types/utils";
 import Header from "../components/Header";
@@ -27,7 +28,7 @@ import ExportCollection from "../components/swagger/ExportCollection";
 import ImportCollection from "../components/swagger/ImportCollection";
 
 const GorgeousSwagger = ({ sidebar }: any) => {
-  const { isDialogVisible, showDialog, hideDialog } = useDialog();
+  const { isDialogVisible, showDialog, hideDialog, dialogConfig } = useDialog();
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [convertModalVisible, setConvertModalVisible] = useState(false);
   const [exportModalVisible, setExportModalVisible] = useState(false);
@@ -102,9 +103,9 @@ const GorgeousSwagger = ({ sidebar }: any) => {
     fetchData(currentPage, searchValue);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = (id: any) => {
     hideDialog();
-    deleteItemFromStorage(GORGEOUS_SWAGGER, itemId);
+    deleteItemFromStorage(GORGEOUS_SWAGGER, id);
     toast.success("Collection deleted successfully");
     fetchData(currentPage, searchValue);
   };
@@ -138,8 +139,39 @@ const GorgeousSwagger = ({ sidebar }: any) => {
   };
 
   const handleDeleteDialog = (id: any) => {
-    setItemId(id);
-    showDialog();
+    showDialog({
+      title: "Delete collection",
+      message: "Do you want to delete this collection?",
+      confirmText: "Delete",
+      color: "red",
+      onConfirm: () => {
+        handleDelete(id);
+      },
+      onCancel: hideDialog,
+    });
+  };
+
+  const handleDeleteAllDialog = () => {
+    const count = getStorageData(GORGEOUS_SWAGGER).length;
+    if (!count) {
+      toast.warning("There is no collection to delete");
+      return;
+    }
+    showDialog({
+      title: "Delete all collections",
+      message: `Do you want to delete ${count} ${
+        count === 1 ? "collection" : "collections"
+      }?`,
+      confirmText: "Delete",
+      color: "red",
+      onConfirm: () => {
+        hideDialog();
+        initializeStorage(GORGEOUS_SWAGGER, []);
+        fetchData(0, "");
+        toast.success(`Deleted ${count} collections`);
+      },
+      onCancel: hideDialog,
+    });
   };
 
   const handleCloseConvertModal = () => {
@@ -151,7 +183,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
   const onExportButtonClick = (value: any) => {
     const count = value.length;
     if (!count) {
-      toast.error("There is no collection to export");
+      toast.warning("There is no collection to export");
       return;
     }
     setExportedText(encrypt(JSON.stringify(value, null, 2)));
@@ -167,6 +199,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
       <div className="flex-grow p-6">
         <Header
           onCreate={() => setCreateModalVisible(true)}
+          onDeleteAll={handleDeleteAllDialog}
           onImport={() => {
             setImportModalVisible(true);
           }}
@@ -219,12 +252,12 @@ const GorgeousSwagger = ({ sidebar }: any) => {
       <ToastContainer position="bottom-right" />
       <ConfimationDialog
         isVisible={isDialogVisible}
-        title="Delete collection"
-        message="Do you want to delete this collection?"
-        onConfirm={handleDelete}
-        confirmText="Delete"
-        onCancel={hideDialog}
-        color="red"
+        title={dialogConfig.title}
+        message={dialogConfig.message}
+        onConfirm={dialogConfig.onConfirm}
+        onCancel={dialogConfig.onCancel}
+        confirmText={dialogConfig.confirmText}
+        color={dialogConfig.color}
       />
       <CreateCollection
         isVisible={createModalVisible}

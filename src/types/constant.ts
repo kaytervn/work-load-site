@@ -40,12 +40,20 @@ const defaultBasicAuth = {
     { key: "password", value: "{{clientSecret}}", type: "string" },
   ],
 };
-const defaultTenantHeader = {
-  key: "X-tenant",
-  value: "{{tenantId}}",
-  type: "text",
-  disabled: true,
-};
+const defaultTenantHeader = [
+  {
+    key: "X-tenant",
+    value: "{{localTenantId}}",
+    type: "text",
+    disabled: true,
+  },
+  {
+    key: "X-tenant",
+    value: "{{remoteTenantId}}",
+    type: "text",
+    disabled: true,
+  },
+];
 
 const myPublicSecretKey = "D@y1aK3yDu0cC0n9";
 

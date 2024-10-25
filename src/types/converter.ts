@@ -56,7 +56,8 @@ const createBaseStructure = ({ collectionName, local, remote }: any) => ({
     { key: "clientId", value: "abc_client", type: "string" },
     { key: "clientSecret", value: "abc123", type: "string" },
     { key: "accessToken", value: "", type: "string" },
-    { key: "tenantId", value: "cntt", type: "string" },
+    { key: "localTenantId", value: "cnttdev", type: "string" },
+    { key: "remoteTenantId", value: "cntt", type: "string" },
     { key: "currentDate", value: getCurrentDate(), type: "string" },
   ],
   item: [
@@ -107,7 +108,7 @@ const addCustomRequestItem = (
       const header = [
         { key: "Accept", value: "application/json" },
         { key: "Content-Type", value: "application/json" },
-        defaultTenantHeader,
+        ...defaultTenantHeader,
       ];
       const [pathPart, queryString] = path.split("?");
       const event: any = [];
@@ -173,7 +174,7 @@ const addAdditionalRequestItem = (baseItem: any, urlKey: string) => {
     request: {
       auth: defaultBasicAuth,
       method: "POST",
-      header: [defaultTenantHeader],
+      header: defaultTenantHeader,
       body: {
         mode: "raw",
         raw: JSON.stringify(
@@ -204,7 +205,7 @@ const addAdditionalRequestItem = (baseItem: any, urlKey: string) => {
           header: [
             { key: "Accept", value: "application/json" },
             { key: "Content-Type", value: "application/json" },
-            defaultTenantHeader,
+            ...defaultTenantHeader,
           ],
           body: {
             mode: "raw",
@@ -248,7 +249,7 @@ const addAdditionalRequestItem = (baseItem: any, urlKey: string) => {
           method: "GET",
           header: [
             { key: "Accept", value: "application/json" },
-            defaultTenantHeader,
+            ...defaultTenantHeader,
           ],
           url: {
             raw: `{{${urlKey}}}/v1/permission/list`,
@@ -270,7 +271,10 @@ const createRequest = (
 ) => {
   const request: any = {
     method: method.toUpperCase(),
-    header: [{ key: "Accept", value: "application/json" }, defaultTenantHeader],
+    header: [
+      { key: "Accept", value: "application/json" },
+      ...defaultTenantHeader,
+    ],
     url: {
       raw: `{{${urlKey}}}${path}`,
       host: [`{{${urlKey}}}`],
