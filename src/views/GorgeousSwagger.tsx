@@ -128,8 +128,8 @@ const GorgeousSwagger = ({ sidebar }: any) => {
         item
       );
       setFetchedJson(transformedJson);
-      toast.success("Collection converted successfully");
       setConvertModalVisible(true);
+      toast.success("Collection converted successfully");
     } catch (error: any) {
       toast.error("Error: " + error.message);
       setFetchedJson(null);
