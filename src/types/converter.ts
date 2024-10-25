@@ -6,6 +6,7 @@ import {
   defaultTenantHeader,
 } from "./constant";
 import { Request } from "./interfaces";
+import { getRandomQuote } from "./quotes";
 import { getCurrentDate, getCurrentDate_2 } from "./utils";
 
 const transformJson = (json: any, swaggerCollection: any) => {
@@ -20,7 +21,7 @@ const transformJson = (json: any, swaggerCollection: any) => {
 const createBaseStructure = ({ collectionName, local, remote }: any) => ({
   info: {
     name: `${collectionName} ${getCurrentDate_2()}`,
-    description: `API Documentation For ${collectionName}`,
+    description: getRandomQuote(),
     schema:
       "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
   },
