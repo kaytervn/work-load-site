@@ -137,7 +137,7 @@ const addCustomRequestItem = (
       if (["post", "put"].includes(method.toLowerCase())) {
         request.body = {
           mode: "raw",
-          raw: JSON.stringify(body, null, 2),
+          raw: body,
           options: { raw: { language: "json" } },
         };
       }
