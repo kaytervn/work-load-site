@@ -6,12 +6,7 @@ import {
   myPublicSecretKey,
   PathPattern,
 } from "./constant";
-import BG1 from "../assets/GIF_01.gif";
-import BG2 from "../assets/GIF_02.gif";
-import BG3 from "../assets/GIF_03.gif";
-import BG4 from "../assets/GIF_04.gif";
-import BG5 from "../assets/GIF_05.gif";
-import { color } from "@uiw/react-codemirror";
+import gifs from "./gifs";
 
 const getCurrentDate = () => {
   const now = new Date();
@@ -49,7 +44,6 @@ const decrypt = (encryptedValue: any) => {
 };
 
 const getRandomGif = () => {
-  const gifs = [BG1, BG2, BG3, BG4, BG5];
   const randomIndex = Math.floor(Math.random() * gifs.length);
   return gifs[randomIndex];
 };
