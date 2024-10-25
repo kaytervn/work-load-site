@@ -223,12 +223,6 @@ const validateCollectionForm = (form: any) => {
       if (req.method === "post" || req.method === "put") {
         if (!req.body.trim()) {
           newChildErrors.body = "Body JSON can not be empty";
-        } else {
-          try {
-            JSON.parse(req.body);
-          } catch (err) {
-            newChildErrors.body = "Body JSON is invalid";
-          }
         }
       }
       if (req.preScriptIsChecked && !req.preScript.trim()) {
