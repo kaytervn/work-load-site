@@ -52,7 +52,7 @@ const CollectionForm = ({ isVisible, hideModal, formConfig }: any) => {
     const requests = [...form.requests];
     const newReqs = requests.filter((_: any, i: any) => i !== index);
     setForm({ ...form, requests: newReqs });
-    toast.error("Request deleted");
+    toast.error("Request deleted successfully");
   };
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const CollectionForm = ({ isVisible, hideModal, formConfig }: any) => {
     if (isValidForm()) {
       const isUpdateForm = formConfig.isUpdateForm;
       if (!form.localIsChecked && !form.remoteIsChecked) {
-        toast.error("Select at least one URL option");
+        toast.error("Please select at least one URL option");
         return;
       }
       const formattedItem: any = {

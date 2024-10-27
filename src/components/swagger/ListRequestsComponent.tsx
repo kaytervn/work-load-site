@@ -49,7 +49,7 @@ const ListRequestsComponent = ({
       onButtonClick: (form: any) => {
         handleAddRequest(form);
         hideModal();
-        toast.success("Request added");
+        toast.success("Request added successfully");
       },
       initForm: {
         name: "",
@@ -73,7 +73,7 @@ const ListRequestsComponent = ({
       onButtonClick: (request: any) => {
         handleEditRequest(index, request);
         hideModal();
-        toast.success("Request edited");
+        toast.success("Request edited successfully");
       },
       initForm: request,
     });
@@ -85,7 +85,7 @@ const ListRequestsComponent = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <label className="text-base font-semibold text-gray-800">
-              Requests
+              Custom Requests
             </label>
             {requests.length > 0 && (
               <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">

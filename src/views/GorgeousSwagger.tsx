@@ -95,7 +95,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
   const handleDelete = (id: any) => {
     hideDialog();
     deleteItemFromStorage(GORGEOUS_SWAGGER, id);
-    toast.success("Collection deleted");
+    toast.success("Collection deleted successfully");
     fetchData(currentPage, searchValue);
   };
 
@@ -187,7 +187,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
       buttonText: "CREATE",
       onButtonClick: (formattedItem: any) => {
         addItemToStorage(GORGEOUS_SWAGGER, formattedItem);
-        toast.success("Collection created");
+        toast.success("Collection created successfully");
         hideModal();
         fetchData(0, "");
       },
@@ -228,7 +228,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
       buttonText: "UPDATE",
       onButtonClick: (formattedItem: any) => {
         overwriteItemInStorage(GORGEOUS_SWAGGER, formattedItem);
-        toast.success("Collection updated");
+        toast.success("Collection updated successfully");
         hideModal();
         fetchData(currentPage, searchValue);
       },
@@ -300,7 +300,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
         )}
       </div>
       <LoadingDialog isVisible={isLoading} />
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" style={{ width: "400px" }} />
       <ConfimationDialog
         isVisible={isDialogVisible}
         title={dialogConfig.title}
