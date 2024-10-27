@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import CustomModal from "../CustomModal";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { solarizedlight } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -10,13 +11,15 @@ const ConvertCollection = ({
   onButtonClick,
 }: any) => {
   if (!isVisible) return null;
+
   const handleButtonClick = () => {
     const jsonString = JSON.stringify(json, null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {
-      toast.success("Copied to clipboard");
+      toast.success("Content copied to clipboard");
       onButtonClick();
     });
   };
+
   return (
     <CustomModal
       color="blue"

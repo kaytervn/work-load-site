@@ -23,7 +23,7 @@ const ImportCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
       );
       onButtonClick();
     } else {
-      toast.error("Please fill all the fields");
+      toast.error("Please enter the correct information");
     }
   };
   useEffect(() => {
@@ -35,10 +35,10 @@ const ImportCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
     <CustomModal
       color="gray"
       onClose={() => setVisible(false)}
-      title="Import Collections"
+      title="Import Collection(s)"
       bodyComponent={
         <TextareaField
-          title="Import data"
+          title="Import Data"
           isRequire
           placeholder="Enter import data"
           value={form.data}

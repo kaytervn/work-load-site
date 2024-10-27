@@ -73,10 +73,6 @@ const addControllerItems = (
   urlKey: string,
   requests: Request[]
 ) => {
-  if (requests?.length > 0) {
-    addCustomRequestItem(baseItem, urlKey, requests);
-  }
-  addAdditionalRequestItem(baseItem, urlKey);
   const controllerItems: Record<string, any> = {};
   Object.entries(json.paths).forEach(([path, methods]: [string, any]) => {
     Object.entries(methods).forEach(([method, operation]: [string, any]) => {
@@ -97,6 +93,10 @@ const addControllerItems = (
       controllerItems[controllerName].item.push(item);
     });
   });
+  addAdditionalRequestItem(baseItem, urlKey);
+  if (requests?.length > 0) {
+    addCustomRequestItem(baseItem, urlKey, requests);
+  }
 };
 
 const addCustomRequestItem = (
@@ -104,6 +104,10 @@ const addCustomRequestItem = (
   urlKey: string,
   requests: Request[]
 ) => {
+  const folder = {
+    name: "custom-requests",
+    item: <any>[],
+  };
   requests.forEach(
     ({ name, path, preScript, postScript, method, basicAuth, body }) => {
       const header = [
@@ -148,13 +152,14 @@ const addCustomRequestItem = (
         });
       }
       request.header = header;
-      baseItem.item.push({
+      folder.item.push({
         name,
         event,
         request,
       });
     }
   );
+  baseItem.item.push(folder);
 };
 
 const addAdditionalRequestItem = (baseItem: any, urlKey: string) => {

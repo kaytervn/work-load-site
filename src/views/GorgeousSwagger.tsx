@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import { GORGEOUS_SWAGGER } from "../types/constant";
 import {
+  addItemToStorage,
   deleteItemFromStorage,
   encrypt,
   getItemById,
   getPaginatedStorageData,
   getStorageData,
   initializeStorage,
+  overwriteItemInStorage,
   parseResponseText,
 } from "../types/utils";
-import Header from "../components/Header";
+import Header from "../components/swagger/Header";
 import InputBox from "../components/InputBox";
 import { SearchIcon } from "lucide-react";
 import Card from "../components/swagger/Card";
 import { SwaggerCollection } from "../types/interfaces";
-import CreateCollection from "../components/swagger/CreateCollection";
 import { toast, ToastContainer } from "react-toastify";
 import NoData from "../components/NoData";
 import Pagination from "../components/Pagination";
@@ -23,22 +24,21 @@ import useDialog from "../hooks/useDialog";
 import ConvertCollection from "../components/swagger/ConvertCollections";
 import { transformJson } from "../types/converter";
 import { useLoading } from "../hooks/useLoading";
-import UpdateCollection from "../components/swagger/UpdateCollection";
 import ExportCollection from "../components/swagger/ExportCollection";
 import ImportCollection from "../components/swagger/ImportCollection";
+import CollectionForm from "../components/swagger/CollectionForm";
+import useModal from "../hooks/useModal";
 
 const GorgeousSwagger = ({ sidebar }: any) => {
   const { isDialogVisible, showDialog, hideDialog, dialogConfig } = useDialog();
-  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const { isModalVisible, showModal, hideModal, formConfig } = useModal();
   const [convertModalVisible, setConvertModalVisible] = useState(false);
   const [exportModalVisible, setExportModalVisible] = useState(false);
-  const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [importModalVisible, setImportModalVisible] = useState(false);
   const [data, setData] = useState<SwaggerCollection[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [itemId, setItemId] = useState(null);
   const [fetchedJson, setFetchedJson] = useState<any>(null);
   const [exportedText, setExportedText] = useState<string>("");
   const { isLoading, showLoading, hideLoading } = useLoading();
@@ -82,11 +82,6 @@ const GorgeousSwagger = ({ sidebar }: any) => {
     fetchData(page, searchValue);
   };
 
-  const handleCreate = () => {
-    setCreateModalVisible(false);
-    fetchData(0, "");
-  };
-
   const handleExport = () => {
     setExportModalVisible(false);
     setExportedText("");
@@ -97,21 +92,14 @@ const GorgeousSwagger = ({ sidebar }: any) => {
     fetchData(currentPage, searchValue);
   };
 
-  const handleUpdate = () => {
-    setItemId(null);
-    setUpdateModalVisible(false);
-    fetchData(currentPage, searchValue);
-  };
-
   const handleDelete = (id: any) => {
     hideDialog();
     deleteItemFromStorage(GORGEOUS_SWAGGER, id);
-    toast.success("Collection deleted successfully");
+    toast.success("Collection deleted");
     fetchData(currentPage, searchValue);
   };
 
   const handleConvert = async (id: any) => {
-    setItemId(id);
     showLoading();
     const item = getItemById(GORGEOUS_SWAGGER, id);
     const url = item.local?.isInit
@@ -129,7 +117,6 @@ const GorgeousSwagger = ({ sidebar }: any) => {
       );
       setFetchedJson(transformedJson);
       setConvertModalVisible(true);
-      toast.success("Collection converted successfully");
     } catch (error: any) {
       toast.error("Error: " + error.message);
       setFetchedJson(null);
@@ -140,8 +127,8 @@ const GorgeousSwagger = ({ sidebar }: any) => {
 
   const handleDeleteDialog = (id: any) => {
     showDialog({
-      title: "Delete collection",
-      message: "Do you want to delete this collection?",
+      title: "Delete Collection",
+      message: "Are you sure you want to delete this collection?",
       confirmText: "Delete",
       color: "red",
       onConfirm: () => {
@@ -158,8 +145,8 @@ const GorgeousSwagger = ({ sidebar }: any) => {
       return;
     }
     showDialog({
-      title: "Delete all collections",
-      message: `Do you want to delete ${count} ${
+      title: "Delete All Collections",
+      message: `Are you sure you want to delete ${count} ${
         count === 1 ? "collection" : "collections"
       }?`,
       confirmText: "Delete",
@@ -175,7 +162,6 @@ const GorgeousSwagger = ({ sidebar }: any) => {
   };
 
   const handleCloseConvertModal = () => {
-    setItemId(null);
     setConvertModalVisible(false);
     setFetchedJson(null);
   };
@@ -193,12 +179,78 @@ const GorgeousSwagger = ({ sidebar }: any) => {
     );
   };
 
+  const onCreateButtonClick = () => {
+    showModal({
+      isUpdateForm: false,
+      title: "Create New Collection",
+      color: "gray",
+      buttonText: "CREATE",
+      onButtonClick: (formattedItem: any) => {
+        addItemToStorage(GORGEOUS_SWAGGER, formattedItem);
+        toast.success("Collection created");
+        hideModal();
+        fetchData(0, "");
+      },
+      initForm: {
+        collectionName: "",
+        localUrl: "",
+        localIsChecked: false,
+        remoteUrl: "",
+        remoteIsChecked: false,
+        requests: [],
+      },
+    });
+  };
+
+  const onUpdateButtonClick = (id: any) => {
+    const item = getItemById(GORGEOUS_SWAGGER, id);
+    const requests = [];
+    if (item.requests?.length > 0) {
+      for (const i in item.requests) {
+        const req = item.requests[i];
+        requests.push({
+          name: req.name,
+          method: req.method,
+          body: req.body ? req.body : "",
+          preScript: req.preScript ? req.preScript : "",
+          preScriptIsChecked: req.preScript ? true : false,
+          postScript: req.postScript ? req.postScript : "",
+          postScriptIsChecked: req.postScript ? true : false,
+          path: req.path,
+          basicAuthIsChecked: req.basicAuth,
+        });
+      }
+    }
+    showModal({
+      isUpdateForm: true,
+      title: "Update Collection",
+      color: "blue",
+      buttonText: "UPDATE",
+      onButtonClick: (formattedItem: any) => {
+        overwriteItemInStorage(GORGEOUS_SWAGGER, formattedItem);
+        toast.success("Collection updated");
+        hideModal();
+        fetchData(currentPage, searchValue);
+      },
+      initForm: {
+        id: item.id,
+        collectionName: item.collectionName,
+        localUrl: item.local ? item.local.url : "",
+        localIsChecked: item.local ? true : false,
+        remoteUrl: item.remote ? item.remote.url : "",
+        remoteIsChecked: item.remote ? true : false,
+        createdAt: item.createdAt,
+        requests: requests,
+      },
+    });
+  };
+
   return (
     <div className="flex bg-gray-50">
       {sidebar}
       <div className="flex-grow p-6">
         <Header
-          onCreate={() => setCreateModalVisible(true)}
+          onCreate={onCreateButtonClick}
           onDeleteAll={handleDeleteAllDialog}
           onImport={() => {
             setImportModalVisible(true);
@@ -226,8 +278,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
                     onExportButtonClick([getItemById(GORGEOUS_SWAGGER, id)]);
                   }}
                   onUpdate={(id: any) => {
-                    setItemId(id);
-                    setUpdateModalVisible(true);
+                    onUpdateButtonClick(id);
                   }}
                   onDelete={(id: any) => {
                     handleDeleteDialog(id);
@@ -259,16 +310,10 @@ const GorgeousSwagger = ({ sidebar }: any) => {
         confirmText={dialogConfig.confirmText}
         color={dialogConfig.color}
       />
-      <CreateCollection
-        isVisible={createModalVisible}
-        setVisible={setCreateModalVisible}
-        onButtonClick={handleCreate}
-      />
-      <UpdateCollection
-        isVisible={updateModalVisible}
-        setVisible={setUpdateModalVisible}
-        itemId={itemId}
-        onButtonClick={handleUpdate}
+      <CollectionForm
+        isVisible={isModalVisible}
+        hideModal={hideModal}
+        formConfig={formConfig}
       />
       <ConvertCollection
         isVisible={convertModalVisible}

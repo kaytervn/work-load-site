@@ -1,9 +1,9 @@
 const InputFieldWithoutTitle = ({
-  value,
-  placeholder,
+  value = "",
+  placeholder = "",
   onChangeText,
   icon: Icon,
-  error,
+  error = "",
   prepend,
   type = "text",
   maxLength = 100,

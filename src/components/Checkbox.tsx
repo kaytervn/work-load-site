@@ -1,4 +1,4 @@
-const Checkbox = ({ onCheckboxChange, isChecked, title }: any) => {
+const Checkbox = ({ onCheckboxChange, isChecked, title = "SAMPLE" }: any) => {
   return (
     <button
       className="flex items-center space-x-2 focus:outline-none"

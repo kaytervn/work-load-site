@@ -13,13 +13,13 @@ const ExportCollection = ({
   if (!isVisible) return null;
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
-    toast.success("Copied to clipboard");
+    toast.success("Content copied to clipboard");
     setCopied(true);
     setTimeout(() => setCopied(false), 1000);
   };
   const handleButtonClick = () => {
     navigator.clipboard.writeText(text).then(() => {
-      toast.success("Copied to clipboard");
+      toast.success("Content copied to clipboard");
       onButtonClick();
     });
   };

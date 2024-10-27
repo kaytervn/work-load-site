@@ -1,4 +1,4 @@
-const Button = ({ onPress, title, icon: Icon }: any) => {
+const Button = ({ onPress, title = "SAMPLE", icon: Icon }: any) => {
   return (
     <button
       onClick={onPress}

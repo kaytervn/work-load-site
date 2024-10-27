@@ -1,11 +1,11 @@
 const InputField = ({
-  title,
+  title = "",
   isRequire = false,
-  value,
-  placeholder,
+  value = "",
+  placeholder = "",
   onChangeText,
   icon: Icon,
-  error,
+  error = "",
   prepend,
   type = "text",
   maxLength = 100,
@@ -15,7 +15,7 @@ const InputField = ({
       {title && (
         <label className="text-base font-semibold text-gray-800 mb-2 text-left flex items-center">
           {title}
-          {isRequire && <span className="ml-1 text-red-500">*</span>}
+          {isRequire === true && <span className="ml-1 text-red-500">*</span>}
         </label>
       )}
       <div className="flex items-center">

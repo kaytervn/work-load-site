@@ -1,11 +1,6 @@
 import * as CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
-import {
-  colors,
-  GORGEOUS_SWAGGER,
-  myPublicSecretKey,
-  PathPattern,
-} from "./constant";
+import { colors, GORGEOUS_SWAGGER, myPublicSecretKey } from "./constant";
 import gifs from "./gifs";
 
 const getCurrentDate = () => {
@@ -198,46 +193,6 @@ const truncateString = (str: any, limit: any) => {
   return str;
 };
 
-const validateCollectionForm = (form: any) => {
-  const newErrors: any = {};
-  if (!form.collectionName.trim()) {
-    newErrors.collectionName = "Collection name is required";
-  }
-  if (form.localIsChecked && !form.localUrl.trim()) {
-    newErrors.localUrl = "Local URL can not be empty";
-  }
-  if (form.remoteIsChecked && !form.remoteUrl.trim()) {
-    newErrors.remoteUrl = "Remote URL can not be empty";
-  }
-  if (form.requests.length > 0) {
-    const childErrors: any = form.requests.map((req: any) => {
-      const newChildErrors: any = {};
-      if (!req.name.trim()) {
-        newChildErrors.name = "Name is required";
-      }
-      if (!req.path.trim()) {
-        newChildErrors.path = "Path is required";
-      } else if (!PathPattern.test(req.path)) {
-        newChildErrors.path = "Path is invalid";
-      }
-      if (req.method === "post" || req.method === "put") {
-        if (!req.body.trim()) {
-          newChildErrors.body = "Body JSON can not be empty";
-        }
-      }
-      if (req.preScriptIsChecked && !req.preScript.trim()) {
-        newChildErrors.preScript = "Pre-script can not be empty";
-      }
-      if (req.postScriptIsChecked && !req.postScript.trim()) {
-        newChildErrors.postScript = "Post-script can not be empty";
-      }
-      return newChildErrors;
-    });
-    newErrors.childErrors = childErrors;
-  }
-  return newErrors;
-};
-
 const mapCollectionRequests = (requests: any) => {
   return requests.map(
     ({
@@ -299,7 +254,6 @@ export {
   parseResponseText,
   truncateString,
   overwriteItemInStorage,
-  validateCollectionForm,
   mapCollectionRequests,
   getCurrentDate_2,
   findStorageItemBy,
