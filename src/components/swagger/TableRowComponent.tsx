@@ -18,6 +18,7 @@ const TableRowComponent = ({
       color: "red",
       onConfirm: () => {
         handleRemoveRequest(index);
+        hideDialog();
       },
       onCancel: hideDialog,
     });
