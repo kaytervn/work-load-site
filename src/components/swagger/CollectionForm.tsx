@@ -34,24 +34,28 @@ const CollectionForm = ({ isVisible, hideModal, formConfig }: any) => {
     useForm(formConfig.initForm, {}, validate);
 
   const handleAddRequest = (request: any) => {
-    const requests = [...form.requests];
-    requests.push(request);
+    const requests = [...form.requests, request];
+    requests.sort((a, b) => a.name.localeCompare(b.name));
     setForm({ ...form, requests });
   };
 
   const handleEditRequest = (index: any, updatedRequest: any) => {
-    setForm((prevForm: any) => ({
-      ...prevForm,
-      requests: prevForm.requests.map((item: any, i: number) =>
+    setForm((prevForm: any) => {
+      const updatedRequests = prevForm.requests.map((item: any, i: number) =>
         i === index ? updatedRequest : item
-      ),
-    }));
+      );
+      updatedRequests.sort((a: any, b: any) => a.name.localeCompare(b.name));
+      return {
+        ...prevForm,
+        requests: updatedRequests,
+      };
+    });
   };
 
   const handleRemoveRequest = (index: number) => {
-    const requests = [...form.requests];
-    const newReqs = requests.filter((_: any, i: any) => i !== index);
-    setForm({ ...form, requests: newReqs });
+    const requests = form.requests.filter((_: any, i: any) => i !== index);
+    requests.sort((a: any, b: any) => a.name.localeCompare(b.name));
+    setForm({ ...form, requests });
     toast.error("Request deleted successfully");
   };
 
