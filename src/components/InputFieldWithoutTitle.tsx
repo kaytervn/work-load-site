@@ -6,7 +6,7 @@ const InputFieldWithoutTitle = ({
   error = "",
   prepend,
   type = "text",
-  maxLength = 100,
+  maxLength = 500,
 }: any) => {
   return (
     <div className="flex-1 items-center">
