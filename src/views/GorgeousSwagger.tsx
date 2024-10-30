@@ -217,7 +217,7 @@ const GorgeousSwagger = ({ sidebar }: any) => {
           postScript: req.postScript ? req.postScript : "",
           postScriptIsChecked: req.postScript ? true : false,
           path: req.path,
-          basicAuthIsChecked: req.basicAuth,
+          authKind: req.authKind || "0",
         });
       }
     }

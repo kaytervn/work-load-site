@@ -2,6 +2,7 @@ import {
   defaultBasicAuth,
   defaultInteger,
   defaultLong,
+  defaultNoAuth,
   defaultPageSize,
   defaultTenantHeader,
 } from "./constant";
@@ -109,7 +110,7 @@ const addCustomRequestItem = (
     item: <any>[],
   };
   requests.forEach(
-    ({ name, path, preScript, postScript, method, basicAuth, body }) => {
+    ({ name, path, preScript, postScript, method, authKind, body }) => {
       const header = [
         { key: "Accept", value: "application/json" },
         { key: "Content-Type", value: "application/json" },
@@ -137,7 +138,11 @@ const addCustomRequestItem = (
           path: pathPart.split("/").filter(Boolean),
         },
       };
-      if (basicAuth) request.auth = defaultBasicAuth;
+      if (authKind == "1") {
+        request.auth = defaultNoAuth;
+      } else if (authKind == "2") {
+        request.auth = defaultBasicAuth;
+      }
       if (["post", "put"].includes(method.toLowerCase())) {
         request.body = {
           mode: "raw",
@@ -145,18 +150,25 @@ const addCustomRequestItem = (
           options: { raw: { language: "json" } },
         };
       }
-      if (method.toLowerCase() === "get" && queryString) {
-        request.url.query = queryString.split("&").map((param) => {
-          const [key, value] = param.split("=");
-          return { key, value, disabled: false };
-        });
-      }
-      request.header = header;
-      folder.item.push({
+      const newItem: any = {
         name,
         event,
         request,
-      });
+      };
+      if (method.toLowerCase() === "get" && queryString) {
+        request.body = {
+          mode: "formdata",
+          formdata: queryString.split("&").map((param) => {
+            const [key, value] = param.split("=");
+            return { key, value, type: "text" };
+          }),
+        };
+        newItem.protocolProfileBehavior = {
+          disableBodyPruning: true,
+        };
+      }
+      request.header = header;
+      folder.item.push(newItem);
     }
   );
   baseItem.item.push(folder);

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import useForm from "../../hooks/useForm";
 import { PathPattern } from "../../types/constant";
-import Checkbox from "../Checkbox";
 import CodeMirrorInput from "../CodeMirrorInput";
 import CodeMirrorWithCheckbox from "../CodeMirrorWithCheckbox";
 import CustomModal from "../CustomModal";
@@ -70,12 +69,16 @@ const RequestForm = ({ isVisible, hideModal, formConfig }: any) => {
                 error={errors?.name}
                 onChangeText={(value: any) => handleChange("name", value)}
               />
-              <Checkbox
-                title="Basic Auth"
-                isChecked={form.basicAuthIsChecked}
-                onCheckboxChange={() =>
-                  handleChange("basicAuthIsChecked", !form.basicAuthIsChecked)
-                }
+              <SelectFieldWithoutTitle
+                value={form.authKind}
+                options={[
+                  { value: "0", name: "Inherit Auth", color: "#3498DB" },
+                  { value: "1", name: "No Auth", color: "#E74C3C" },
+                  { value: "2", name: "Basic Auth", color: "#4CAF50" },
+                ]}
+                labelKey="name"
+                valueKey="value"
+                onChange={(value: any) => handleChange("authKind", value)}
               />
             </div>
             {errors?.name && (

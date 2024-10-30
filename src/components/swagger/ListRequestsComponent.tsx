@@ -60,7 +60,7 @@ const ListRequestsComponent = ({
         preScriptIsChecked: false,
         postScript: "",
         postScriptIsChecked: false,
-        basicAuthIsChecked: false,
+        authKind: "0",
       },
     });
   };

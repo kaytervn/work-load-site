@@ -5,7 +5,7 @@ interface Request {
   body: string;
   preScript: string;
   postScript: string;
-  basicAuth: boolean;
+  authKind: string;
 }
 
 interface SwaggerCollection {

@@ -40,6 +40,9 @@ const defaultBasicAuth = {
     { key: "password", value: "{{clientSecret}}", type: "string" },
   ],
 };
+const defaultNoAuth = {
+  type: "noauth",
+};
 const defaultTenantHeader = [
   {
     key: "X-tenant",
@@ -72,4 +75,5 @@ export {
   GORGEOUS_SWAGGER,
   CRUD_GENERATOR,
   PathPattern,
+  defaultNoAuth,
 };

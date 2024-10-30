@@ -204,7 +204,7 @@ const mapCollectionRequests = (requests: any) => {
       preScript,
       postScriptIsChecked,
       postScript,
-      basicAuthIsChecked,
+      authKind,
     }: any) => ({
       name,
       method,
@@ -212,7 +212,7 @@ const mapCollectionRequests = (requests: any) => {
       path,
       ...(preScriptIsChecked && { preScript }),
       ...(postScriptIsChecked && { postScript }),
-      basicAuth: basicAuthIsChecked || false,
+      authKind: authKind || "0",
     })
   );
 };
