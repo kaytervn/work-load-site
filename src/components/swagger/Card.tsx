@@ -106,14 +106,12 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
           </div>
         </div>
       </div>
-      <div className="p-4 space-y-2">
-        <div className="bg-gray-50 rounded-xl p-2">
-          <RadioButtons
-            options={options}
-            selectedValue={initialValue}
-            onValueChange={handleRadioChange}
-          />
-        </div>
+      <div className="p-6 flex flex-col flex-grow">
+        <RadioButtons
+          options={options}
+          selectedValue={initialValue}
+          onValueChange={handleRadioChange}
+        />
         <button
           onClick={() => onConvert(item.id)}
           className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2"
