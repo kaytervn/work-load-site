@@ -95,7 +95,7 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
             </button>
           </div>
         </div>
-        <div className="mt-4">
+        <div className="mt-2">
           <h2 className="text-3xl font-bold text-white tracking-tight whitespace-nowrap">
             {truncateString(item.collectionName, 25)}
           </h2>
