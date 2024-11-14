@@ -57,58 +57,71 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
     updateItemInStorage(GORGEOUS_SWAGGER, updatedItem, item.id);
   };
   return (
-    <div className="bg-white border border-gray-200 shadow-lg rounded-xl overflow-hidden transition-shadow duration-200 hover:shadow-2xl flex flex-col h-full">
+    <div className="bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl shadow-lg border border-gray-100">
       <div
-        className="h-36 bg-gradient-to-r flex items-center justify-center relative"
-        style={{ background: `${item.color}` }}
+        className="h-48 relative flex flex-col justify-between p-4"
+        style={{
+          background: `linear-gradient(45deg, ${item.color}, ${item.color}dd)`,
+        }}
       >
-        <div className="absolute top-3 left-3 text-gray-200 flex items-center space-x-1 text-sm">
-          <CalendarFoldIcon className="w-4 h-4" />
-          <span>{format(new Date(item.createdAt), "dd/MM/yyyy HH:mm:ss")}</span>
+        <div className="flex justify-between items-start">
+          <div className="bg-black/20 backdrop-blur-sm rounded-full px-3 py-1.5 text-white flex items-center space-x-2">
+            <CalendarFoldIcon className="w-4 h-4" />
+            <span className="text-sm font-medium">
+              {format(new Date(item.createdAt), "dd/MM/yyyy")}
+            </span>
+          </div>
+          <div className="flex space-x-1">
+            <button
+              onClick={() => onExport(item.id)}
+              className="p-2 hover:bg-white/20 rounded-full transition-colors duration-200 text-white"
+              title="Export"
+            >
+              <ExternalLinkIcon className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => onUpdate(item.id)}
+              className="p-2 hover:bg-white/20 rounded-full transition-colors duration-200 text-white"
+              title="Edit"
+            >
+              <EditIcon className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => onDelete(item.id)}
+              className="p-2 hover:bg-white/20 rounded-full transition-colors duration-200 text-white"
+              title="Delete"
+            >
+              <Trash2Icon className="w-5 h-5" />
+            </button>
+          </div>
         </div>
-        <div className="absolute top-3 right-3 flex space-x-2">
-          <button
-            onClick={() => onExport(item.id)}
-            className="p-1 hover:bg-gray-500 rounded-full transition-colors duration-150"
-          >
-            <ExternalLinkIcon className="w-5 h-5 text-gray-200" />
-          </button>
-          <button
-            onClick={() => onUpdate(item.id)}
-            className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-150"
-          >
-            <EditIcon className="w-5 h-5 text-blue-500" />
-          </button>
-          <button
-            onClick={() => onDelete(item.id)}
-            className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-150"
-          >
-            <Trash2Icon className="w-5 h-5 text-red-500" />
-          </button>
-        </div>
-        <h2 className="text-2xl font-bold text-white text-center uppercase tracking-wide">
-          {truncateString(item.collectionName, 25)}
-        </h2>
-        <div className="absolute bottom-4 right-4 font-semibold flex items-center">
-          <div className="bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-full px-3 py-1 flex items-center space-x-1 shadow-lg">
-            <span>{item.requests?.length || 0}</span>
-            <RepeatIcon className="w-5 h-5" />
+        <div className="mt-4">
+          <h2 className="text-3xl font-bold text-white tracking-tight whitespace-nowrap">
+            {truncateString(item.collectionName, 25)}
+          </h2>
+          <div className="inline-flex mt-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-white items-center space-x-2">
+            <RepeatIcon className="w-4 h-4" />
+            <span className="font-medium">
+              {item.requests?.length || 0} Requests
+            </span>
           </div>
         </div>
       </div>
-      <div className="p-6 flex flex-col flex-grow">
-        <div className="flex-grow">
+      <div className="p-6 space-y-6">
+        <div className="bg-gray-50 rounded-xl p-4">
           <RadioButtons
             options={options}
             selectedValue={initialValue}
             onValueChange={handleRadioChange}
           />
         </div>
-        <Button
-          onPress={() => onConvert(item.id)}
-          title="Convert"
-          icon={ArrowLeftRightIcon}
-        />
+        <button
+          onClick={() => onConvert(item.id)}
+          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2"
+        >
+          <ArrowLeftRightIcon className="w-5 h-5" />
+          <span>CONVERT</span>
+        </button>
       </div>
     </div>
   );

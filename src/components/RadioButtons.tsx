@@ -15,7 +15,7 @@ const RadioButtons = ({ options, selectedValue, onValueChange }: any) => {
   return (
     <div className="mb-4">
       {options.map((option: any, index: any) => (
-        <label key={index} className="flex items-center mb-2">
+        <label key={index} className="flex items-center mb-2 whitespace-nowrap">
           <input
             type="radio"
             value={option.value}

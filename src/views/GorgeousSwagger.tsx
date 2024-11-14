@@ -19,7 +19,7 @@ import { SwaggerCollection } from "../types/interfaces";
 import { toast, ToastContainer } from "react-toastify";
 import NoData from "../components/NoData";
 import Pagination from "../components/Pagination";
-import { ConfimationDialog, LoadingDialog } from "../components/Dialog";
+import { ConfirmationDialog, LoadingDialog } from "../components/Dialog";
 import useDialog from "../hooks/useDialog";
 import ConvertCollection from "../components/swagger/ConvertCollections";
 import { transformJson } from "../types/converter";
@@ -300,10 +300,9 @@ const GorgeousSwagger = () => {
           ) : (
             <NoData />
           )}
-
           <LoadingDialog isVisible={isLoading} />
           <ToastContainer position="bottom-right" style={{ width: "400px" }} />
-          <ConfimationDialog
+          <ConfirmationDialog
             isVisible={isDialogVisible}
             title={dialogConfig.title}
             message={dialogConfig.message}

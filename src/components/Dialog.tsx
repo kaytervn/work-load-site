@@ -15,7 +15,7 @@ const ModalForm = ({ children, isVisible, color, title, message }: any) => {
   );
 };
 
-const ConfimationDialog = ({
+const ConfirmationDialog = ({
   isVisible,
   title,
   message,
@@ -31,20 +31,22 @@ const ConfimationDialog = ({
       message={message}
       color={color}
     >
-      <div className="flex gap-2 w-full">
-        <button
-          onClick={onCancel}
-          className="p-3 rounded-md bg-gray-200 w-full text-gray-800 text-center text-lg font-semibold"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={onConfirm}
-          className="p-3 rounded-md w-full text-white text-center text-lg font-semibold"
-          style={{ backgroundColor: color }}
-        >
-          {confirmText}
-        </button>
+      <div className="flex flex-col items-center w-full max-w-md px-4">
+        <div className="flex gap-2 w-full mt-4">
+          <button
+            onClick={onCancel}
+            className="p-3 rounded-md bg-gray-200 w-full text-gray-800 text-center text-lg font-semibold"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className="p-3 rounded-md w-full text-white text-center text-lg font-semibold"
+            style={{ backgroundColor: color }}
+          >
+            {confirmText}
+          </button>
+        </div>
       </div>
     </ModalForm>
   );
@@ -97,4 +99,4 @@ const LoadingDialog = ({
   );
 };
 
-export { ConfimationDialog, AlertDialog, LoadingDialog };
+export { ConfirmationDialog, AlertDialog, LoadingDialog };

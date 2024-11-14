@@ -1,6 +1,6 @@
 import { PencilIcon, TrashIcon } from "lucide-react";
 import useDialog from "../../hooks/useDialog";
-import { ConfimationDialog } from "../Dialog";
+import { ConfirmationDialog } from "../Dialog";
 
 const TableRowComponent = ({
   handleEditRequest,
@@ -59,7 +59,7 @@ const TableRowComponent = ({
           ))}
         </tbody>
       </table>
-      <ConfimationDialog
+      <ConfirmationDialog
         isVisible={isDialogVisible}
         title={dialogConfig.title}
         message={dialogConfig.message}
