@@ -9,7 +9,6 @@ const CodeMirrorWithCheckbox = ({
   isChecked = false,
   onCheckboxChange,
   maxHeight = "100px",
-  width = "688px",
 }: any) => {
   return (
     <div className="mb-4">
@@ -50,7 +49,6 @@ const CodeMirrorWithCheckbox = ({
               <CodeMirror
                 value={value}
                 height={maxHeight}
-                width={width}
                 extensions={[javascript()]}
                 onChange={(value) => onChangeText(value)}
               />

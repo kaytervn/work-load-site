@@ -8,7 +8,6 @@ const CodeMirrorInput = ({
   error,
   isRequire = false,
   maxHeight = "100px",
-  width = "688px",
 }: any) => {
   return (
     <div className="mb-4">
@@ -27,7 +26,6 @@ const CodeMirrorInput = ({
           <CodeMirror
             value={value}
             height={maxHeight}
-            width={width}
             extensions={[javascript()]}
             onChange={(value) => onChangeText(value)}
           />

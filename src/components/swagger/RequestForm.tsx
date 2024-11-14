@@ -122,13 +122,11 @@ const RequestForm = ({ isVisible, hideModal, formConfig }: any) => {
               isRequire={true}
               value={form.body}
               error={errors?.body}
-              width="530px"
               onChangeText={(value: any) => handleChange("body", value)}
             />
           )}
           <CodeMirrorWithCheckbox
             title="Pre-Script"
-            width="530px"
             placeholder="Enter pre-script"
             value={form.preScript}
             onChangeText={(value: any) => handleChange("preScript", value)}
