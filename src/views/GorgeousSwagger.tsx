@@ -28,8 +28,9 @@ import ExportCollection from "../components/swagger/ExportCollection";
 import ImportCollection from "../components/swagger/ImportCollection";
 import CollectionForm from "../components/swagger/CollectionForm";
 import useModal from "../hooks/useModal";
+import Sidebar from "../components/Sidebar";
 
-const GorgeousSwagger = ({ sidebar }: any) => {
+const GorgeousSwagger = () => {
   const { isDialogVisible, showDialog, hideDialog, dialogConfig } = useDialog();
   const { isModalVisible, showModal, hideModal, formConfig } = useModal();
   const [convertModalVisible, setConvertModalVisible] = useState(false);
@@ -246,93 +247,96 @@ const GorgeousSwagger = ({ sidebar }: any) => {
   };
 
   return (
-    <div className="flex bg-gray-50">
-      {sidebar}
-      <div className="flex-grow p-6">
-        <Header
-          onCreate={onCreateButtonClick}
-          onDeleteAll={handleDeleteAllDialog}
-          onImport={() => {
-            setImportModalVisible(true);
-          }}
-          onExport={() => {
-            onExportButtonClick(getStorageData(GORGEOUS_SWAGGER));
-          }}
-          SearchBoxes={
-            <InputBox
-              placeholder="Searching..."
-              icon={SearchIcon}
-              value={searchValue}
-              onChangeText={handleSearch}
-            />
-          }
-        />
-        {data.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {data.map((item) => (
-                <Card
-                  key={item.id}
-                  item={item}
-                  onExport={(id: any) => {
-                    onExportButtonClick([getItemById(GORGEOUS_SWAGGER, id)]);
-                  }}
-                  onUpdate={(id: any) => {
-                    onUpdateButtonClick(id);
-                  }}
-                  onDelete={(id: any) => {
-                    handleDeleteDialog(id);
-                  }}
-                  onConvert={async (id: any) => {
-                    await handleConvert(id);
-                  }}
-                />
-              ))}
-            </div>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </>
-        ) : (
-          <NoData />
-        )}
-      </div>
-      <LoadingDialog isVisible={isLoading} />
-      <ToastContainer position="bottom-right" style={{ width: "400px" }} />
-      <ConfimationDialog
-        isVisible={isDialogVisible}
-        title={dialogConfig.title}
-        message={dialogConfig.message}
-        onConfirm={dialogConfig.onConfirm}
-        onCancel={dialogConfig.onCancel}
-        confirmText={dialogConfig.confirmText}
-        color={dialogConfig.color}
-      />
-      <CollectionForm
-        isVisible={isModalVisible}
-        hideModal={hideModal}
-        formConfig={formConfig}
-      />
-      <ConvertCollection
-        isVisible={convertModalVisible}
-        setVisible={setConvertModalVisible}
-        json={fetchedJson}
-        onButtonClick={handleCloseConvertModal}
-      />
-      <ExportCollection
-        isVisible={exportModalVisible}
-        setVisible={setExportModalVisible}
-        onButtonClick={handleExport}
-        text={exportedText}
-      />
-      <ImportCollection
-        isVisible={importModalVisible}
-        setVisible={setImportModalVisible}
-        onButtonClick={handleImport}
-      />
-    </div>
+    <Sidebar
+      activeItem={GORGEOUS_SWAGGER}
+      renderContent={
+        <>
+          <Header
+            onCreate={onCreateButtonClick}
+            onDeleteAll={handleDeleteAllDialog}
+            onImport={() => {
+              setImportModalVisible(true);
+            }}
+            onExport={() => {
+              onExportButtonClick(getStorageData(GORGEOUS_SWAGGER));
+            }}
+            SearchBoxes={
+              <InputBox
+                placeholder="Searching..."
+                icon={SearchIcon}
+                value={searchValue}
+                onChangeText={handleSearch}
+              />
+            }
+          />
+          {data.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {data.map((item) => (
+                  <Card
+                    key={item.id}
+                    item={item}
+                    onExport={(id: any) => {
+                      onExportButtonClick([getItemById(GORGEOUS_SWAGGER, id)]);
+                    }}
+                    onUpdate={(id: any) => {
+                      onUpdateButtonClick(id);
+                    }}
+                    onDelete={(id: any) => {
+                      handleDeleteDialog(id);
+                    }}
+                    onConvert={async (id: any) => {
+                      await handleConvert(id);
+                    }}
+                  />
+                ))}
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </>
+          ) : (
+            <NoData />
+          )}
+
+          <LoadingDialog isVisible={isLoading} />
+          <ToastContainer position="bottom-right" style={{ width: "400px" }} />
+          <ConfimationDialog
+            isVisible={isDialogVisible}
+            title={dialogConfig.title}
+            message={dialogConfig.message}
+            onConfirm={dialogConfig.onConfirm}
+            onCancel={dialogConfig.onCancel}
+            confirmText={dialogConfig.confirmText}
+            color={dialogConfig.color}
+          />
+          <CollectionForm
+            isVisible={isModalVisible}
+            hideModal={hideModal}
+            formConfig={formConfig}
+          />
+          <ConvertCollection
+            isVisible={convertModalVisible}
+            setVisible={setConvertModalVisible}
+            json={fetchedJson}
+            onButtonClick={handleCloseConvertModal}
+          />
+          <ExportCollection
+            isVisible={exportModalVisible}
+            setVisible={setExportModalVisible}
+            onButtonClick={handleExport}
+            text={exportedText}
+          />
+          <ImportCollection
+            isVisible={importModalVisible}
+            setVisible={setImportModalVisible}
+            onButtonClick={handleImport}
+          />
+        </>
+      }
+    ></Sidebar>
   );
 };
 

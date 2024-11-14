@@ -5,9 +5,12 @@ import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "codemirror/lib/codemirror.css";
+import { GlobalProvider } from "./components/GlobalProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <GlobalProvider>
+      <App />
+    </GlobalProvider>
   </StrictMode>
 );
