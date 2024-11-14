@@ -107,8 +107,8 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
           </div>
         </div>
       </div>
-      <div className="p-6 space-y-6">
-        <div className="bg-gray-50 rounded-xl p-4">
+      <div className="p-4 space-y-2">
+        <div className="bg-gray-50 rounded-xl p-2">
           <RadioButtons
             options={options}
             selectedValue={initialValue}
