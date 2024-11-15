@@ -116,7 +116,7 @@ const GorgeousSwagger = () => {
         JSON.parse(parseResponseText(text)),
         item
       );
-      setFetchedJson(transformedJson);
+      setFetchedJson(JSON.stringify(transformedJson, null, 2));
       setConvertModalVisible(true);
     } catch (error: any) {
       toast.error("Error: " + error.message);

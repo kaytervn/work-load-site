@@ -1,7 +1,5 @@
 import CopyToClipboard from "react-copy-to-clipboard";
 import CustomModal from "../CustomModal";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { solarizedlight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { toast } from "react-toastify";
 import { CheckCircleIcon, CopyIcon } from "lucide-react";
 import { useState } from "react";
@@ -60,7 +58,7 @@ const ConvertCollection = ({
             </CopyToClipboard>
           </div>
           <div className="p-4 bg-gray-200 rounded-lg shadow-lg break-words">
-            {JSON.stringify(json, null, 2)}
+            {json}
           </div>
         </div>
       }
