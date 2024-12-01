@@ -5,17 +5,66 @@ import {
   CodeXmlIcon,
   MenuIcon,
   XIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  FolderCodeIcon,
+  BookTextIcon,
+  ShieldCheckIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { CRUD_GENERATOR, GORGEOUS_SWAGGER } from "../types/constant";
 import { useGlobalContext } from "./GlobalProvider";
 import { useEffect, useState } from "react";
+import {
+  CRUD_GENERATOR,
+  GORGEOUS_SWAGGER,
+  SEQUENCE_ACTIVATOR,
+} from "../types/pageConfig";
 
 const Sidebar = ({ activeItem, renderContent }: any) => {
-  const { imgSrc, isCollapsed, setIsCollapsed } = useGlobalContext();
+  const {
+    imgSrc,
+    isCollapsed,
+    setIsCollapsed,
+    collapsedGroups,
+    setCollapsedGroups,
+  } = useGlobalContext();
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const navigate = useNavigate();
+
+  const menuGroups = [
+    {
+      name: "Development",
+      icon: <FolderCodeIcon size={20} />,
+      items: [
+        {
+          name: GORGEOUS_SWAGGER.name,
+          label: GORGEOUS_SWAGGER.label,
+          icon: <ArrowLeftRightIcon size={20} />,
+          path: GORGEOUS_SWAGGER.path,
+        },
+        {
+          name: CRUD_GENERATOR.name,
+          label: CRUD_GENERATOR.label,
+          icon: <CodeXmlIcon size={20} />,
+          path: CRUD_GENERATOR.path,
+        },
+      ],
+    },
+    {
+      name: "Document",
+      icon: <BookTextIcon size={20} />,
+      items: [
+        {
+          name: SEQUENCE_ACTIVATOR.name,
+          label: SEQUENCE_ACTIVATOR.label,
+          icon: <ShieldCheckIcon size={20} />,
+          path: SEQUENCE_ACTIVATOR.path,
+        },
+      ],
+    },
+  ];
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -30,22 +79,11 @@ const Sidebar = ({ activeItem, renderContent }: any) => {
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  const menuItems = [
-    {
-      name: GORGEOUS_SWAGGER,
-      label: "Gorgeous Swagger",
-      icon: <ArrowLeftRightIcon size={20} />,
-      path: "/",
-    },
-    {
-      name: CRUD_GENERATOR,
-      label: "CRUD Generator",
-      icon: <CodeXmlIcon size={20} />,
-      path: "/crud-generator",
-    },
-  ];
-  const handleMenuItemClick = (itemName: any) => {
-    const selectedItem = menuItems.find((item) => item.name === itemName);
+
+  const handleMenuItemClick = (itemName: string) => {
+    const selectedItem = menuGroups
+      .flatMap((group) => group.items)
+      .find((item) => item.name === itemName);
     if (selectedItem) {
       navigate(selectedItem.path);
     }
@@ -53,6 +91,14 @@ const Sidebar = ({ activeItem, renderContent }: any) => {
       setIsSidebarVisible(false);
     }
   };
+
+  const toggleGroupCollapse = (groupName: string) => {
+    setCollapsedGroups((prev) => ({
+      ...prev,
+      [groupName]: !prev[groupName],
+    }));
+  };
+
   const toggleSidebar = () => {
     if (isMobile) {
       setIsSidebarVisible(!isSidebarVisible);
@@ -60,6 +106,7 @@ const Sidebar = ({ activeItem, renderContent }: any) => {
       setIsCollapsed(!isCollapsed);
     }
   };
+
   return (
     <div className="flex min-h-screen">
       {isMobile && (
@@ -92,26 +139,46 @@ const Sidebar = ({ activeItem, renderContent }: any) => {
             />
           </div>
           <nav className="flex-grow overflow-y-auto">
-            <ul>
-              {menuItems.map((item) => (
-                <li key={item.name} className="mb-2">
-                  <div
-                    className={`flex items-center p-3 mx-2 rounded-lg cursor-pointer transition-colors
-                      ${
-                        activeItem === item.name
-                          ? "bg-blue-500"
-                          : "hover:bg-blue-700"
-                      }
-                      ${isCollapsed ? "justify-center" : ""}
-                    `}
-                    onClick={() => handleMenuItemClick(item.name)}
-                  >
-                    {item.icon}
-                    {!isCollapsed && <span className="ml-2">{item.label}</span>}
-                  </div>
-                </li>
-              ))}
-            </ul>
+            {menuGroups.map((group) => (
+              <div key={group.name} className="mb-2">
+                <div
+                  className="flex justify-between items-center p-3 mx-2 mb-2 bg-gray-800 cursor-pointer rounded-lg"
+                  onClick={() => toggleGroupCollapse(group.name)}
+                >
+                  {group.icon}
+                  {!isCollapsed && <span className="ml-2">{group.name}</span>}
+                  {collapsedGroups[group.name] ? (
+                    <ChevronDownIcon size={20} />
+                  ) : (
+                    <ChevronUpIcon size={20} />
+                  )}
+                </div>
+                <ul>
+                  {!collapsedGroups[group.name]
+                    ? group.items.map((item) => (
+                        <li key={item.name} className="mb-2">
+                          <div
+                            className={`flex items-center p-3 mx-2 rounded-lg cursor-pointer transition-colors
+                            ${
+                              activeItem === item.name
+                                ? "bg-blue-500"
+                                : "hover:bg-blue-700"
+                            }
+                            ${isCollapsed ? "justify-center" : ""}
+                          `}
+                            onClick={() => handleMenuItemClick(item.name)}
+                          >
+                            {item.icon}
+                            {!isCollapsed && (
+                              <span className="ml-2">{item.label}</span>
+                            )}
+                          </div>
+                        </li>
+                      ))
+                    : null}
+                </ul>
+              </div>
+            ))}
           </nav>
           <button
             className="flex items-center justify-center p-2 hover:bg-gray-700 transition-colors"

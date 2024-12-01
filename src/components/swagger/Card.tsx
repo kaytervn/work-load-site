@@ -10,7 +10,7 @@ import RadioButtons from "../RadioButtons";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { truncateString, updateItemInStorage } from "../../types/utils";
-import { GORGEOUS_SWAGGER } from "../../types/constant";
+import { GORGEOUS_SWAGGER } from "../../types/pageConfig";
 
 const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
   const [initialValue, setInitialValue] = useState<any>(null);
@@ -53,7 +53,7 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
         isInit: true,
       };
     }
-    updateItemInStorage(GORGEOUS_SWAGGER, updatedItem, item.id);
+    updateItemInStorage(GORGEOUS_SWAGGER.name, updatedItem, item.id);
   };
   return (
     <div className="bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl shadow-lg border border-gray-100">

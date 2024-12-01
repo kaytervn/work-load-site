@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { GORGEOUS_SWAGGER } from "../types/constant";
 import {
   addItemToStorage,
   deleteItemFromStorage,
@@ -29,6 +28,7 @@ import ImportCollection from "../components/swagger/ImportCollection";
 import CollectionForm from "../components/swagger/CollectionForm";
 import useModal from "../hooks/useModal";
 import Sidebar from "../components/Sidebar";
+import { GORGEOUS_SWAGGER } from "../types/pageConfig";
 
 const GorgeousSwagger = () => {
   const { isDialogVisible, showDialog, hideDialog, dialogConfig } = useDialog();
@@ -46,13 +46,13 @@ const GorgeousSwagger = () => {
   const size = 6;
 
   useEffect(() => {
-    document.title = "Gorgeous Swagger";
+    document.title = GORGEOUS_SWAGGER.label;
     fetchData(0, searchValue);
   }, []);
 
   const fetchData = (page: number, search: string) => {
     let { items, totalPages } = getPaginatedStorageData(
-      GORGEOUS_SWAGGER,
+      GORGEOUS_SWAGGER.name,
       page,
       size,
       "collectionName",
@@ -62,7 +62,7 @@ const GorgeousSwagger = () => {
     if (items.length === 0 && newPage > 0) {
       newPage = totalPages - 1;
       ({ items, totalPages } = getPaginatedStorageData(
-        GORGEOUS_SWAGGER,
+        GORGEOUS_SWAGGER.name,
         newPage,
         size,
         "collectionName",
@@ -95,14 +95,14 @@ const GorgeousSwagger = () => {
 
   const handleDelete = (id: any) => {
     hideDialog();
-    deleteItemFromStorage(GORGEOUS_SWAGGER, id);
+    deleteItemFromStorage(GORGEOUS_SWAGGER.name, id);
     toast.success("Collection deleted successfully");
     fetchData(currentPage, searchValue);
   };
 
   const handleConvert = async (id: any) => {
     showLoading();
-    const item = getItemById(GORGEOUS_SWAGGER, id);
+    const item = getItemById(GORGEOUS_SWAGGER.name, id);
     const url = item.local?.isInit
       ? `${item.local.url}/v2/api-docs`
       : `${item.remote?.url}/v2/api-docs`;
@@ -140,7 +140,7 @@ const GorgeousSwagger = () => {
   };
 
   const handleDeleteAllDialog = () => {
-    const count = getStorageData(GORGEOUS_SWAGGER).length;
+    const count = getStorageData(GORGEOUS_SWAGGER.name).length;
     if (!count) {
       toast.warning("There is no collection to delete");
       return;
@@ -154,7 +154,7 @@ const GorgeousSwagger = () => {
       color: "red",
       onConfirm: () => {
         hideDialog();
-        initializeStorage(GORGEOUS_SWAGGER, []);
+        initializeStorage(GORGEOUS_SWAGGER.name, []);
         fetchData(0, "");
         toast.success(`Deleted ${count} collections`);
       },
@@ -187,7 +187,7 @@ const GorgeousSwagger = () => {
       color: "gray",
       buttonText: "CREATE",
       onButtonClick: (formattedItem: any) => {
-        addItemToStorage(GORGEOUS_SWAGGER, formattedItem);
+        addItemToStorage(GORGEOUS_SWAGGER.name, formattedItem);
         toast.success("Collection created successfully");
         hideModal();
         fetchData(0, "");
@@ -204,7 +204,7 @@ const GorgeousSwagger = () => {
   };
 
   const onUpdateButtonClick = (id: any) => {
-    const item = getItemById(GORGEOUS_SWAGGER, id);
+    const item = getItemById(GORGEOUS_SWAGGER.name, id);
     const requests = [];
     if (item.requests?.length > 0) {
       for (const i in item.requests) {
@@ -228,7 +228,7 @@ const GorgeousSwagger = () => {
       color: "blue",
       buttonText: "UPDATE",
       onButtonClick: (formattedItem: any) => {
-        overwriteItemInStorage(GORGEOUS_SWAGGER, formattedItem);
+        overwriteItemInStorage(GORGEOUS_SWAGGER.name, formattedItem);
         toast.success("Collection updated successfully");
         hideModal();
         fetchData(currentPage, searchValue);
@@ -248,7 +248,7 @@ const GorgeousSwagger = () => {
 
   return (
     <Sidebar
-      activeItem={GORGEOUS_SWAGGER}
+      activeItem={GORGEOUS_SWAGGER.name}
       renderContent={
         <>
           <Header
@@ -258,7 +258,7 @@ const GorgeousSwagger = () => {
               setImportModalVisible(true);
             }}
             onExport={() => {
-              onExportButtonClick(getStorageData(GORGEOUS_SWAGGER));
+              onExportButtonClick(getStorageData(GORGEOUS_SWAGGER.name));
             }}
             SearchBoxes={
               <InputBox
@@ -277,7 +277,9 @@ const GorgeousSwagger = () => {
                     key={item.id}
                     item={item}
                     onExport={(id: any) => {
-                      onExportButtonClick([getItemById(GORGEOUS_SWAGGER, id)]);
+                      onExportButtonClick([
+                        getItemById(GORGEOUS_SWAGGER.name, id),
+                      ]);
                     }}
                     onUpdate={(id: any) => {
                       onUpdateButtonClick(id);

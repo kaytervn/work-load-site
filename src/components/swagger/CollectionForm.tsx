@@ -9,11 +9,13 @@ import ListRequestsComponent from "./ListRequestsComponent";
 import {
   generateUniqueId,
   getItemById,
-  getNewCollectionName,
   getRandomColor,
-  mapCollectionRequests,
 } from "../../types/utils";
-import { GORGEOUS_SWAGGER } from "../../types/constant";
+import { GORGEOUS_SWAGGER } from "../../types/pageConfig";
+import {
+  getNewCollectionName,
+  mapCollectionRequests,
+} from "../../services/SwaggerService";
 
 const CollectionForm = ({ isVisible, hideModal, formConfig }: any) => {
   const validate = (form: any) => {
@@ -65,7 +67,7 @@ const CollectionForm = ({ isVisible, hideModal, formConfig }: any) => {
   }, [isVisible]);
 
   const getNewName = (newName: string) => {
-    const col = getItemById(GORGEOUS_SWAGGER, form.id);
+    const col = getItemById(GORGEOUS_SWAGGER.name, form.id);
     if (col.collectionName.toLowerCase() !== newName.toLowerCase()) {
       return getNewCollectionName(newName);
     }

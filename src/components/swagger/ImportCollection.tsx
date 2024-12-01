@@ -3,7 +3,7 @@ import CustomModal from "../CustomModal";
 import TextareaField from "../TextareaField";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { importCollectionData } from "../../types/utils";
+import { importCollectionData } from "../../services/SwaggerService";
 
 const ImportCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
   const validate = (form: any) => {
