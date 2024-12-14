@@ -9,7 +9,7 @@ import {
   ChevronUpIcon,
   FolderCodeIcon,
   BookTextIcon,
-  ShieldCheckIcon,
+  ContainerIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "./GlobalProvider";
@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import {
   CRUD_GENERATOR,
   GORGEOUS_SWAGGER,
-  SEQUENCE_ACTIVATOR,
+  DOCUMENT_TOOLS,
 } from "../types/pageConfig";
 
 const Sidebar = ({ activeItem, renderContent }: any) => {
@@ -56,10 +56,10 @@ const Sidebar = ({ activeItem, renderContent }: any) => {
       icon: <BookTextIcon size={20} />,
       items: [
         {
-          name: SEQUENCE_ACTIVATOR.name,
-          label: SEQUENCE_ACTIVATOR.label,
-          icon: <ShieldCheckIcon size={20} />,
-          path: SEQUENCE_ACTIVATOR.path,
+          name: DOCUMENT_TOOLS.name,
+          label: DOCUMENT_TOOLS.label,
+          icon: <ContainerIcon size={20} />,
+          path: DOCUMENT_TOOLS.path,
         },
       ],
     },

@@ -4,17 +4,30 @@ import {
   defaultLong,
   defaultNoAuth,
   defaultPageSize,
-  defaultTenantHeader,
 } from "./constant";
-import { Request } from "./interfaces";
+import { Header, Request } from "./interfaces";
 import { getRandomQuote } from "./quotes";
 import { getCurrentDate, getCurrentDate_2 } from "./utils";
 
 const transformJson = (json: any, swaggerCollection: any) => {
   const output = createBaseStructure(swaggerCollection);
   const { local, remote, requests } = swaggerCollection;
-  if (local) addControllerItems(json, output.item[0], "localUrl", requests);
-  if (remote) addControllerItems(json, output.item[1], "remoteUrl", requests);
+  if (local)
+    addControllerItems(
+      json,
+      output.item[0],
+      "localUrl",
+      requests,
+      local.headers || []
+    );
+  if (remote)
+    addControllerItems(
+      json,
+      output.item[1],
+      "remoteUrl",
+      requests,
+      remote.headers || []
+    );
   output.item = output.item.filter((item) => item.item.length > 0);
   return output;
 };
@@ -72,7 +85,8 @@ const addControllerItems = (
   json: any,
   baseItem: any,
   urlKey: string,
-  requests: Request[]
+  requests: Request[],
+  headers: Header[]
 ) => {
   const controllerItems: Record<string, any> = {};
   Object.entries(json.paths).forEach(([path, methods]: [string, any]) => {
@@ -87,34 +101,36 @@ const addControllerItems = (
         method,
         path.replace("{id}", `${defaultLong}`),
         operation,
-        urlKey
+        urlKey,
+        headers
       );
       const item = { name: operation.summary, request };
       addEventScripts(item, controllerName, operation, method);
       controllerItems[controllerName].item.push(item);
     });
   });
-  addAdditionalRequestItem(baseItem, urlKey);
+  addAdditionalRequestItem(baseItem, urlKey, headers);
   if (requests?.length > 0) {
-    addCustomRequestItem(baseItem, urlKey, requests);
+    addCustomRequestItem(baseItem, urlKey, requests, headers);
   }
 };
 
 const addCustomRequestItem = (
   baseItem: any,
   urlKey: string,
-  requests: Request[]
+  requests: Request[],
+  headers: Header[]
 ) => {
-  const folder = {
-    name: "custom-requests",
-    item: <any>[],
-  };
+  const folders = <any>[];
+  requests.forEach((item: any) => {
+    folders.push({ name: item.folder, item: <any>[] });
+  });
   requests.forEach(
-    ({ name, path, preScript, postScript, method, authKind, body }) => {
+    ({ name, path, preScript, postScript, method, authKind, body, folder }) => {
       const header = [
         { key: "Accept", value: "application/json" },
         { key: "Content-Type", value: "application/json" },
-        ...defaultTenantHeader,
+        ...headers,
       ];
       const [pathPart, queryString] = path.split("?");
       const event: any = [];
@@ -168,13 +184,26 @@ const addCustomRequestItem = (
         };
       }
       request.header = header;
-      folder.item.push(newItem);
+      for (const f of folders) {
+        if (folder === f.name) {
+          f.item.push(newItem);
+          break;
+        }
+      }
     }
   );
-  baseItem.item.push(folder);
+  folders.forEach((f: any) => {
+    if (f.item.length > 0) {
+      baseItem.item.push(f);
+    }
+  });
 };
 
-const addAdditionalRequestItem = (baseItem: any, urlKey: string) => {
+const addAdditionalRequestItem = (
+  baseItem: any,
+  urlKey: string,
+  headers: Header[]
+) => {
   baseItem.item.push({
     name: "requestToken",
     event: [
@@ -192,7 +221,7 @@ const addAdditionalRequestItem = (baseItem: any, urlKey: string) => {
     request: {
       auth: defaultBasicAuth,
       method: "POST",
-      header: defaultTenantHeader,
+      header: headers,
       body: {
         mode: "raw",
         raw: JSON.stringify(
@@ -223,7 +252,7 @@ const addAdditionalRequestItem = (baseItem: any, urlKey: string) => {
           header: [
             { key: "Accept", value: "application/json" },
             { key: "Content-Type", value: "application/json" },
-            ...defaultTenantHeader,
+            ...headers,
           ],
           body: {
             mode: "raw",
@@ -265,10 +294,7 @@ const addAdditionalRequestItem = (baseItem: any, urlKey: string) => {
         ],
         request: {
           method: "GET",
-          header: [
-            { key: "Accept", value: "application/json" },
-            ...defaultTenantHeader,
-          ],
+          header: [{ key: "Accept", value: "application/json" }, ...headers],
           url: {
             raw: `{{${urlKey}}}/v1/permission/list`,
             host: [`{{${urlKey}}}`],
@@ -285,14 +311,12 @@ const createRequest = (
   method: string,
   path: string,
   operation: any,
-  urlKey: string
+  urlKey: string,
+  headers: Header[]
 ) => {
   const request: any = {
     method: method.toUpperCase(),
-    header: [
-      { key: "Accept", value: "application/json" },
-      ...defaultTenantHeader,
-    ],
+    header: [{ key: "Accept", value: "application/json" }, ...headers],
     url: {
       raw: `{{${urlKey}}}${path}`,
       host: [`{{${urlKey}}}`],

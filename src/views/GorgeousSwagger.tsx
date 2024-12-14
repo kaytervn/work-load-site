@@ -196,8 +196,10 @@ const GorgeousSwagger = () => {
         collectionName: "",
         localUrl: "",
         localIsChecked: false,
+        localHeaders: [],
         remoteUrl: "",
         remoteIsChecked: false,
+        remoteHeaders: [],
         requests: [],
       },
     });
@@ -219,7 +221,22 @@ const GorgeousSwagger = () => {
           postScriptIsChecked: req.postScript ? true : false,
           path: req.path,
           authKind: req.authKind || "0",
+          folder: req.folder || "custom-requests",
         });
+      }
+    }
+    const localHeaders = [];
+    if (item.local?.headers?.length > 0) {
+      for (const i in item.local.headers) {
+        const head = item.local.headers[i];
+        localHeaders.push({ key: head.key, value: head.value });
+      }
+    }
+    const remoteHeaders = [];
+    if (item.remote?.headers?.length > 0) {
+      for (const i in item.remote.headers) {
+        const head = item.remote.headers[i];
+        remoteHeaders.push({ key: head.key, value: head.value });
       }
     }
     showModal({
@@ -238,8 +255,10 @@ const GorgeousSwagger = () => {
         collectionName: item.collectionName,
         localUrl: item.local ? item.local.url : "",
         localIsChecked: item.local ? true : false,
+        localHeaders,
         remoteUrl: item.remote ? item.remote.url : "",
         remoteIsChecked: item.remote ? true : false,
+        remoteHeaders,
         createdAt: item.createdAt,
         requests: requests,
       },
@@ -302,7 +321,6 @@ const GorgeousSwagger = () => {
           ) : (
             <NoData />
           )}
-          <LoadingDialog isVisible={isLoading} />
           <ToastContainer position="bottom-right" style={{ width: "400px" }} />
           <ConfirmationDialog
             isVisible={isDialogVisible}
@@ -335,6 +353,7 @@ const GorgeousSwagger = () => {
             setVisible={setImportModalVisible}
             onButtonClick={handleImport}
           />
+          <LoadingDialog isVisible={isLoading} />
         </>
       }
     ></Sidebar>

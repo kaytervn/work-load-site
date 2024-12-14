@@ -23,7 +23,7 @@ const ImportCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
       );
       onButtonClick();
     } else {
-      toast.error("Please enter the correct information");
+      toast.error("Please enter valid information");
     }
   };
   useEffect(() => {
@@ -45,7 +45,7 @@ const ImportCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
           onChangeText={(value: any) => handleChange("data", value)}
           error={errors.data}
           minRows={10}
-          maxHeight={800}
+          maxHeight={100000}
         />
       }
       buttonText="SUBMIT"

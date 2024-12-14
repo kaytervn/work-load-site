@@ -1,15 +1,16 @@
 import { useEffect } from "react";
-import useForm from "../../hooks/useForm";
-import { PathPattern } from "../../types/constant";
-import CodeMirrorInput from "../CodeMirrorInput";
-import CodeMirrorWithCheckbox from "../CodeMirrorWithCheckbox";
-import CustomModal from "../CustomModal";
-import InputFieldWithoutTitle from "../InputFieldWithoutTitle";
-import SelectFieldWithoutTitle from "../SelectFieldWithoutTitle";
+import useForm from "../../../hooks/useForm";
+import { PathPattern } from "../../../types/constant";
+import CodeMirrorInput from "../../CodeMirrorInput";
+import CodeMirrorWithCheckbox from "../../CodeMirrorWithCheckbox";
+import CustomModal from "../../CustomModal";
+import InputFieldWithoutTitle from "../../InputFieldWithoutTitle";
+import SelectFieldWithoutTitle from "../../SelectFieldWithoutTitle";
 import { toast } from "react-toastify";
 import { FolderPenIcon, LinkIcon } from "lucide-react";
+import SearchField from "../../SearchField";
 
-const RequestForm = ({ isVisible, hideModal, formConfig }: any) => {
+const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
   const validate = (form: any) => {
     const newErrors: any = {};
     if (!form.name.trim()) {
@@ -46,7 +47,7 @@ const RequestForm = ({ isVisible, hideModal, formConfig }: any) => {
     if (isValidForm()) {
       formConfig.onButtonClick(form);
     } else {
-      toast.error("Please enter the correct information");
+      toast.error("Please enter valid information");
     }
   };
 
@@ -60,6 +61,14 @@ const RequestForm = ({ isVisible, hideModal, formConfig }: any) => {
       title={formConfig.title}
       bodyComponent={
         <div className="space-y-4">
+          <SearchField
+            title="Folder name"
+            isRequire={true}
+            value={form.folder}
+            options={folders}
+            onChange={(value: any) => handleChange("folder", value)}
+            error={errors?.folder}
+          />
           <div className="flex-1 mb-2">
             <div className="flex items-center space-x-2 justify-center">
               <InputFieldWithoutTitle

@@ -5,12 +5,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { CheckCircleIcon, CopyIcon } from "lucide-react";
 import { getCurrentDate_2 } from "../../types/utils";
 
-const ExportCollection = ({
-  isVisible,
-  setVisible,
-  text,
-  onButtonClick,
-}: any) => {
+const ProcessedUML = ({ isVisible, setVisible, text }: any) => {
   if (!isVisible) return null;
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
@@ -24,20 +19,20 @@ const ExportCollection = ({
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `swagger_${getCurrentDate_2()}.txt`;
+    link.download = `sequence_${getCurrentDate_2()}.puml`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
     toast.success("File downloaded successfully");
-    onButtonClick();
+    setVisible(false);
   };
 
   return (
     <CustomModal
       color="gray"
       onClose={() => setVisible(false)}
-      title="Export Data"
+      title="Process Sequence UML"
       bodyComponent={
         <div className="relative font-mono text-sm">
           <div className="absolute top-2 right-2">
@@ -78,4 +73,4 @@ const ExportCollection = ({
   );
 };
 
-export default ExportCollection;
+export default ProcessedUML;

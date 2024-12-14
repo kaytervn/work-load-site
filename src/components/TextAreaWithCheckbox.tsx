@@ -7,7 +7,6 @@ const TextAreaWithCheckbox = ({
   isChecked = false,
   onCheckboxChange,
   maxLength,
-  maxHeight = "120px",
 }: any) => {
   return (
     <div className="mb-4">
@@ -53,7 +52,6 @@ const TextAreaWithCheckbox = ({
                 value={value}
                 maxLength={maxLength}
                 onChange={(e) => onChangeText(e.target.value)}
-                style={{ height: maxHeight }}
               />
             </div>
           </div>

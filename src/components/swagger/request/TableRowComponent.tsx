@@ -1,6 +1,6 @@
 import { PencilIcon, TrashIcon } from "lucide-react";
-import useDialog from "../../hooks/useDialog";
-import { ConfirmationDialog } from "../Dialog";
+import useDialog from "../../../hooks/useDialog";
+import { ConfirmationDialog } from "../../Dialog";
 
 const TableRowComponent = ({
   handleEditRequest,
@@ -31,15 +31,14 @@ const TableRowComponent = ({
           {requests.map((item: any, index: any) => (
             <tr
               key={index}
-              className="border-t hover:bg-gray-50 transition-colors duration-200"
+              className="border-gray-100 border-t hover:bg-gray-50 transition-colors duration-200"
             >
-              <td className="p-4 text-start">{index + 1}</td>
               {columns.map((col: any) => (
-                <td key={col.accessor} className={`p-4 text-${col.align}`}>
+                <td key={col.accessor} className={`p-2 text-${col.align}`}>
                   {col.render ? col.render(item) : item[col.accessor]}
                 </td>
               ))}
-              <td className="py-2 text-end pr-1">
+              <td className="py-1 text-end pr-1">
                 <div className="flex justify-end space-x-1">
                   <button
                     className={`p-2 text-blue-500 hover:text-blue-700 rounded-full hover:bg-blue-100 transition duration-200 ease-in-out flex items-center justify-center`}

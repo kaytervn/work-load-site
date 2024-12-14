@@ -29,6 +29,7 @@ const mapCollectionRequests = (requests: any) => {
       postScriptIsChecked,
       postScript,
       authKind,
+      folder,
     }: any) => ({
       name,
       method,
@@ -37,6 +38,7 @@ const mapCollectionRequests = (requests: any) => {
       ...(preScriptIsChecked && { preScript }),
       ...(postScriptIsChecked && { postScript }),
       authKind: authKind || "0",
+      folder: folder || "custom-requests",
     })
   );
 };
@@ -62,4 +64,20 @@ const importCollectionData = (data: string) => {
   }
 };
 
-export { mapCollectionRequests, importCollectionData, getNewCollectionName };
+const getUniqueFolders = (requests: any) => {
+  const folderSet = new Set<string>();
+  folderSet.add("custom-requests");
+  requests.forEach((request: any) => {
+    if (request.folder) {
+      folderSet.add(request.folder);
+    }
+  });
+  return Array.from(folderSet);
+};
+
+export {
+  mapCollectionRequests,
+  importCollectionData,
+  getNewCollectionName,
+  getUniqueFolders,
+};

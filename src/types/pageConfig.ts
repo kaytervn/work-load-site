@@ -10,10 +10,10 @@ const CRUD_GENERATOR = {
   path: "/crud-generator",
 };
 
-const SEQUENCE_ACTIVATOR = {
-  name: "SEQUENCE_ACTIVATOR",
-  label: "Sequence Activator",
-  path: "/sequence-activator",
+const DOCUMENT_TOOLS = {
+  name: "DOCUMENT_TOOLS",
+  label: "Docs Tools",
+  path: "/docs-tools",
 };
 
-export { GORGEOUS_SWAGGER, CRUD_GENERATOR, SEQUENCE_ACTIVATOR };
+export { GORGEOUS_SWAGGER, CRUD_GENERATOR, DOCUMENT_TOOLS };

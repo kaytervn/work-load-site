@@ -6,6 +6,12 @@ interface Request {
   preScript: string;
   postScript: string;
   authKind: string;
+  folder: string;
+}
+
+interface Header {
+  key: string;
+  value: string;
 }
 
 interface SwaggerCollection {
@@ -14,14 +20,16 @@ interface SwaggerCollection {
   local: {
     url: string;
     isInit: boolean;
+    headers: Header[];
   };
   remote: {
     url: string;
     isInit: boolean;
+    headers: Header[];
   };
   requests: Request[];
   color: string;
   createdAt: Date;
 }
 
-export type { SwaggerCollection, Request };
+export type { SwaggerCollection, Request, Header };

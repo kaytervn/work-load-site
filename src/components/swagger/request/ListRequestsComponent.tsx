@@ -1,8 +1,10 @@
-import { PlusIcon } from "lucide-react";
-import TableRowComponent from "./TableRowComponent";
+import { FolderIcon, PlusIcon } from "lucide-react";
 import RequestForm from "./RequestForm";
-import useModal from "../../hooks/useModal";
+import useModal from "../../../hooks/useModal";
 import { toast } from "react-toastify";
+import TableRowComponent from "./TableRowComponent";
+import { getUniqueFolders } from "../../../services/SwaggerService";
+import { truncateString } from "../../../types/utils";
 
 const ListRequestsComponent = ({
   handleAddRequest,
@@ -28,15 +30,23 @@ const ListRequestsComponent = ({
       accessor: "name",
       align: "left",
       render: (item: any) => (
-        <span className="space-x-2">
-          <span
-            className="mr-2"
-            style={{ color: getMethodColor(item.method), fontWeight: "bold" }}
-          >
-            {item.method.toUpperCase()}
-          </span>
-          <span>{item.name}</span>
-        </span>
+        <div className="flex items-center space-x-2">
+          <div className="flex items-center">
+            <div className="flex items-center mr-2 bg-gray-100 rounded-lg p-1">
+              <FolderIcon size={16} className="mr-1 text-gray-500" />
+              <span className="text-gray-700 font-medium">
+                {truncateString(item.folder, 20)}
+              </span>
+            </div>
+            <span
+              className="mr-2 font-bold"
+              style={{ color: getMethodColor(item.method) }}
+            >
+              {item.method.toUpperCase()}
+            </span>
+            <span>{truncateString(item.name, 30)}</span>
+          </div>
+        </div>
       ),
     },
   ];
@@ -61,6 +71,7 @@ const ListRequestsComponent = ({
         postScript: "",
         postScriptIsChecked: false,
         authKind: "0",
+        folder: "custom-requests",
       },
     });
   };
@@ -75,7 +86,7 @@ const ListRequestsComponent = ({
         hideModal();
         toast.success("Request edited successfully");
       },
-      initForm: request,
+      initForm: { ...request },
     });
   };
 
@@ -85,7 +96,7 @@ const ListRequestsComponent = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <label className="text-base font-semibold text-gray-800">
-              Custom Requests
+              Requests
             </label>
             {requests.length > 0 && (
               <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
@@ -114,6 +125,7 @@ const ListRequestsComponent = ({
         isVisible={isModalVisible}
         hideModal={hideModal}
         formConfig={formConfig}
+        folders={getUniqueFolders(requests)}
       />
     </>
   );
