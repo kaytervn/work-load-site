@@ -48,7 +48,7 @@ const ListHeadersComponent = ({ handleAdd, handleRemove, headers }: any) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <label className="text-base font-semibold text-red-800">
-              Headers
+              Header(s)
             </label>
             {headers.length > 0 && (
               <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
@@ -58,7 +58,7 @@ const ListHeadersComponent = ({ handleAdd, handleRemove, headers }: any) => {
           </div>
           <button
             onClick={onAddButtonClick}
-            className="border border-red-500 border-dashed hover:border-red-800 text-red-500 py-1 px-2 rounded-lg flex items-center transition duration-300 ease-in-out hover:bg-red-500 hover:text-white"
+            className="border border-red-500 border-dashed hover:border-red-800 text-red-500 py-1 px-2 rounded-lg flex items-center transition duration-300 ease-in-out hover:text-red-800"
           >
             <PlusIcon size={20} className="mr-2" />
             Add

@@ -31,21 +31,19 @@ const ListRequestsComponent = ({
       align: "left",
       render: (item: any) => (
         <div className="flex items-center space-x-2">
-          <div className="flex items-center">
-            <div className="flex items-center mr-2 bg-gray-100 rounded-lg p-1">
-              <FolderIcon size={16} className="mr-1 text-gray-500" />
-              <span className="text-gray-700 font-medium">
-                {truncateString(item.folder, 20)}
-              </span>
-            </div>
-            <span
-              className="mr-2 font-bold"
-              style={{ color: getMethodColor(item.method) }}
-            >
-              {item.method.toUpperCase()}
+          <div className="flex items-center bg-gray-100 rounded-lg p-1">
+            <FolderIcon size={16} className="mr-1 text-gray-500" />
+            <span className="text-gray-700 font-medium">
+              {truncateString(item.folder, 20)}
             </span>
-            <span>{truncateString(item.name, 30)}</span>
           </div>
+          <span
+            className="mr-2 font-bold"
+            style={{ color: getMethodColor(item.method) }}
+          >
+            {item.method.toUpperCase()}
+          </span>
+          <span>{truncateString(item.name, 30)}</span>
         </div>
       ),
     },
@@ -96,7 +94,7 @@ const ListRequestsComponent = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <label className="text-base font-semibold text-gray-800">
-              Requests
+              Request(s)
             </label>
             {requests.length > 0 && (
               <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">

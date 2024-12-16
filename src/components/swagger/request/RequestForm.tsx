@@ -62,7 +62,7 @@ const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
       bodyComponent={
         <div className="space-y-4">
           <SearchField
-            title="Folder name"
+            title="Folder Name"
             isRequire={true}
             value={form.folder}
             options={folders}
