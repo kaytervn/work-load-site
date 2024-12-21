@@ -1,5 +1,6 @@
 import {
   defaultBasicAuth,
+  defaultDouble,
   defaultInteger,
   defaultLong,
   defaultNoAuth,
@@ -356,6 +357,8 @@ const getQueryParamValue = (param: any) => {
   if (param.name === "pageSize") return `${defaultPageSize}`;
   if (param.format === "int64") return `${defaultLong}`;
   if (param.format === "int32") return `${defaultInteger}`;
+  if (param.format === "double" || param.format === "float")
+    return `${defaultDouble}`;
   if (param.format === "date-time") return getCurrentDate();
   return `${param.type}`;
 };
@@ -408,6 +411,8 @@ const getPropertyValue = (value: any) => {
   if (value.type === "boolean") return true;
   if (value.format === "int64") return defaultLong;
   if (value.format === "int32") return defaultInteger;
+  if (value.format === "double" || value.format === "float")
+    return defaultDouble;
   if (value.type === "array") return [];
   return `${value.type}`;
 };
