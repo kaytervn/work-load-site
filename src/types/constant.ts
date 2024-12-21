@@ -33,7 +33,7 @@ const PathPattern = /^\/([a-zA-Z0-9_-]+\/)*([a-zA-Z0-9_-]+)(\?[^#]*)?$/;
 const HeaderPattern = /^[a-zA-Z0-9-]+$/;
 const defaultInteger = 0;
 const defaultLong = 6969696969696969;
-const defaultDouble = 0.0;
+const defaultDouble = 0.1;
 const defaultPageSize = 20;
 const defaultBasicAuth = {
   type: "basic",
