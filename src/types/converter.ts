@@ -359,6 +359,7 @@ const getQueryParamValue = (param: any) => {
   if (param.format === "int32") return `${defaultInteger}`;
   if (param.format === "double" || param.format === "float")
     return `${defaultDouble}`;
+  if (param.type === "boolean") return true;
   if (param.format === "date-time") return getCurrentDate();
   return `${param.type}`;
 };
