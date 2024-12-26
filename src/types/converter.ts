@@ -223,8 +223,9 @@ const addAdditionalRequestItem = (
         listen: "test",
         script: {
           exec: [
-            "const { access_token } = pm.response.json();",
+            "const { access_token, tenant_name } = pm.response.json();",
             "if (access_token) pm.collectionVariables.set('accessToken', access_token);",
+            "if (tenant_name) pm.collectionVariables.set('remoteTenantId', tenant_name);",
           ],
           type: "text/javascript",
         },
