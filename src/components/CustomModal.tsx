@@ -11,7 +11,7 @@ const CustomModal = ({
 }: any) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl p-4 m-4 md:p-6 relative w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-white rounded-lg shadow-xl p-4 m-4 md:p-6 relative w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
         <div className="flex items-center justify-between mb-6">
           <h2
             className={`text-xl md:text-2xl font-bold text-center text-${color}-500`}

@@ -30,6 +30,7 @@ const mapCollectionRequests = (requests: any) => {
       postScript,
       authKind,
       folder,
+      host,
     }: any) => ({
       name,
       method,
@@ -39,6 +40,7 @@ const mapCollectionRequests = (requests: any) => {
       ...(postScriptIsChecked && { postScript }),
       authKind: authKind || "0",
       folder: folder || "custom-requests",
+      host: host || "",
     })
   );
 };

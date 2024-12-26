@@ -70,6 +70,8 @@ const ListRequestsComponent = ({
         postScriptIsChecked: false,
         authKind: "0",
         folder: "custom-requests",
+        isCustomHost: "0",
+        host: "",
       },
     });
   };
@@ -84,7 +86,10 @@ const ListRequestsComponent = ({
         hideModal();
         toast.success("Request edited successfully");
       },
-      initForm: { ...request },
+      initForm: {
+        ...request,
+        isCustomHost: request.host.trim() ? "1" : "0",
+      },
     });
   };
 

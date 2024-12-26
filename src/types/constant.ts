@@ -29,6 +29,7 @@ const colors = [
   "#2A4F4F",
 ];
 
+const HostPattern = /^(?:https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/;
 const PathPattern = /^\/([a-zA-Z0-9_-]+\/)*([a-zA-Z0-9_-]+)(\?[^#]*)?$/;
 const HeaderPattern = /^[a-zA-Z0-9-]+$/;
 const defaultInteger = 0;
@@ -74,4 +75,5 @@ export {
   PathPattern,
   defaultNoAuth,
   HeaderPattern,
+  HostPattern,
 };

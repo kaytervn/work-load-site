@@ -7,6 +7,7 @@ interface Request {
   postScript: string;
   authKind: string;
   folder: string;
+  host: string;
 }
 
 interface Header {

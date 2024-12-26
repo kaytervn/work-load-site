@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import useForm from "../../../hooks/useForm";
-import { PathPattern } from "../../../types/constant";
+import { HostPattern, PathPattern } from "../../../types/constant";
 import CodeMirrorInput from "../../CodeMirrorInput";
 import CodeMirrorWithCheckbox from "../../CodeMirrorWithCheckbox";
 import CustomModal from "../../CustomModal";
 import InputFieldWithoutTitle from "../../InputFieldWithoutTitle";
 import SelectFieldWithoutTitle from "../../SelectFieldWithoutTitle";
 import { toast } from "react-toastify";
-import { FolderPenIcon, LinkIcon } from "lucide-react";
+import { FolderPenIcon, LinkIcon, RouterIcon } from "lucide-react";
 import SearchField from "../../SearchField";
 
 const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
@@ -16,10 +16,20 @@ const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
     if (!form.name.trim()) {
       newErrors.name = "Name is required";
     }
-    if (!form.path.trim()) {
-      newErrors.path = "Path is required";
-    } else if (!PathPattern.test(form.path)) {
-      newErrors.path = "Path is invalid";
+    if (form.isCustomHost === "0") {
+      if (!form.path.trim()) {
+        newErrors.path = "Path is required";
+      } else if (!PathPattern.test(form.path)) {
+        newErrors.path = "Path is invalid";
+      }
+    } else if (
+      !form.path.trim() ||
+      !PathPattern.test(form.path) ||
+      !form.host.trim() ||
+      !HostPattern.test(form.host)
+    ) {
+      newErrors.path = "Custom host path and path are invalid";
+      newErrors.host = "Custom host path and path are invalid";
     }
     if (form.method === "post" || form.method === "put") {
       if (!form.body.trim()) {
@@ -42,6 +52,10 @@ const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
     setForm(formConfig.initForm);
     setErrors({});
   }, [isVisible]);
+
+  useEffect(() => {
+    setErrors({ ...errors, host: "", path: "" });
+  }, [form.isCustomHost, form.host, form.path]);
 
   const handleSubmit = async () => {
     if (isValidForm()) {
@@ -89,6 +103,16 @@ const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
                 valueKey="value"
                 onChange={(value: any) => handleChange("authKind", value)}
               />
+              <SelectFieldWithoutTitle
+                value={form.isCustomHost}
+                options={[
+                  { value: "0", name: "Base Host", color: "#B91C1C" },
+                  { value: "1", name: "Custom Host", color: "#E67E22" },
+                ]}
+                labelKey="name"
+                valueKey="value"
+                onChange={(value: any) => handleChange("isCustomHost", value)}
+              />
             </div>
             {errors?.name && (
               <p className="text-red-500 text-sm mt-1 text-left">
@@ -98,8 +122,17 @@ const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
           </div>
           <div className="flex-1 mb-2">
             <div className="flex items-center space-x-2">
+              {form.isCustomHost === "1" && (
+                <InputFieldWithoutTitle
+                  placeholder="Enter custom host path"
+                  value={form.host}
+                  icon={RouterIcon}
+                  onChangeText={(value: any) => handleChange("host", value)}
+                  error={errors?.host}
+                />
+              )}
               <InputFieldWithoutTitle
-                prepend="{{apiUrl}}"
+                prepend={form.isCustomHost === "0" ? "{{baseUrl}}" : undefined}
                 placeholder="Enter request path"
                 value={form.path}
                 icon={LinkIcon}

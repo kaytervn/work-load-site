@@ -221,6 +221,8 @@ const GorgeousSwagger = () => {
           postScriptIsChecked: req.postScript ? true : false,
           path: req.path,
           authKind: req.authKind || "0",
+          isCustomHost: req.host || "0",
+          host: req.host || "",
           folder: req.folder || "custom-requests",
         });
       }

@@ -124,10 +124,20 @@ const addCustomRequestItem = (
 ) => {
   const folders = <any>[];
   requests.forEach((item: any) => {
-    folders.push({ name: item.folder, item: <any>[] });
+    folders.push({ name: item.folder || "custom-requests", item: <any>[] });
   });
   requests.forEach(
-    ({ name, path, preScript, postScript, method, authKind, body, folder }) => {
+    ({
+      name,
+      path,
+      preScript,
+      postScript,
+      method,
+      authKind,
+      body,
+      folder,
+      host,
+    }) => {
       const header = [
         { key: "Accept", value: "application/json" },
         { key: "Content-Type", value: "application/json" },
@@ -147,11 +157,12 @@ const addCustomRequestItem = (
           script: { type: "text/javascript", exec: [postScript] },
         });
       }
+      const domain = host.trim() ? host : `{{${urlKey}}}`;
       const request: any = {
         method: method.toUpperCase(),
         url: {
-          raw: `{{${urlKey}}}${pathPart}`,
-          host: [`{{${urlKey}}}`],
+          raw: `${domain}${pathPart}`,
+          host: [`${domain}`],
           path: pathPart.split("/").filter(Boolean),
         },
       };
@@ -433,7 +444,7 @@ const addEventScripts = (
             "const { data } = pm.response.json();",
             "const ids = data?.content ? data.content.map(item => item.id) : [];",
             "pm.variables.set('ids', ids);",
-            "console.log(JSON.stringify(ids, null, 2));",
+            "pm.collectionVariables.set('temp_ids', ids);",
           ],
           type: "text/javascript",
         },
