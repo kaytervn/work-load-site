@@ -5,7 +5,12 @@ import TableRowComponentHeader from "./TableRowComponentHeader";
 import HeaderForm from "./HeaderForm";
 import { truncateString } from "../../../types/utils";
 
-const ListHeadersComponent = ({ handleAdd, handleRemove, headers }: any) => {
+const ListHeadersComponent = ({
+  handleAdd,
+  handleRemove,
+  handleEdit,
+  headers,
+}: any) => {
   const { isModalVisible, showModal, hideModal, formConfig } = useModal();
   const columns = [
     {
@@ -42,6 +47,22 @@ const ListHeadersComponent = ({ handleAdd, handleRemove, headers }: any) => {
     });
   };
 
+  const onEditButtonClick = (index: any, header: any) => {
+    showModal({
+      title: "Edit Header",
+      color: "blue",
+      buttonText: "EDIT",
+      onButtonClick: (header: any) => {
+        handleEdit(index, header);
+        hideModal();
+        toast.success("Header edited successfully");
+      },
+      initForm: {
+        ...header,
+      },
+    });
+  };
+
   return (
     <>
       <div className="space-y-4 border-t border-b py-4">
@@ -69,6 +90,7 @@ const ListHeadersComponent = ({ handleAdd, handleRemove, headers }: any) => {
             headers={headers}
             columns={columns}
             handleRemove={handleRemove}
+            handleEdit={onEditButtonClick}
           />
         )}
       </div>

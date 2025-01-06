@@ -4,7 +4,7 @@ const ToolCard = ({ item, onButtonClick }: any) => {
   return (
     <div className="bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl shadow-lg border border-gray-100">
       <div
-        className="h-48 relative flex flex-col justify-between p-4"
+        className="h-40 relative flex flex-col justify-between p-4"
         style={{
           background: `linear-gradient(45deg, ${item.color}, ${item.color}dd)`,
         }}

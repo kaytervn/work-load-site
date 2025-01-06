@@ -16,4 +16,29 @@ const DOCUMENT_TOOLS = {
   path: "/docs-tools",
 };
 
-export { GORGEOUS_SWAGGER, CRUD_GENERATOR, DOCUMENT_TOOLS };
+const SEQUENCE_ACTIVATOR = {
+  name: "SEQUENCE_ACTIVATOR",
+  label: "Sequence Activator",
+  path: "/sequence-activator",
+};
+
+const QR_GENERATOR = {
+  name: "QR_GENERATOR",
+  label: "QR Generator",
+  path: "/qr-generator",
+};
+
+const API_DOCS = {
+  name: "API_DOCS",
+  label: "API Docs",
+  path: "/api-docs",
+};
+
+export {
+  GORGEOUS_SWAGGER,
+  CRUD_GENERATOR,
+  DOCUMENT_TOOLS,
+  QR_GENERATOR,
+  SEQUENCE_ACTIVATOR,
+  API_DOCS,
+};

@@ -1,8 +1,13 @@
-import { TrashIcon } from "lucide-react";
+import { PencilIcon, TrashIcon } from "lucide-react";
 import useDialog from "../../../hooks/useDialog";
 import { ConfirmationDialog } from "../../Dialog";
 
-const TableRowComponentHeader = ({ handleRemove, headers, columns }: any) => {
+const TableRowComponentHeader = ({
+  handleEdit,
+  handleRemove,
+  headers,
+  columns,
+}: any) => {
   const { isDialogVisible, showDialog, hideDialog, dialogConfig } = useDialog();
 
   const handleDeleteDialog = (index: any) => {
@@ -34,7 +39,13 @@ const TableRowComponentHeader = ({ handleRemove, headers, columns }: any) => {
                 </td>
               ))}
               <td className="py-1 text-end pr-1">
-                <div className="flex justify-end">
+                <div className="flex justify-end space-x-1">
+                  <button
+                    className={`p-2 text-blue-500 hover:text-blue-700 rounded-full hover:bg-blue-100 transition duration-200 ease-in-out flex items-center justify-center`}
+                    onClick={() => handleEdit(index, headers[index])}
+                  >
+                    <PencilIcon size={16} />
+                  </button>
                   <button
                     className={`p-2 mr-2 text-red-500 hover:text-red-700 rounded-full hover:bg-red-100 transition duration-200 ease-in-out flex items-center justify-center`}
                     onClick={() => handleDeleteDialog(index)}

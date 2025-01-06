@@ -71,6 +71,22 @@ const CollectionForm = ({ isVisible, hideModal, formConfig }: any) => {
     toast.success("Remote header deleted successfully");
   };
 
+  const handleEditLocalHeader = (index: number, updatedHeader: any) => {
+    const headers = form.localHeaders.map((header: any, i: number) =>
+      i === index ? updatedHeader : header
+    );
+    headers.sort((a: any, b: any) => a.key.localeCompare(b.key));
+    setForm({ ...form, localHeaders: headers });
+  };
+
+  const handleEditRemoteHeader = (index: number, updatedHeader: any) => {
+    const headers = form.remoteHeaders.map((header: any, i: number) =>
+      i === index ? updatedHeader : header
+    );
+    headers.sort((a: any, b: any) => a.key.localeCompare(b.key));
+    setForm({ ...form, remoteHeaders: headers });
+  };
+
   const handleEditRequest = (index: any, updatedRequest: any) => {
     setForm((prevForm: any) => {
       const updatedRequests = prevForm.requests.map((item: any, i: number) =>
@@ -194,6 +210,7 @@ const CollectionForm = ({ isVisible, hideModal, formConfig }: any) => {
             <ListHeadersComponent
               handleAdd={handleAddLocalHeader}
               handleRemove={handleRemoveLocalHeader}
+              handleEdit={handleEditLocalHeader}
               headers={form.localHeaders}
             />
           )}
@@ -217,6 +234,7 @@ const CollectionForm = ({ isVisible, hideModal, formConfig }: any) => {
             <ListHeadersComponent
               handleAdd={handleAddRemoteHeader}
               handleRemove={handleRemoveRemoteHeader}
+              handleEdit={handleEditRemoteHeader}
               headers={form.remoteHeaders}
             />
           )}
