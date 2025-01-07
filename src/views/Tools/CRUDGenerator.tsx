@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Copy, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
 import { CRUD_GENERATOR, TOOLS } from "../../types/pageConfig";
@@ -15,6 +15,10 @@ const CRUDGenerator = () => {
     {}
   );
   const [openStates, setOpenStates] = useState<{ [key: string]: boolean }>({});
+
+  useEffect(() => {
+    document.title = CRUD_GENERATOR.label;
+  }, []);
 
   const handleGenerate = () => {
     const results = generateOutput(inputText);
