@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_DOCS, DOCUMENT_TOOLS } from "../../types/pageConfig";
+import { API_DOCS, TOOLS } from "../../types/pageConfig";
 import Breadcrumb from "../../components/Breadcrumb";
 import Sidebar from "../../components/Sidebar";
 import { convertJson } from "../../types/apidocs";
@@ -70,16 +70,18 @@ const APIDocs = () => {
 
   return (
     <Sidebar
-      activeItem={DOCUMENT_TOOLS.name}
+      activeItem={TOOLS.name}
       renderContent={
         <>
           <Breadcrumb
-            parentLabel={DOCUMENT_TOOLS.label}
+            parentLabel={TOOLS.label}
             childLabel={API_DOCS.label}
-            onClickParent={() => navigate(DOCUMENT_TOOLS.path)}
+            onClickParent={() => navigate(TOOLS.path)}
           />
-          <div className="mb-8">
-            <h1 className="text-2xl text-gray-900 mb-4">API Documentation</h1>
+          <div className="mb-8 max-w-6xl w-full mx-auto">
+            <h1 className="mb-4 text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              API Documentation
+            </h1>
             <div className="flex gap-4">
               <input
                 type="text"
@@ -100,7 +102,7 @@ const APIDocs = () => {
 
           {error && <div className="text-red-600 mb-4">{error}</div>}
 
-          <div className="space-y-6 [&_*]:font-['Times_New_Roman']">
+          <div className="space-y-6 [&_*]:font-['Times_New_Roman'] max-w-6xl w-full mx-auto">
             {apiContent.map((group, groupIndex) => (
               <div
                 key={groupIndex}
@@ -122,7 +124,7 @@ const APIDocs = () => {
                     {group.item.map((endpoint: any, endpointIndex: any) => (
                       <div
                         key={endpointIndex}
-                        className="border border-gray-200 rounded-lg p-4"
+                        className="border border-gray-300 rounded-lg p-4"
                       >
                         <p>
                           <b>Endpoint:</b> {endpoint.url}

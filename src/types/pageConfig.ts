@@ -10,10 +10,10 @@ const CRUD_GENERATOR = {
   path: "/crud-generator",
 };
 
-const DOCUMENT_TOOLS = {
-  name: "DOCUMENT_TOOLS",
-  label: "Docs Tools",
-  path: "/docs-tools",
+const TOOLS = {
+  name: "TOOLS",
+  label: "Tools",
+  path: "/tools",
 };
 
 const SEQUENCE_ACTIVATOR = {
@@ -34,11 +34,18 @@ const API_DOCS = {
   path: "/api-docs",
 };
 
+const GAMES = {
+  name: "GAMES",
+  label: "Games",
+  path: "/games",
+};
+
 export {
   GORGEOUS_SWAGGER,
   CRUD_GENERATOR,
-  DOCUMENT_TOOLS,
+  TOOLS,
   QR_GENERATOR,
   SEQUENCE_ACTIVATOR,
   API_DOCS,
+  GAMES,
 };

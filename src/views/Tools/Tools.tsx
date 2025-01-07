@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import {
   API_DOCS,
-  DOCUMENT_TOOLS,
+  TOOLS,
   QR_GENERATOR,
   SEQUENCE_ACTIVATOR,
+  CRUD_GENERATOR,
 } from "../../types/pageConfig";
 import NoData from "../../components/NoData";
 import ToolCard from "../../components/ToolCard";
 import Header from "../../components/swagger/Header";
 import InputBox from "../../components/InputBox";
 import {
+  CodeIcon,
   LifeBuoyIcon,
   QrCodeIcon,
   SearchIcon,
@@ -18,7 +20,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-function DocumentTools() {
+const Tools = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<any>([
     {
@@ -26,6 +28,12 @@ function DocumentTools() {
       icon: LifeBuoyIcon,
       color: "#2A4F4F",
       onButtonClick: () => navigate(API_DOCS.path),
+    },
+    {
+      label: CRUD_GENERATOR.label,
+      icon: CodeIcon,
+      color: "#8C4E4E",
+      onButtonClick: () => navigate(CRUD_GENERATOR.path),
     },
     {
       label: SEQUENCE_ACTIVATOR.label,
@@ -44,7 +52,7 @@ function DocumentTools() {
   const [filteredData, setFilteredData] = useState<any>(data);
 
   useEffect(() => {
-    document.title = DOCUMENT_TOOLS.label;
+    document.title = TOOLS.label;
   }, []);
 
   useEffect(() => {
@@ -61,7 +69,7 @@ function DocumentTools() {
 
   return (
     <Sidebar
-      activeItem={DOCUMENT_TOOLS.name}
+      activeItem={TOOLS.name}
       renderContent={
         <>
           <Header
@@ -91,6 +99,6 @@ function DocumentTools() {
       }
     />
   );
-}
+};
 
-export default DocumentTools;
+export default Tools;

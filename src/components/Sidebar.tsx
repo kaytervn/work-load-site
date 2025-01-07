@@ -10,14 +10,18 @@ import {
   FolderCodeIcon,
   BookTextIcon,
   ContainerIcon,
+  ScissorsIcon,
+  Gamepad2,
+  DraftingCompassIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "./GlobalProvider";
 import { useEffect, useState } from "react";
 import {
   CRUD_GENERATOR,
+  GAMES,
   GORGEOUS_SWAGGER,
-  DOCUMENT_TOOLS,
+  TOOLS,
 } from "../types/pageConfig";
 
 const Sidebar = ({ activeItem, renderContent }: any) => {
@@ -44,22 +48,22 @@ const Sidebar = ({ activeItem, renderContent }: any) => {
           path: GORGEOUS_SWAGGER.path,
         },
         {
-          name: CRUD_GENERATOR.name,
-          label: CRUD_GENERATOR.label,
-          icon: <CodeXmlIcon size={20} />,
-          path: CRUD_GENERATOR.path,
+          name: TOOLS.name,
+          label: TOOLS.label,
+          icon: <DraftingCompassIcon size={20} />,
+          path: TOOLS.path,
         },
       ],
     },
     {
-      name: "Document",
-      icon: <BookTextIcon size={20} />,
+      name: "Other",
+      icon: <ContainerIcon size={20} />,
       items: [
         {
-          name: DOCUMENT_TOOLS.name,
-          label: DOCUMENT_TOOLS.label,
-          icon: <ContainerIcon size={20} />,
-          path: DOCUMENT_TOOLS.path,
+          name: GAMES.name,
+          label: GAMES.label,
+          icon: <Gamepad2 size={20} />,
+          path: GAMES.path,
         },
       ],
     },

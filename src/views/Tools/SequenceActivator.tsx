@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Sidebar from "../../components/Sidebar";
-import { DOCUMENT_TOOLS, SEQUENCE_ACTIVATOR } from "../../types/pageConfig";
+import { TOOLS, SEQUENCE_ACTIVATOR } from "../../types/pageConfig";
 import { useEffect, useState } from "react";
 import { processPUML } from "../../types/sequence";
 import { CheckCircleIcon, CopyIcon } from "lucide-react";
@@ -26,13 +26,13 @@ const SequenceActivator: React.FC = () => {
 
   return (
     <Sidebar
-      activeItem={DOCUMENT_TOOLS.name}
+      activeItem={TOOLS.name}
       renderContent={
         <>
           <Breadcrumb
-            parentLabel={DOCUMENT_TOOLS.label}
+            parentLabel={TOOLS.label}
             childLabel={SEQUENCE_ACTIVATOR.label}
-            onClickParent={() => navigate(DOCUMENT_TOOLS.path)}
+            onClickParent={() => navigate(TOOLS.path)}
           />
           <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 w-full max-w-7xl mx-auto mt-10">
             <h1 className="text-3xl font-bold text-center text-blue-800 mb-6">
