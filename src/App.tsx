@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GorgeousSwagger from "./views/GorgeousSwagger";
 import CRUDGenerator from "./views/Tools/CRUDGenerator";
 import NotFound from "./views/NotFound";
@@ -19,7 +19,7 @@ import Games from "./views/Other/Games";
 
 const App = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path={GORGEOUS_SWAGGER.path} element={<GorgeousSwagger />} />
         <Route path={TOOLS.path} element={<Tools />} />
@@ -30,7 +30,7 @@ const App = () => {
         <Route path={GAMES.path} element={<Games />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
