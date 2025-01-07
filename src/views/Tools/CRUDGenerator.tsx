@@ -52,7 +52,7 @@ const CRUDGenerator = () => {
             onClickParent={() => navigate(TOOLS.path)}
           />
           <div className="p-6 space-y-6 max-w-6xl w-full mx-auto">
-            <div className="border border-gray-200 rounded-xl shadow-sm p-6 space-y-4">
+            <div className="rounded-xl shadow-sm p-6 space-y-4">
               <div className="text-center space-y-2">
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                   CRUD Generator
@@ -81,7 +81,7 @@ const CRUDGenerator = () => {
               {outputItems.map((item, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md"
+                  className="rounded-xl overflow-hidden shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md"
                 >
                   <div className="p-4 border-b flex justify-between items-center bg-gray-50">
                     <h2 className="text-lg font-semibold text-blue-800">
