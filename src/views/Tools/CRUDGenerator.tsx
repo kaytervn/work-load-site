@@ -80,7 +80,7 @@ const CRUDGenerator = () => {
                   className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md"
                 >
                   <div className="p-4 border-b flex justify-between items-center bg-gray-50">
-                    <h2 className="text-lg font-semibold text-gray-800">
+                    <h2 className="text-lg font-semibold text-blue-800">
                       {item.name}
                     </h2>
                     <button
@@ -102,7 +102,7 @@ const CRUDGenerator = () => {
                           onClick={() => toggleDetails(index)}
                           className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors duration-200"
                         >
-                          <span className="mr-2">View</span>
+                          <span className="mr-2">View Details</span>
                           {openStates[index] ? (
                             <ChevronUp className="w-4 h-4" />
                           ) : (
