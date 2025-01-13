@@ -95,9 +95,9 @@ const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
               <SelectFieldWithoutTitle
                 value={form.authKind}
                 options={[
-                  { value: "0", name: "Inherit Auth", color: "#3498DB" },
-                  { value: "1", name: "No Auth", color: "#E74C3C" },
-                  { value: "2", name: "Basic Auth", color: "#4CAF50" },
+                  { value: "0", name: "Inherit Auth", color: "#1D4ED8" },
+                  { value: "1", name: "No Auth", color: "#E63946" },
+                  { value: "2", name: "Basic Auth", color: "#10B981" },
                 ]}
                 labelKey="name"
                 valueKey="value"
@@ -106,8 +106,8 @@ const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
               <SelectFieldWithoutTitle
                 value={form.isCustomHost}
                 options={[
-                  { value: "0", name: "Base Host", color: "#B91C1C" },
-                  { value: "1", name: "Custom Host", color: "#E67E22" },
+                  { value: "0", name: "Base Host", color: "#EF4444" },
+                  { value: "1", name: "Custom Host", color: "#F59E0B" },
                 ]}
                 labelKey="name"
                 valueKey="value"
@@ -142,10 +142,10 @@ const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
               <SelectFieldWithoutTitle
                 value={form.method}
                 options={[
-                  { value: "get", name: "GET", color: "#49cc99" },
-                  { value: "post", name: "POST", color: "#fca130" },
-                  { value: "put", name: "PUT", color: "#0056D2" },
-                  { value: "delete", name: "DELETE", color: "#f93e3e" },
+                  { value: "get", name: "GET", color: "#3BA776" },
+                  { value: "post", name: "POST", color: "#E39427" },
+                  { value: "put", name: "PUT", color: "#287BCB" },
+                  { value: "delete", name: "DELETE", color: "#D93737" },
                 ]}
                 labelKey="name"
                 valueKey="value"

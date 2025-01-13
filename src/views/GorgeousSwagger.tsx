@@ -323,7 +323,11 @@ const GorgeousSwagger = () => {
           ) : (
             <NoData />
           )}
-          <ToastContainer position="bottom-right" style={{ width: "400px" }} />
+          <ToastContainer
+            position="bottom-right"
+            style={{ width: "400px" }}
+            theme="dark"
+          />
           <ConfirmationDialog
             isVisible={isDialogVisible}
             title={dialogConfig.title}

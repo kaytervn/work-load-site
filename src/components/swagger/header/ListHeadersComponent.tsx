@@ -12,6 +12,7 @@ const ListHeadersComponent = ({
   headers,
 }: any) => {
   const { isModalVisible, showModal, hideModal, formConfig } = useModal();
+
   const columns = [
     {
       accessor: "name",
@@ -19,7 +20,7 @@ const ListHeadersComponent = ({
       render: (item: any) => (
         <span className="space-x-2">
           <span
-            className="bg-gray-100 rounded-lg p-1"
+            className="bg-gray-700 rounded-lg p-1"
             style={{ fontWeight: 600 }}
           >
             {truncateString(item.key, 20)}
@@ -65,21 +66,21 @@ const ListHeadersComponent = ({
 
   return (
     <>
-      <div className="space-y-4 border-t border-b py-4">
+      <div className="space-y-4 text-gray-300">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <label className="text-base font-semibold text-red-800">
+            <label className="text-base font-semibold text-red-300">
               Header(s)
             </label>
             {headers.length > 0 && (
-              <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+              <span className="px-3 py-1 text-xs font-medium rounded-full bg-red-800 text-red-200">
                 {headers.length}
               </span>
             )}
           </div>
           <button
             onClick={onAddButtonClick}
-            className="border border-red-500 border-dashed hover:border-red-800 text-red-500 py-1 px-2 rounded-lg flex items-center transition duration-300 ease-in-out hover:text-red-800"
+            className="bg-red-700 hover:bg-red-900 text-red-100 py-1 px-2 rounded-lg flex items-center"
           >
             <PlusIcon size={20} className="mr-2" />
             Add

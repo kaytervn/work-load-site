@@ -31,9 +31,9 @@ const ListRequestsComponent = ({
       align: "left",
       render: (item: any) => (
         <div className="flex items-center space-x-2">
-          <div className="flex items-center bg-gray-100 rounded-lg p-1">
-            <FolderIcon size={16} className="mr-1 text-gray-500" />
-            <span className="text-gray-700 font-medium">
+          <div className="flex items-center bg-gray-700 rounded-lg p-1">
+            <FolderIcon size={16} className="mr-1 text-gray-400" />
+            <span className="text-gray-300 font-medium">
               {truncateString(item.folder, 20)}
             </span>
           </div>
@@ -43,7 +43,7 @@ const ListRequestsComponent = ({
           >
             {item.method.toUpperCase()}
           </span>
-          <span>{truncateString(item.name, 30)}</span>
+          <span className="text-gray-300">{truncateString(item.name, 30)}</span>
         </div>
       ),
     },
@@ -95,21 +95,21 @@ const ListRequestsComponent = ({
 
   return (
     <>
-      <div className="space-y-4">
+      <div className="space-y-4 text-gray-300">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <label className="text-base font-semibold text-gray-800">
+            <label className="text-base font-semibold text-blue-300">
               Request(s)
             </label>
             {requests.length > 0 && (
-              <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+              <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-800 text-blue-200">
                 {requests.length}
               </span>
             )}
           </div>
           <button
             onClick={onAddButtonClick}
-            className="bg-gray-600 hover:bg-gray-800 text-white py-1 px-2 rounded-lg flex items-center"
+            className="bg-blue-700 hover:bg-blue-900 text-blue-100 py-1 px-2 rounded-lg flex items-center"
           >
             <PlusIcon size={20} className="mr-2" />
             Add

@@ -12,7 +12,7 @@ const InputFieldWithoutTitle = ({
     <div className="flex-1 items-center">
       <div
         className={`flex items-center border rounded-md p-2 flex-1 ${
-          error ? "border-red-500 bg-red-50" : "border-gray-300"
+          error ? "border-red-500 bg-red-900/20" : "border-gray-600 bg-gray-800"
         }`}
       >
         {Icon && (
@@ -21,11 +21,13 @@ const InputFieldWithoutTitle = ({
           />
         )}
         {prepend && (
-          <div className="ml-2 font-semibold text-red-700">{prepend}</div>
+          <div className="ml-2 font-semibold text-gray-300">{prepend}</div>
         )}
         <input
-          className={`flex-1 ml-2 text-base outline-none ${
-            error ? "text-red-500 bg-red-50" : "text-gray-700"
+          className={`flex-1 ml-2 text-base outline-none bg-transparent ${
+            error
+              ? "text-red-400 placeholder-red-400/50"
+              : "text-gray-200 placeholder-gray-500"
           }`}
           placeholder={placeholder}
           value={value}

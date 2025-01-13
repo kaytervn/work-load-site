@@ -14,8 +14,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
           onClick={() => onPageChange(number)}
           className={`w-8 h-8 mx-1 rounded-lg transition-colors duration-200 ${
             currentPage === number
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-blue-200"
+              ? "bg-blue-600 text-gray-200"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700"
           }`}
         >
           {number + 1}
@@ -45,7 +45,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
         return (
           <span
             key={index}
-            className="w-8 h-8 mx-1 text-gray-700 text-center flex items-center justify-center"
+            className="w-8 h-8 mx-1 text-gray-400 text-center flex items-center justify-center"
           >
             ...
           </span>
@@ -57,8 +57,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
           onClick={() => onPageChange(item)}
           className={`w-8 h-8 mx-1 rounded-lg transition-colors duration-200 ${
             currentPage === item
-              ? "bg-blue-500 text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-blue-100"
+              ? "bg-blue-600 text-gray-200"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700"
           }`}
         >
           {item + 1}
@@ -71,11 +71,11 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 0}
-        className={`w-8 h-8 rounded bg-gray-100 mr-2 flex items-center justify-center ${
+        className={`w-8 h-8 rounded-lg mr-1 flex items-center justify-center ${
           currentPage === 0
             ? "cursor-not-allowed opacity-50"
-            : "hover:bg-blue-100"
-        }`}
+            : "hover:bg-gray-700"
+        } ${currentPage === 0 ? "bg-gray-700" : "bg-gray-800"} text-gray-300`}
       >
         <ChevronLeftIcon size={20} strokeWidth={1} />
       </button>
@@ -83,11 +83,13 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages - 1}
-        className={`w-8 h-8 rounded bg-gray-100 ml-2 flex items-center justify-center ${
+        className={`w-8 h-8 rounded-lg ml-1 flex items-center justify-center ${
           currentPage === totalPages - 1
             ? "cursor-not-allowed opacity-50"
-            : "hover:bg-blue-100"
-        }`}
+            : "hover:bg-gray-700"
+        } ${
+          currentPage === totalPages - 1 ? "bg-gray-700" : "bg-gray-800"
+        } text-gray-300`}
       >
         <ChevronRightIcon size={20} strokeWidth={1} />
       </button>

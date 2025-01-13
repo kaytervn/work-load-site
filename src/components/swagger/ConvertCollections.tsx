@@ -29,19 +29,15 @@ const ConvertCollection = ({
       onClose={() => setVisible(false)}
       title="Gorgeous Swagger Converter"
       bodyComponent={
-        <div className="relative font-mono text-sm">
+        <div className="relative font-mono text-sm text-gray-200">
           <div className="absolute top-2 right-2">
             <CopyToClipboard text={json} onCopy={handleCopy}>
               <button
-                className={`
-              flex items-center px-3 py-1 rounded
-              transition-all duration-200 ease-in-out
-              ${
-                copied
-                  ? "bg-green-500 text-white"
-                  : "bg-blue-300 text-gray-700 hover:bg-blue-400"
-              }
-            `}
+                className={`flex items-center px-3 py-1 rounded transition-all duration-200 ease-in-out ${
+                  copied
+                    ? "bg-green-500 text-white"
+                    : "bg-blue-600 text-gray-200 hover:bg-blue-500"
+                }`}
               >
                 {copied ? (
                   <>
@@ -57,7 +53,7 @@ const ConvertCollection = ({
               </button>
             </CopyToClipboard>
           </div>
-          <div className="p-4 bg-gray-200 rounded-lg shadow-lg break-words">
+          <div className="p-4 bg-gray-800 rounded-lg shadow-lg break-words text-gray-200">
             {json}
           </div>
         </div>

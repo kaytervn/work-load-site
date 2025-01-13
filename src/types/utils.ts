@@ -183,6 +183,15 @@ const truncateString = (str: any, limit: any) => {
   return str;
 };
 
+const isValidURL = (url: string) => {
+  try {
+    new URL(url);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 export {
   getRandomGif,
   getRandomColor,
@@ -202,4 +211,5 @@ export {
   getCurrentDate_2,
   findStorageItemBy,
   initializeStorage,
+  isValidURL,
 };

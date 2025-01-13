@@ -26,12 +26,12 @@ const TableRowComponent = ({
 
   return (
     <>
-      <table className="w-full bg-white rounded-lg">
-        <tbody className="text-gray-700 text-base outline-none">
+      <table className="w-full rounded-lg text-gray-200">
+        <tbody className="text-gray-300 text-base outline-none">
           {requests.map((item: any, index: any) => (
             <tr
               key={index}
-              className="border-gray-100 border-t hover:bg-gray-50 transition-colors duration-200"
+              className="border-gray-700 border-t hover:bg-gray-800 transition-colors duration-200"
             >
               {columns.map((col: any) => (
                 <td key={col.accessor} className={`p-2 text-${col.align}`}>
@@ -41,13 +41,13 @@ const TableRowComponent = ({
               <td className="py-1 text-end pr-1">
                 <div className="flex justify-end space-x-1">
                   <button
-                    className={`p-2 text-blue-500 hover:text-blue-700 rounded-full hover:bg-blue-100 transition duration-200 ease-in-out flex items-center justify-center`}
+                    className={`p-2 text-blue-400 hover:text-blue-300 rounded-full hover:bg-blue-900/40 transition duration-200 ease-in-out flex items-center justify-center`}
                     onClick={() => handleEditRequest(index, requests[index])}
                   >
                     <PencilIcon size={16} />
                   </button>
                   <button
-                    className={`p-2 text-red-500 hover:text-red-700 rounded-full hover:bg-red-100 transition duration-200 ease-in-out flex items-center justify-center`}
+                    className={`p-2 mr-2 text-red-400 hover:text-red-300 rounded-full hover:bg-red-900/40 transition duration-200 ease-in-out flex items-center justify-center`}
                     onClick={() => handleDeleteDialog(index)}
                   >
                     <TrashIcon size={16} />

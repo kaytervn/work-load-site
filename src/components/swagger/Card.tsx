@@ -56,15 +56,15 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
     updateItemInStorage(GORGEOUS_SWAGGER.name, updatedItem, item.id);
   };
   return (
-    <div className="bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl shadow-lg border border-gray-100">
+    <div className="rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02]">
       <div
         className="h-48 relative flex flex-col justify-between p-4"
         style={{
-          background: `linear-gradient(45deg, ${item.color}, ${item.color}dd)`,
+          background: `linear-gradient(45deg, ${item.color}99, ${item.color}66)`,
         }}
       >
         <div className="flex justify-between items-start">
-          <div className="bg-black/20 backdrop-blur-sm rounded-full px-3 py-1.5 text-white flex items-center space-x-2">
+          <div className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 text-gray-200 flex items-center space-x-2">
             <CalendarFoldIcon className="w-4 h-4" />
             <span className="text-sm font-medium">
               {format(new Date(item.createdAt), "dd/MM/yyyy")}
@@ -73,21 +73,21 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
           <div className="flex space-x-1">
             <button
               onClick={() => onExport(item.id)}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors duration-200 text-white"
+              className="p-2 hover:bg-black/20 rounded-full transition-colors duration-200 text-gray-200"
               title="Export"
             >
               <ExternalLinkIcon className="w-5 h-5" />
             </button>
             <button
               onClick={() => onUpdate(item.id)}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors duration-200 text-white"
+              className="p-2 hover:bg-black/20 rounded-full transition-colors duration-200 text-gray-200"
               title="Edit"
             >
               <EditIcon className="w-5 h-5" />
             </button>
             <button
               onClick={() => onDelete(item.id)}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors duration-200 text-white"
+              className="p-2 hover:bg-black/20 rounded-full transition-colors duration-200 text-gray-200"
               title="Delete"
             >
               <Trash2Icon className="w-5 h-5" />
@@ -95,10 +95,10 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
           </div>
         </div>
         <div className="mt-2">
-          <h2 className="text-3xl font-bold text-white tracking-tight whitespace-nowrap">
+          <h2 className="text-3xl font-bold text-gray-200 tracking-tight whitespace-nowrap">
             {truncateString(item.collectionName, 25)}
           </h2>
-          <div className="inline-flex mt-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-white items-center space-x-2">
+          <div className="inline-flex mt-2 bg-black/30 backdrop-blur-sm rounded-full px-4 py-1.5 text-gray-200 items-center space-x-2">
             <RepeatIcon className="w-4 h-4" />
             <span className="font-medium">
               {item.requests?.length || 0} Requests
@@ -106,7 +106,7 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
           </div>
         </div>
       </div>
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="bg-gray-900 p-6 flex flex-col flex-grow">
         <RadioButtons
           options={options}
           selectedValue={initialValue}
@@ -114,7 +114,7 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
         />
         <button
           onClick={() => onConvert(item.id)}
-          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2"
+          className="w-full bg-gradient-to-r from-blue-800 to-indigo-800 hover:from-blue-900 hover:to-indigo-900 text-gray-200 font-medium px-6 py-3 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2"
         >
           <ArrowLeftRightIcon className="w-5 h-5" />
           <span>CONVERT</span>

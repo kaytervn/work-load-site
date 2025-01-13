@@ -35,15 +35,17 @@ const QrCodeGenerator = () => {
             childLabel={QR_GENERATOR.label}
             onClickParent={() => navigate(TOOLS.path)}
           />
-          <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 w-full max-w-2xl mx-auto mt-10">
-            <h1 className="text-3xl font-bold text-center text-blue-800 mb-6">
+          <div
+            className={`p-6 rounded-2xl shadow-lg border w-full max-w-2xl mx-auto mt-10 transition-all bg-gray-900 border-gray-700 text-white`}
+          >
+            <h1 className="text-3xl font-bold text-center text-blue-500 mb-6">
               QR Code Generator
             </h1>
             <div className="space-y-4">
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                className={`w-full p-4 border rounded-lg focus:ring-2 focus:outline-none transition-all bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:ring-blue-400`}
                 rows={3}
                 placeholder="Enter text or URL to generate QR code"
               ></textarea>
@@ -51,17 +53,19 @@ const QrCodeGenerator = () => {
                 type="number"
                 value={size}
                 onChange={(e) => setSize(Number(e.target.value))}
-                className="w-full p-4 border rounded-lg text-center focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                className={`w-full p-4 border rounded-lg text-center focus:ring-2 focus:outline-none transition-all bg-gray-700 border-gray-600 text-white focus:ring-blue-400`}
                 placeholder="Width (min 100px)"
                 min={100}
               />
             </div>
-            <div className="mt-6 bg-gray-50 p-4 rounded-lg flex justify-center">
-              <QRCodeCanvas value={text} size={250} />
+            <div
+              className={`mt-6 p-4 rounded-lg flex justify-center transition-all bg-gray-50`}
+            >
+              <QRCodeCanvas value={text} size={size < 100 ? 100 : size} />
             </div>
             <button
               onClick={handleDownload}
-              className="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-lg flex items-center justify-center space-x-2"
+              className="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-lg transition-all flex items-center justify-center"
             >
               <i className="ri-download-line"></i>
               <span>Download QR Code</span>

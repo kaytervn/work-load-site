@@ -15,7 +15,10 @@ const RadioButtons = ({ options, selectedValue, onValueChange }: any) => {
   return (
     <div className="mb-4">
       {options.map((option: any, index: any) => (
-        <label key={index} className="flex items-center mb-2 whitespace-nowrap">
+        <label
+          key={index}
+          className="flex items-center mb-2 whitespace-nowrap text-gray-200"
+        >
           <input
             type="radio"
             value={option.value}
@@ -23,14 +26,15 @@ const RadioButtons = ({ options, selectedValue, onValueChange }: any) => {
             onChange={() => handleOptionChange(option.value)}
             className="hidden peer"
           />
-          <span className="mr-2 h-4 w-4 border-2 border-gray-400 rounded-full flex items-center justify-center peer-checked:border-blue-600 peer-checked:bg-blue-600">
+          <span className="mr-2 h-4 w-4 border-2 border-gray-500 rounded-full flex items-center justify-center peer-checked:border-blue-400 peer-checked:bg-blue-400">
             {selectedOption === option.value && (
-              <span className="h-2 w-2 bg-white rounded-full"></span>
+              <span className="h-2 w-2 bg-blue-50 rounded-full"></span>
             )}
           </span>
           {truncateString(option.label, 45)}
         </label>
       ))}
+      {options.length < 2 && <div className="my-10"></div>}
     </div>
   );
 };

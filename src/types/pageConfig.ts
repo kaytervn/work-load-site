@@ -34,6 +34,24 @@ const API_DOCS = {
   path: "/api-docs",
 };
 
+const DATA_MERGING = {
+  name: "DATA_MERGING",
+  label: "Data Merging",
+  path: "/data-merging",
+};
+
+const DATA_GENERATOR = {
+  name: "DATA_GENERATOR",
+  label: "Data Generator",
+  path: "/data-generator",
+};
+
+const PERMISSIONS_GENERATOR = {
+  name: "PERMISSIONS_GENERATOR",
+  label: "Permissions Generator",
+  path: "/permissions-generator",
+};
+
 const GAMES = {
   name: "GAMES",
   label: "Games",
@@ -48,4 +66,7 @@ export {
   SEQUENCE_ACTIVATOR,
   API_DOCS,
   GAMES,
+  PERMISSIONS_GENERATOR,
+  DATA_MERGING,
+  DATA_GENERATOR,
 };

@@ -13,7 +13,7 @@ const Header = ({
       {onDeleteAll && (
         <button
           onClick={onDeleteAll}
-          className="border border-red-500 border-dashed text-red-500 hover:text-red-800 hover:border-red-800 hover:bg-gray-50 transition duration-200 ease-in-out p-2 rounded-lg flex items-center justify-center w-full md:w-auto"
+          className="border-2 border-red-500 hover:border-gray-100 border-dashed text-red-500 hover:text-gray-100 transition duration-200 ease-in-out p-2 rounded-lg flex items-center justify-center w-full md:w-auto"
         >
           <CircleX size={20} className="mr-2" />
           <span className="font-semibold text-lg text-center whitespace-nowrap">
@@ -24,7 +24,7 @@ const Header = ({
       {onExport && (
         <button
           onClick={onExport}
-          className="border border-blue-500 border-dashed text-blue-500 hover:text-blue-800 hover:border-blue-800 hover:bg-gray-50 transition duration-200 ease-in-out p-2 rounded-lg flex items-center justify-center w-full md:w-auto"
+          className="border-2 border-dashed border-blue-500 hover:border-gray-100 text-blue-500 hover:text-gray-100 transition duration-200 ease-in-out p-2 rounded-lg flex items-center justify-center w-full md:w-auto"
         >
           <DownloadIcon size={20} className="mr-2" />
           <span className="font-semibold text-lg text-center">Export</span>
@@ -33,7 +33,7 @@ const Header = ({
       {onImport && (
         <button
           onClick={onImport}
-          className="border border-blue-500 border-dashed text-blue-500 hover:text-blue-800 hover:border-blue-800 hover:bg-gray-50 transition duration-200 ease-in-out p-2 rounded-lg flex items-center justify-center w-full md:w-auto"
+          className="border-2 border-dashed border-blue-500 hover:border-gray-100 text-blue-500 hover:text-gray-100 transition duration-200 ease-in-out p-2 rounded-lg flex items-center justify-center w-full md:w-auto"
         >
           <UploadIcon size={20} className="mr-2" />
           <span className="font-semibold text-lg text-center">Import</span>
@@ -42,7 +42,7 @@ const Header = ({
       {onCreate && (
         <button
           onClick={onCreate}
-          className="bg-gray-600 hover:bg-gray-800 text-white p-2 rounded-lg flex items-center justify-center w-full md:w-auto"
+          className="bg-gray-500 hover:bg-gray-600 text-gray-50 hover:text-gray-100 p-2 rounded-lg flex items-center justify-center w-full md:w-auto"
         >
           <PlusIcon size={20} className="mr-2" />
           <span className="font-semibold text-lg text-center">New</span>

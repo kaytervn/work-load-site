@@ -21,8 +21,16 @@ const CRUDGenerator = () => {
   }, []);
 
   const handleGenerate = () => {
-    const results = generateOutput(inputText);
-    setOutputItems(results);
+    if (!inputText.trim()) {
+      toast.error("Please enter your input model");
+      return;
+    }
+    try {
+      const results = generateOutput(inputText);
+      setOutputItems(results);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "An error occurred");
+    }
   };
 
   const handleCopy = async (text: string, id: string) => {
@@ -51,18 +59,18 @@ const CRUDGenerator = () => {
             childLabel={CRUD_GENERATOR.label}
             onClickParent={() => navigate(TOOLS.path)}
           />
-          <div className="p-6 space-y-6 max-w-6xl w-full mx-auto">
-            <div className="rounded-xl shadow-sm p-6 space-y-4">
+          <div className="p-4 space-y-4 max-w-6xl w-full mx-auto">
+            <div className="bg-gray-700 rounded-xl shadow-sm p-6 space-y-4">
               <div className="text-center space-y-2">
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
                   CRUD Generator
                 </h1>
-                <p className="text-gray-600">
+                <p className="text-gray-50">
                   Generate your CRUD operations with ease
                 </p>
               </div>
               <textarea
-                className="h-80 w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:outline-none transition-all duration-200 bg-gray-50 hover:bg-white"
+                className="text-gray-100 placeholder-gray-300 bg-gray-600 h-80 w-full p-4 rounded-lg focus:outline-none"
                 rows={6}
                 placeholder="Paste your model input here..."
                 value={inputText}
@@ -71,9 +79,9 @@ const CRUDGenerator = () => {
 
               <button
                 onClick={handleGenerate}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 transform flex items-center justify-center space-x-2"
               >
-                Generate
+                GENERATE
               </button>
             </div>
 
@@ -81,66 +89,49 @@ const CRUDGenerator = () => {
               {outputItems.map((item, index) => (
                 <div
                   key={index}
-                  className="rounded-xl overflow-hidden shadow-sm border border-gray-200 transition-all duration-200 hover:shadow-md"
+                  className="border-2 border-gray-700 rounded-xl overflow-hidden shadow-sm transition-all duration-200 hover:shadow-md"
                 >
-                  <div className="p-4 border-b flex justify-between items-center bg-gray-50">
-                    <h2 className="text-lg font-semibold text-blue-800">
+                  <div className="p-4 flex justify-between items-center bg-gray-700">
+                    <h2 className="text-lg font-semibold text-gray-100">
                       {item.name}
                     </h2>
-                    <button
-                      onClick={() => handleCopy(item.name, `name-${index}`)}
-                      className="p-2 text-gray-600 hover:text-blue-600 rounded-lg transition-all duration-200 hover:bg-blue-50 flex items-center gap-2"
-                    >
-                      {copiedStates[`name-${index}`] ? (
-                        <CheckCircle2 className="w-4 h-4 text-green-500" />
-                      ) : (
-                        <Copy className="w-4 h-4" />
-                      )}
-                    </button>
-                  </div>
-
-                  <div className="p-4">
-                    <div className="border rounded-lg">
-                      <div className="px-4 py-3 border-b flex justify-between items-center bg-gray-50">
-                        <button
-                          onClick={() => toggleDetails(index)}
-                          className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors duration-200"
-                        >
-                          <span className="mr-2">View Details</span>
-                          {openStates[index] ? (
-                            <ChevronUp className="w-4 h-4" />
-                          ) : (
-                            <ChevronDown className="w-4 h-4" />
-                          )}
-                        </button>
-                        <button
-                          onClick={() =>
-                            handleCopy(item.value, `value-${index}`)
-                          }
-                          className="text-gray-600 hover:text-blue-600 transition-colors duration-200 flex items-center gap-2"
-                        >
-                          {copiedStates[`value-${index}`] ? (
-                            <CheckCircle2 className="w-4 h-4 text-green-500" />
-                          ) : (
-                            <Copy className="w-4 h-4" />
-                          )}
-                          <span>Copy Value</span>
-                        </button>
-                      </div>
-                      {openStates[index] && (
-                        <div className="p-4">
-                          <pre className="bg-gray-50 p-4 rounded-lg overflow-x-auto border border-gray-100 text-sm">
-                            {item.value}
-                          </pre>
-                        </div>
-                      )}
+                    <div className="flex justify-end items-center space-x-2">
+                      <button
+                        onClick={() => handleCopy(item.value, `value-${index}`)}
+                        className="p-2 text-gray-100 rounded-lg transition-all duration-200 hover:bg-gray-500 flex items-center gap-2"
+                      >
+                        {copiedStates[`value-${index}`] ? (
+                          <CheckCircle2 className="w-4 h-4 text-gray-100" />
+                        ) : (
+                          <Copy className="w-4 h-4" />
+                        )}
+                      </button>
+                      <button
+                        onClick={() => toggleDetails(index)}
+                        className="m-2 flex items-center text-gray-700 hover:text-indigo-600 transition-colors duration-200"
+                      >
+                        {openStates[index] ? (
+                          <ChevronUp className="w-4 h-4 text-gray-100" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4 text-gray-100" />
+                        )}
+                      </button>
                     </div>
                   </div>
+                  {openStates[index] && (
+                    <pre className="p-4 overflow-x-auto text-gray-50 bg-gray-900">
+                      {item.value}
+                    </pre>
+                  )}
                 </div>
               ))}
             </div>
           </div>
-          <ToastContainer position="bottom-right" style={{ width: "300px" }} />
+          <ToastContainer
+            position="bottom-right"
+            style={{ width: "300px" }}
+            theme="dark"
+          />
         </>
       }
     />

@@ -2,15 +2,12 @@ import {
   ArrowLeftRightIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  CodeXmlIcon,
   MenuIcon,
   XIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   FolderCodeIcon,
-  BookTextIcon,
   ContainerIcon,
-  ScissorsIcon,
   Gamepad2,
   DraftingCompassIcon,
 } from "lucide-react";
@@ -18,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "./GlobalProvider";
 import { useEffect, useState } from "react";
 import {
-  CRUD_GENERATOR,
   GAMES,
   GORGEOUS_SWAGGER,
   TOOLS,
@@ -203,7 +199,7 @@ const Sidebar = ({ activeItem, renderContent }: any) => {
           isMobile ? "ml-0" : isCollapsed ? "ml-20" : "ml-[20rem]"
         }`}
       >
-        <div className="p-6 min-h-screen">{renderContent}</div>
+        <div className="p-6 min-h-screen bg-gray-800">{renderContent}</div>
       </div>
       {isMobile && isSidebarVisible && (
         <div

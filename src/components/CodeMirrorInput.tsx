@@ -12,7 +12,7 @@ const CodeMirrorInput = ({
   return (
     <div className="mb-4">
       {title && (
-        <label className="text-base font-semibold text-gray-800 mb-2 text-left flex items-center">
+        <label className="text-base font-semibold text-gray-200 mb-2 text-left flex items-center">
           {title}
           {isRequire && <span className="ml-1 text-red-500">*</span>}
         </label>
@@ -20,13 +20,16 @@ const CodeMirrorInput = ({
       <div className="flex items-center">
         <div
           className={`flex items-center border rounded-md p-2 flex-1 ${
-            error ? "border-red-500 bg-red-50" : "border-gray-300"
+            error
+              ? "border-red-500 bg-red-900/20"
+              : "border-gray-600 bg-gray-800"
           }`}
         >
           <CodeMirror
             value={value}
             height={maxHeight}
             extensions={[javascript()]}
+            theme="dark"
             onChange={(value) => onChangeText(value)}
           />
         </div>

@@ -20,7 +20,7 @@ const InputFieldWithCheckbox = ({
         >
           <div
             className={`w-10 h-4 flex items-center rounded-full p-0.5 duration-300 ease-in-out ${
-              isChecked ? "bg-blue-600" : "bg-gray-300"
+              isChecked ? "bg-blue-600" : "bg-gray-600"
             }`}
           >
             <div
@@ -31,7 +31,7 @@ const InputFieldWithCheckbox = ({
           </div>
           <span
             className={`text-base font-semibold ${
-              isChecked ? "text-gray-800" : "text-gray-400"
+              isChecked ? "text-gray-200" : "text-gray-400"
             }`}
           >
             {title}
@@ -44,7 +44,9 @@ const InputFieldWithCheckbox = ({
           <div className="flex items-center">
             <div
               className={`flex items-center border rounded-md p-2 flex-1 ${
-                error ? "border-red-500 bg-red-50" : "border-gray-300"
+                error
+                  ? "border-red-500 bg-red-900/20"
+                  : "border-gray-600 bg-gray-800"
               }`}
             >
               {Icon && (
@@ -55,11 +57,15 @@ const InputFieldWithCheckbox = ({
                 />
               )}
               {prepend && (
-                <div className="ml-2 font-semibold text-red-700">{prepend}</div>
+                <div className="ml-2 font-semibold text-gray-300">
+                  {prepend}
+                </div>
               )}
               <input
-                className={`flex-1 ml-2 text-base outline-none ${
-                  error ? "text-red-500 bg-red-50" : "text-gray-700"
+                className={`flex-1 ml-2 text-base outline-none bg-transparent ${
+                  error
+                    ? "text-red-500 placeholder-red-400/50"
+                    : "text-gray-200 placeholder-gray-500"
                 }`}
                 placeholder={placeholder}
                 value={value}

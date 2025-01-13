@@ -34,13 +34,13 @@ const SequenceActivator: React.FC = () => {
             childLabel={SEQUENCE_ACTIVATOR.label}
             onClickParent={() => navigate(TOOLS.path)}
           />
-          <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 w-full max-w-7xl mx-auto mt-10">
-            <h1 className="text-3xl font-bold text-center text-blue-800 mb-6">
+          <div className="bg-gray-900 p-4 rounded-2xl shadow-lg border border-gray-700 w-full max-w-7xl mx-auto mt-6">
+            <h1 className="text-3xl font-bold text-center text-indigo-400 mb-6">
               Sequence UML Activator
             </h1>
             <div className="flex flex-col lg:flex-row gap-6">
               <div className="flex-1">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                <h2 className="text-xl font-semibold text-gray-200 mb-4">
                   Input
                 </h2>
                 <textarea
@@ -50,18 +50,18 @@ const SequenceActivator: React.FC = () => {
                     setInputPUML(e.target.value);
                   }}
                   placeholder="Enter PlantUML sequence diagram code here"
-                  className="w-full h-80 p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                  className="w-full h-[30rem] p-4 rounded-lg resize-none bg-gray-700 text-gray-200 placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 />
               </div>
               <div className="flex-1 relative">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                <h2 className="text-xl font-semibold text-gray-200 mb-4">
                   Output
                 </h2>
                 <textarea
                   value={outputPUML}
                   readOnly
                   placeholder="Processed output will appear here"
-                  className="w-full h-80 p-4 border rounded-lg resize-none bg-gray-100 focus:outline-none"
+                  className="w-full h-[30rem] p-4 rounded-lg resize-none bg-gray-600 text-gray-200 focus:outline-none"
                 />
                 <button
                   onClick={handleCopy}
@@ -89,12 +89,16 @@ const SequenceActivator: React.FC = () => {
               onClick={() => {
                 setOutputPUML(processPUML(inputPUML));
               }}
-              className="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 flex items-center justify-center"
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 transform flex items-center justify-center space-x-2 mt-4"
             >
-              Process Diagram
+              PROCESS
             </button>
           </div>
-          <ToastContainer position="bottom-right" style={{ width: "400px" }} />
+          <ToastContainer
+            position="bottom-right"
+            style={{ width: "400px" }}
+            theme="dark"
+          />
         </>
       }
     />

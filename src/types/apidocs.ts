@@ -68,10 +68,25 @@ const addControllerItems = (json: any) => {
       }
       const request: any = createRequest(json, method, path, operation);
       request.response = createResponse(json, operation.responses);
+      request.description = createDescription(controllerName, path);
       controllerItems[controllerName].item.push(request);
     });
   });
   return Object.values(controllerItems);
+};
+
+const createDescription = (controllerItemName: any, path: any) => {
+  const str =
+    path
+      .replace(/\/\{[^}]+\}/g, "")
+      .split("/")
+      .at(-1)
+      .replace("list", "get-list") +
+    "-" +
+    controllerItemName;
+  let name = str.replace(/-/g, " ");
+  name = name.charAt(0).toUpperCase() + name.slice(1);
+  return name;
 };
 
 const resolveProperties = (json: any, property: any) => {
@@ -335,6 +350,8 @@ const getPropertyValue = (key: any, value: any, required: any) => {
     return `Float${isRequired ? ", required: true" : ""}`;
   if (value.type === "string")
     return `String${isRequired ? ", required: true" : ""}`;
+  if (value.type === "array")
+    return `[]${isRequired ? ", required: true" : ""}`;
 
   return `<${value.type}>${isRequired ? ", required: true" : ""}`;
 };

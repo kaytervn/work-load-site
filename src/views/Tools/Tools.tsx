@@ -6,6 +6,9 @@ import {
   QR_GENERATOR,
   SEQUENCE_ACTIVATOR,
   CRUD_GENERATOR,
+  PERMISSIONS_GENERATOR,
+  DATA_MERGING,
+  DATA_GENERATOR,
 } from "../../types/pageConfig";
 import NoData from "../../components/NoData";
 import ToolCard from "../../components/ToolCard";
@@ -13,6 +16,9 @@ import Header from "../../components/swagger/Header";
 import InputBox from "../../components/InputBox";
 import {
   CodeIcon,
+  CombineIcon,
+  FileBoxIcon,
+  FolderOpenDotIcon,
   LifeBuoyIcon,
   QrCodeIcon,
   SearchIcon,
@@ -22,7 +28,7 @@ import { useNavigate } from "react-router-dom";
 
 const Tools = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState<any>([
+  const data = [
     {
       label: API_DOCS.label,
       icon: LifeBuoyIcon,
@@ -36,18 +42,36 @@ const Tools = () => {
       onButtonClick: () => navigate(CRUD_GENERATOR.path),
     },
     {
+      label: DATA_GENERATOR.label,
+      icon: FileBoxIcon,
+      color: "#304C73",
+      onButtonClick: () => navigate(DATA_GENERATOR.path),
+    },
+    {
+      label: DATA_MERGING.label,
+      icon: CombineIcon,
+      color: "#463457",
+      onButtonClick: () => navigate(DATA_MERGING.path),
+    },
+    {
       label: SEQUENCE_ACTIVATOR.label,
       icon: ShieldCheckIcon,
       color: "#304C73",
       onButtonClick: () => navigate(SEQUENCE_ACTIVATOR.path),
     },
     {
+      label: PERMISSIONS_GENERATOR.label,
+      icon: FolderOpenDotIcon,
+      color: "#43357D",
+      onButtonClick: () => navigate(PERMISSIONS_GENERATOR.path),
+    },
+    {
       label: QR_GENERATOR.label,
       icon: QrCodeIcon,
-      color: "#2B3A42",
+      color: "#01579B",
       onButtonClick: () => navigate(QR_GENERATOR.path),
     },
-  ]);
+  ];
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState<any>(data);
 

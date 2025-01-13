@@ -29,13 +29,13 @@ const SearchField = ({
 
   return (
     <div className="mb-4">
-      <label className="text-base font-semibold text-gray-800 mb-2 block text-left">
+      <label className="text-base font-semibold text-gray-300 mb-2 block text-left">
         {title}
         {isRequire && <span className="text-red-500">{" *"}</span>}
       </label>
       <div
         className={`flex flex-col border rounded-md p-2 ${
-          error ? "border-red-500 bg-red-50" : "border-gray-300"
+          error ? "border-red-500 bg-red-900/20" : "border-gray-600 bg-gray-800"
         }`}
       >
         <input
@@ -47,16 +47,21 @@ const SearchField = ({
           }}
           disabled={disabled}
           placeholder="Type to add or select an option..."
-          className={`flex-1 mb-2 p-1 border rounded-md text-base outline-none ${
-            error ? "text-red-500 bg-red-50" : "text-gray-700"
+          className={`flex-1 mb-2 p-2 rounded-md text-base outline-none bg-gray-700 ${
+            error ? "text-red-500 bg-red-900/20" : "text-gray-200"
           }`}
         />
         <select
           disabled={disabled}
           value={value}
           onChange={handleSelectChange}
-          className={`flex-1 p-1 text-base outline-none ${
-            error ? "text-red-500 bg-red-50" : "text-gray-700"
+          style={{
+            color: "lightblue",
+            fontWeight: "bold",
+            backgroundColor: "#1f2937",
+          }}
+          className={`rounded-md flex-1 p-1 text-base outline-none bg-gray-900 ${
+            error ? "text-red-500 bg-red-900/20" : "text-gray-200"
           }`}
         >
           {customOptions.map((option: any, index: any) => (
