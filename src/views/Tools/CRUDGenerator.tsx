@@ -26,6 +26,7 @@ const CRUDGenerator = () => {
       return;
     }
     try {
+      toast.success("Generated successfully");
       const results = generateOutput(inputText);
       setOutputItems(results);
     } catch (err) {
@@ -61,14 +62,9 @@ const CRUDGenerator = () => {
           />
           <div className="p-4 space-y-4 max-w-6xl w-full mx-auto">
             <div className="bg-gray-700 rounded-xl shadow-sm p-6 space-y-4">
-              <div className="text-center space-y-2">
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
-                  CRUD Generator
-                </h1>
-                <p className="text-gray-50">
-                  Generate your CRUD operations with ease
-                </p>
-              </div>
+              <h1 className="text-left my-2 text-3xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                CRUD Generator
+              </h1>
               <textarea
                 className="text-gray-100 placeholder-gray-300 bg-gray-600 h-80 w-full p-4 rounded-lg focus:outline-none"
                 rows={6}
@@ -111,9 +107,9 @@ const CRUDGenerator = () => {
                         className="m-2 flex items-center text-gray-700 hover:text-indigo-600 transition-colors duration-200"
                       >
                         {openStates[index] ? (
-                          <ChevronUp className="w-4 h-4 text-gray-100" />
+                          <ChevronUp className="w-6 h-6 text-gray-100" />
                         ) : (
-                          <ChevronDown className="w-4 h-4 text-gray-100" />
+                          <ChevronDown className="w-6 h-6 text-gray-100" />
                         )}
                       </button>
                     </div>

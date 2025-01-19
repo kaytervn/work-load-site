@@ -100,6 +100,10 @@ public class ${modelName}Criteria {
     }
   });
 
+  if (containOrdering(fields)) {
+    classFields.push(`    private Integer isPaged = AppConstant.BOOLEAN_TRUE;`);
+  }
+
   result += classFields.join("\n") + "\n\n";
 
   result += `    public Specification<${modelName}> getCriteria() {\n        return (root, query, cb) -> {\n            List<Predicate> predicates = new ArrayList<>();`;
@@ -160,11 +164,25 @@ const capitalize = (str: any) => {
 
 // ================================================ VALIDATION
 
-const generateAppConstant = (modelName: any, fields: any) => {
+const containOrdering = (fields: any[]): boolean => {
+  return fields.some(
+    (field) => field.dataType === "Integer" && field.name === "ordering"
+  );
+};
+
+const generateAppConstant = (
+  modelName: string,
+  fields: any[]
+): string | null => {
   const prefix = modelName.replace(/([a-z])([A-Z])/g, "$1_$2").toUpperCase();
+
+  const extraConstants = containOrdering(fields)
+    ? `    public static final Integer BOOLEAN_FALSE = 0;\n    public static final Integer BOOLEAN_TRUE = 1;`
+    : "";
+
   const constantsByGroup = fields
-    .filter((field: any) => field.dataType === "Integer" && field.comment)
-    .reduce((acc: any, field: any) => {
+    .filter((field) => field.dataType === "Integer" && field.comment)
+    .reduce((acc: Record<string, string[]>, field) => {
       const regex = /(\d+)\s*:\s*(\w+)/g;
       let match;
       const fieldGroup = field.name
@@ -181,13 +199,19 @@ const generateAppConstant = (modelName: any, fields: any) => {
       return acc;
     }, {});
 
-  if (Object.keys(constantsByGroup).length === 0) return null;
+  if (Object.keys(constantsByGroup).length === 0 && !extraConstants) {
+    return null;
+  }
 
   const groupedConstants = Object.entries(constantsByGroup)
-    .map(([group, constants]: any) => constants.join("\n"))
+    .map(([_, constants]) => constants.join("\n"))
     .join("\n\n");
 
-  return `public class AppConstant {\n${groupedConstants}\n}`;
+  const allConstants = [extraConstants, groupedConstants]
+    .filter(Boolean)
+    .join("\n\n");
+
+  return `public class AppConstant {\n${allConstants}\n}`;
 };
 
 const generateValidation = (modelName: any, integerField: any) => {
@@ -282,6 +306,7 @@ public class ${dtoClassName} extends ABasicAdminDto {`;
 const generateFormClasses = (modelName: any, fields: any) => {
   const createFormName = `Create${modelName}Form`;
   const updateFormName = `Update${modelName}Form`;
+  const updateSortFormName = `UpdateSort${modelName}Form`;
 
   const generateFieldAnnotation = (field: any, isCreate: any) => {
     const annotations = [];
@@ -335,7 +360,24 @@ public class ${updateFormName} {
     ${updateFormFields}
 }`;
 
-  return { createForm, updateForm };
+  const forms: any = { createForm, updateForm };
+
+  if (containOrdering(fields)) {
+    forms.updateSortForm = `import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+@Data
+public class ${updateSortFormName} {
+    @NotNull(message = "id cannot be null")
+    @ApiModelProperty(required = true)
+    private Long id;
+    @NotNull(message = "ordering cannot be null")
+    @ApiModelProperty(required = true)
+    private Integer ordering;
+}`;
+  }
+
+  return forms;
 };
 
 // ==================================================== MAPPER
@@ -495,6 +537,37 @@ const generateController = (modelName: any, fields: any) => {
     }(${field.name});`;
   });
 
+  const sortOrdering = containOrdering(fields)
+    ? `if (AppConstant.BOOLEAN_FALSE.equals(${lowerModelName}Criteria.getIsPaged())) {
+            pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("ordering").ascending().and(Sort.by("createdDate").descending()));
+        } else {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("ordering").ascending().and(Sort.by("createdDate").descending()));
+        }\n        `
+    : "";
+
+  const sortOrderingAutoComplete = containOrdering(fields)
+    ? `int size = ${lowerModelName}Criteria.getIsPaged().equals(AppConstant.BOOLEAN_FALSE) ? Integer.MAX_VALUE : 10;
+        Pageable pageable = PageRequest.of(0, size, Sort.by("ordering").ascending().and(Sort.by("createdDate").descending()));\n        `
+    : "Pageable pageable = PageRequest.of(0, 10);\n        ";
+
+  const updateSortEndpoint = containOrdering(fields)
+    ? `    \n\n    @PutMapping(value = "/update-sort", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('${modelPrefix}_U_S')")
+    public ApiMessageDto<String> updateSort(@Valid @RequestBody List<UpdateSort${upperModelName}Form> forms, BindingResult bindingResult) {
+        Map<Long, Integer> ordering = forms.stream().collect(Collectors.toMap(UpdateSort${upperModelName}Form::getId, UpdateSort${upperModelName}Form::getOrdering));
+        List<${upperModelName}> list${upperModelName} = ${lowerModelName}Repository.findAllById(ordering.keySet());
+        for (${upperModelName} ${lowerModelName} : list${upperModelName}) {
+            if (${lowerModelName} != null) {
+                ${lowerModelName}.setOrdering(ordering.get(${lowerModelName}.getId()));
+            }
+        }
+        ${lowerModelName}Repository.saveAll(list${upperModelName});
+        return makeSuccessResponse(null, "Update sort ${lowerModelName
+          .replace(/([a-z])([A-Z])/g, "$1 $2")
+          .toLowerCase()} success");
+    }`
+    : "";
+
   return `import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -537,7 +610,7 @@ ${autowiredRepos}
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('${modelPrefix}_L')")
     public ApiMessageDto<ResponseListDto<List<${upperModelName}Dto>>> list(${upperModelName}Criteria ${lowerModelName}Criteria, Pageable pageable) {
-        Page<${upperModelName}> list${upperModelName} = ${lowerModelName}Repository.findAll(${lowerModelName}Criteria.getCriteria(), pageable);
+        ${sortOrdering}Page<${upperModelName}> list${upperModelName} = ${lowerModelName}Repository.findAll(${lowerModelName}Criteria.getCriteria(), pageable);
         ResponseListDto<List<${upperModelName}Dto>> responseListObj = new ResponseListDto<>();
         responseListObj.setContent(${lowerModelName}Mapper.fromEntityListTo${upperModelName}DtoList(list${upperModelName}.getContent()));
         responseListObj.setTotalPages(list${upperModelName}.getTotalPages());
@@ -549,8 +622,7 @@ ${autowiredRepos}
 
     @GetMapping(value = "/auto-complete", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiMessageDto<ResponseListDto<List<${upperModelName}Dto>>> autoComplete(${upperModelName}Criteria ${lowerModelName}Criteria) {
-        Pageable pageable = PageRequest.of(0, 10);
-        ${lowerModelName}Criteria.setStatus(AppConstant.STATUS_ACTIVE);
+        ${sortOrderingAutoComplete}${lowerModelName}Criteria.setStatus(AppConstant.STATUS_ACTIVE);
         Page<${upperModelName}> list${upperModelName} = ${lowerModelName}Repository.findAll(${lowerModelName}Criteria.getCriteria(), pageable);
         ResponseListDto<List<${upperModelName}Dto>> responseListObj = new ResponseListDto<>();
         responseListObj.setContent(${lowerModelName}Mapper.fromEntityListTo${upperModelName}DtoListAutoComplete(list${upperModelName}.getContent()));
@@ -564,8 +636,7 @@ ${autowiredRepos}
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('${modelPrefix}_C')")
     public ApiMessageDto<String> create(@Valid @RequestBody Create${upperModelName}Form form, BindingResult bindingResult) {
-        ${upperModelName} ${lowerModelName} = ${lowerModelName}Mapper.fromCreate${upperModelName}FormToEntity(form);
-        ${findRelatedEntities}
+        ${upperModelName} ${lowerModelName} = ${lowerModelName}Mapper.fromCreate${upperModelName}FormToEntity(form);${findRelatedEntities}
         ${lowerModelName}Repository.save(${lowerModelName});
         return makeSuccessResponse(null, "Create ${lowerModelName
           .replace(/([a-z])([A-Z])/g, "$1 $2")
@@ -583,8 +654,7 @@ ${autowiredRepos}
     .replace(/([a-z])([A-Z])/g, "$1 $2")
     .toLowerCase()}");
         }
-        ${lowerModelName}Mapper.fromUpdate${upperModelName}FormToEntity(form, ${lowerModelName});
-${findRelatedEntities}
+        ${lowerModelName}Mapper.fromUpdate${upperModelName}FormToEntity(form, ${lowerModelName});${findRelatedEntities}
         ${lowerModelName}Repository.save(${lowerModelName});
         return makeSuccessResponse(null, "Update ${lowerModelName
           .replace(/([a-z])([A-Z])/g, "$1 $2")
@@ -606,7 +676,7 @@ ${findRelatedEntities}
         return makeSuccessResponse(null, "Delete ${lowerModelName
           .replace(/([a-z])([A-Z])/g, "$1 $2")
           .toLowerCase()} success");
-    }
+    }${updateSortEndpoint}
 }`;
 };
 
@@ -620,7 +690,7 @@ const generateOutput = (input: any) => {
   const criteria = generateCriteriaClass(result.model, result.fields);
   const constantsCode = generateAppConstant(result.model, result.fields);
   const dto = generateDtoClass(result.model, result.fields);
-  const { createForm, updateForm } = generateFormClasses(
+  const { createForm, updateForm, updateSortForm } = generateFormClasses(
     result.model,
     result.fields
   );
@@ -673,6 +743,10 @@ const generateOutput = (input: any) => {
     {
       name: "Update" + upperModelName + "Form",
       value: updateForm,
+    },
+    {
+      name: "UpdateSort" + upperModelName + "Form",
+      value: updateSortForm,
     },
     {
       name: upperModelName + "Mapper",
