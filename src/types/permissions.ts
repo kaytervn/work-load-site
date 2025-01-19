@@ -1,3 +1,17 @@
+import { fetchJsonInput } from "./apidocs";
+
+const convertJsonPermissions = async (url: any) => {
+  let inputJson: any;
+  try {
+    inputJson = await fetchJsonInput(url);
+    const parsedJson = JSON.parse(inputJson);
+    const { groupNames, permissions } = generatePermissions(parsedJson);
+    return { groupNames, permissions };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
 const generatePermissions = (json: any) => {
   const permissions = [];
   for (const [path, methods] of Object.entries(json.paths)) {
@@ -16,6 +30,10 @@ const generatePermissions = (json: any) => {
   return { groupNames, permissions };
 };
 
+const formatPath = (path: any) => {
+  return path.replace(/\/{[^}]+}/g, "");
+};
+
 const generatePermissionsBodyJson = (
   controllerItemName: any,
   path: any,
@@ -30,7 +48,7 @@ const generatePermissionsBodyJson = (
     prefix
   );
   return {
-    action: path.replace("/{id}", "").replace("/{folder}/{fileName}", ""),
+    action: formatPath(path),
     name: generatePermissionName(controllerItemName, path),
     group: groupName,
     permissionCode: permissionCode,
@@ -45,12 +63,7 @@ const generatePermissionCode = (
   const str =
     controllerItemName +
     "-" +
-    path
-      .replace("/{id}", "")
-      .replace("/{folder}/{fileName}", "")
-      .split("/")
-      .at(-1)
-      .replace("get", "view");
+    formatPath(path).split("/").at(-1).replace("get", "view");
   const words = str.split("-");
   const formatted = words.map((word, index) => {
     if (index === 0) {
@@ -64,11 +77,7 @@ const generatePermissionCode = (
 
 const generatePermissionName = (controllerItemName: any, path: any) => {
   const str =
-    path
-      .replace(/\/\{[^}]+\}/g, "")
-      .split("/")
-      .at(-1)
-      .replace("list", "get-list") +
+    formatPath(path).split("/").at(-1).replace("list", "get-list") +
     "-" +
     controllerItemName;
   let name = str.replace(/-/g, " ");
@@ -76,4 +85,4 @@ const generatePermissionName = (controllerItemName: any, path: any) => {
   return name;
 };
 
-export { generatePermissions };
+export { convertJsonPermissions };

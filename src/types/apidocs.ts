@@ -356,4 +356,4 @@ const getPropertyValue = (key: any, value: any, required: any) => {
   return `<${value.type}>${isRequired ? ", required: true" : ""}`;
 };
 
-export { convertJson };
+export { convertJson, fetchJsonInput };

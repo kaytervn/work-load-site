@@ -34,65 +34,67 @@ const SequenceActivator: React.FC = () => {
             childLabel={SEQUENCE_ACTIVATOR.label}
             onClickParent={() => navigate(TOOLS.path)}
           />
-          <div className="bg-gray-900 p-4 rounded-2xl shadow-lg border border-gray-700 w-full max-w-7xl mx-auto mt-6">
-            <h1 className="text-3xl font-bold text-center text-indigo-400 mb-6">
-              Sequence UML Activator
-            </h1>
-            <div className="flex flex-col lg:flex-row gap-6">
-              <div className="flex-1">
-                <h2 className="text-xl font-semibold text-gray-200 mb-4">
-                  Input
-                </h2>
-                <textarea
-                  value={inputPUML}
-                  onChange={(e) => {
-                    setOutputPUML("");
-                    setInputPUML(e.target.value);
-                  }}
-                  placeholder="Enter PlantUML sequence diagram code here"
-                  className="w-full h-[30rem] p-4 rounded-lg resize-none bg-gray-700 text-gray-200 placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                />
+          <div className="p-4 rounded-2xl w-full max-w-7xl mx-auto mt-6">
+            <div className="m-4">
+              <h1 className="text-3xl font-bold text-left text-indigo-400 my-4">
+                Sequence UML Activator
+              </h1>
+              <div className="flex flex-col lg:flex-row gap-6">
+                <div className="flex-1">
+                  <h2 className="text-xl font-semibold text-gray-200 mb-4">
+                    Input
+                  </h2>
+                  <textarea
+                    value={inputPUML}
+                    onChange={(e) => {
+                      setOutputPUML("");
+                      setInputPUML(e.target.value);
+                    }}
+                    placeholder="Enter PlantUML sequence diagram code here"
+                    className="w-full h-[30rem] p-4 rounded-lg resize-none bg-gray-700 text-gray-200 placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  />
+                </div>
+                <div className="flex-1 relative">
+                  <h2 className="text-xl font-semibold text-gray-200 mb-4">
+                    Output
+                  </h2>
+                  <textarea
+                    value={outputPUML}
+                    readOnly
+                    placeholder="Processed output will appear here"
+                    className="w-full h-[30rem] p-4 rounded-lg resize-none bg-gray-600 text-gray-200 focus:outline-none"
+                  />
+                  <button
+                    onClick={handleCopy}
+                    className={`absolute flex items-center mt-12 top-2 right-2 px-3 py-1 rounded-lg transition-all duration-200 whitespace-nowrap ${
+                      copied
+                        ? "bg-green-500 text-white"
+                        : "bg-gray-400 text-white hover:bg-gray-500"
+                    }`}
+                  >
+                    {copied ? (
+                      <>
+                        <CheckCircleIcon size={16} className="mr-1" />
+                        Copied
+                      </>
+                    ) : (
+                      <>
+                        <CopyIcon size={16} className="mr-1" />
+                        Copy
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
-              <div className="flex-1 relative">
-                <h2 className="text-xl font-semibold text-gray-200 mb-4">
-                  Output
-                </h2>
-                <textarea
-                  value={outputPUML}
-                  readOnly
-                  placeholder="Processed output will appear here"
-                  className="w-full h-[30rem] p-4 rounded-lg resize-none bg-gray-600 text-gray-200 focus:outline-none"
-                />
-                <button
-                  onClick={handleCopy}
-                  className={`absolute flex items-center mt-12 top-2 right-2 px-3 py-1 rounded-lg transition-all duration-200 whitespace-nowrap ${
-                    copied
-                      ? "bg-green-500 text-white"
-                      : "bg-gray-400 text-white hover:bg-gray-500"
-                  }`}
-                >
-                  {copied ? (
-                    <>
-                      <CheckCircleIcon size={16} className="mr-1" />
-                      Copied
-                    </>
-                  ) : (
-                    <>
-                      <CopyIcon size={16} className="mr-1" />
-                      Copy
-                    </>
-                  )}
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  setOutputPUML(processPUML(inputPUML));
+                }}
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 transform flex items-center justify-center space-x-2 mt-4"
+              >
+                PROCESS
+              </button>
             </div>
-            <button
-              onClick={() => {
-                setOutputPUML(processPUML(inputPUML));
-              }}
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 transform flex items-center justify-center space-x-2 mt-4"
-            >
-              PROCESS
-            </button>
           </div>
           <ToastContainer
             position="bottom-right"
