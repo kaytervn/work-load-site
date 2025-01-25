@@ -22,7 +22,7 @@ import yangLeeJump from "../../../assets/fighting-game/yangLee/Going Up.png";
 import yangLeeFall from "../../../assets/fighting-game/yangLee/Going Down.png";
 import yangLeeAttack1 from "../../../assets/fighting-game/yangLee/Attack1.png";
 import yangLeeAttack2 from "../../../assets/fighting-game/yangLee/Attack2.png";
-import yangLeeTakeHit from "../../../assets/fighting-game/yangLee/Take hit.png";
+import yangLeeTakeHit from "../../../assets/fighting-game/yangLee/Take Hit.png";
 import yangLeeDeath from "../../../assets/fighting-game/yangLee/Death.png";
 import robinIdle from "../../../assets/fighting-game/robin/Idle.png";
 import robinRun from "../../../assets/fighting-game/robin/Run.png";
