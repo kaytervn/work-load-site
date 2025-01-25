@@ -12,12 +12,14 @@ import {
   TOOLS,
   GAMES,
   PERMISSIONS_GENERATOR,
+  FIGHTING_GAME,
 } from "./types/pageConfig";
 import QrCodeGenerator from "./views/Tools/QrGenerator";
 import SequenceActivator from "./views/Tools/SequenceActivator";
 import APIDocs from "./views/Tools/APIDocs";
 import Games from "./views/Other/Games";
 import Permissions from "./views/Tools/Permissions";
+import FightingGame from "./views/Other/FightingGame";
 
 const App = () => {
   return (
@@ -31,6 +33,7 @@ const App = () => {
         <Route path={API_DOCS.path} element={<APIDocs />} />
         <Route path={GAMES.path} element={<Games />} />
         <Route path={PERMISSIONS_GENERATOR.path} element={<Permissions />} />
+        <Route path={FIGHTING_GAME.path} element={<FightingGame />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

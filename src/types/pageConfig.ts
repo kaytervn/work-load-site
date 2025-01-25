@@ -58,6 +58,12 @@ const GAMES = {
   path: "/games",
 };
 
+const FIGHTING_GAME = {
+  name: "FIGHTING_GAME",
+  label: "Fighting Game",
+  path: "/fighting-game",
+};
+
 export {
   GORGEOUS_SWAGGER,
   CRUD_GENERATOR,
@@ -69,4 +75,5 @@ export {
   PERMISSIONS_GENERATOR,
   DATA_MERGING,
   DATA_GENERATOR,
+  FIGHTING_GAME,
 };
