@@ -38,7 +38,7 @@ import kingRichardJump from "../../../assets/fighting-game/kingRichard/Jump.png"
 import kingRichardFall from "../../../assets/fighting-game/kingRichard/Fall.png";
 import kingRichardAttack1 from "../../../assets/fighting-game/kingRichard/Attack2.png";
 import kingRichardAttack2 from "../../../assets/fighting-game/kingRichard/Attack3.png";
-import kingRichardTakeHit from "../../../assets/fighting-game/kingRichard/Take hit.png";
+import kingRichardTakeHit from "../../../assets/fighting-game/kingRichard/Take Hit.png";
 import kingRichardDeath from "../../../assets/fighting-game/kingRichard/Death.png";
 import poorGuyIdle from "../../../assets/fighting-game/poorGuy/Idle.png";
 import poorGuyRun from "../../../assets/fighting-game/poorGuy/Run.png";
@@ -46,7 +46,7 @@ import poorGuyJump from "../../../assets/fighting-game/poorGuy/Jump.png";
 import poorGuyFall from "../../../assets/fighting-game/poorGuy/Fall.png";
 import poorGuyAttack1 from "../../../assets/fighting-game/poorGuy/Attack2.png";
 import poorGuyAttack2 from "../../../assets/fighting-game/poorGuy/Attack3.png";
-import poorGuyTakeHit from "../../../assets/fighting-game/poorGuy/Take hit.png";
+import poorGuyTakeHit from "../../../assets/fighting-game/poorGuy/Take Hit.png";
 import poorGuyDeath from "../../../assets/fighting-game/poorGuy/Death.png";
 import backgroundImg from "../../../assets/fighting-game/background.png";
 import shopImg from "../../../assets/fighting-game/shop.png";
