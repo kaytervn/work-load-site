@@ -12,7 +12,7 @@ import GameOverlay from "../../services/fighting-game/components/GameOverlay";
 const FightingGame = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(10);
   const [gameText, setGameText] = useState("");
   const [playerHealth, setPlayerHealth] = useState(100);
   const [enemyHealth, setEnemyHealth] = useState(100);
@@ -171,17 +171,17 @@ const FightingGame = () => {
     const timerInterval = setInterval(() => {
       if (!end) {
         setTimer((prev) => (prev > 0 ? prev - 1 : 0));
-        if (timer == 0) {
-          determineWinner({
-            player: gameElements?.player,
-            enemy: gameElements?.enemy,
-          });
-        }
+      }
+      if (timer == 0) {
+        determineWinner({
+          player: gameElements?.player,
+          enemy: gameElements?.enemy,
+        });
       }
     }, 1000);
 
     return () => clearInterval(timerInterval);
-  }, [end]);
+  }, [end, timer]);
 
   const determineWinner = ({ player, enemy }: any) => {
     if (player.health == enemy.health) {
