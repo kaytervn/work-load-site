@@ -85,7 +85,7 @@ const Tools = () => {
       item.label.toLowerCase().includes(lowercasedValue)
     );
     setFilteredData(filtered);
-  }, [searchValue, data]);
+  }, [searchValue]);
 
   const handleSearch = (value: string) => {
     setSearchValue(value);

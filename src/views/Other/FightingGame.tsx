@@ -8,7 +8,6 @@ import { canvasConfig, fps } from "../../services/fighting-game/constant";
 import useGameElements from "../../services/fighting-game/hooks/useGameElements";
 import { isColliding } from "../../services/fighting-game/utils";
 import GameOverlay from "../../services/fighting-game/components/GameOverlay";
-import { RefreshCcw } from "lucide-react";
 
 const FightingGame = () => {
   const navigate = useNavigate();
@@ -239,7 +238,11 @@ const FightingGame = () => {
             onClickParent={() => navigate(GAMES.path)}
           />
           <div className="relative p-4 max-w-6xl flex justify-center mx-auto">
-            <canvas ref={canvasRef} className="rounded-[15px] z-0" />
+            <canvas
+              ref={canvasRef}
+              className="rounded-[15px] z-0"
+              style={{ height: "100%" }}
+            />
             <GameOverlay
               timer={timer}
               playerHealth={playerHealth}

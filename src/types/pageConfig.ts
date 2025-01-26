@@ -64,6 +64,12 @@ const FIGHTING_GAME = {
   path: "/fighting-game",
 };
 
+const MULTIROOM_PLATFORMER = {
+  name: "MULTIROOM_PLATFORMER",
+  label: "Multiroom Platformer",
+  path: "/multiroom-platformer",
+};
+
 export {
   GORGEOUS_SWAGGER,
   CRUD_GENERATOR,
@@ -76,4 +82,5 @@ export {
   DATA_MERGING,
   DATA_GENERATOR,
   FIGHTING_GAME,
+  MULTIROOM_PLATFORMER,
 };

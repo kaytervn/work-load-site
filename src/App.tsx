@@ -13,6 +13,7 @@ import {
   GAMES,
   PERMISSIONS_GENERATOR,
   FIGHTING_GAME,
+  MULTIROOM_PLATFORMER,
 } from "./types/pageConfig";
 import QrCodeGenerator from "./views/Tools/QrGenerator";
 import SequenceActivator from "./views/Tools/SequenceActivator";
@@ -20,6 +21,7 @@ import APIDocs from "./views/Tools/APIDocs";
 import Games from "./views/Other/Games";
 import Permissions from "./views/Tools/Permissions";
 import FightingGame from "./views/Other/FightingGame";
+import MultiroomPlatformer from "./views/Other/MultiroomPlatformer";
 
 const App = () => {
   return (
@@ -34,6 +36,10 @@ const App = () => {
         <Route path={GAMES.path} element={<Games />} />
         <Route path={PERMISSIONS_GENERATOR.path} element={<Permissions />} />
         <Route path={FIGHTING_GAME.path} element={<FightingGame />} />
+        <Route
+          path={MULTIROOM_PLATFORMER.path}
+          element={<MultiroomPlatformer />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
