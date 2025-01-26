@@ -12,7 +12,7 @@ import GameOverlay from "../../services/fighting-game/components/GameOverlay";
 const FightingGame = () => {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(60);
   const [gameText, setGameText] = useState("");
   const [playerHealth, setPlayerHealth] = useState(100);
   const [enemyHealth, setEnemyHealth] = useState(100);
