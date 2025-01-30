@@ -155,12 +155,8 @@ const MultiroomPlatformer = () => {
             childLabel={MULTIROOM_PLATFORMER.label}
             onClickParent={() => navigate(GAMES.path)}
           />
-          <div className="p-4 max-w-6xl flex justify-center mx-auto h-[768px]">
-            <canvas
-              ref={canvasRef}
-              className="rounded-[15px]"
-              style={{ height: "100%" }}
-            />
+          <div className="p-4 max-w-7xl flex justify-center mx-auto">
+            <canvas ref={canvasRef} className="rounded-[15px] h-full w-full" />
           </div>
         </>
       }

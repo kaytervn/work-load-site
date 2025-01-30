@@ -237,11 +237,10 @@ const FightingGame = () => {
             childLabel={FIGHTING_GAME.label}
             onClickParent={() => navigate(GAMES.path)}
           />
-          <div className="relative p-4 max-w-6xl flex justify-center mx-auto">
+          <div className="relative p-4 max-w-7xl flex justify-center mx-auto">
             <canvas
               ref={canvasRef}
-              className="rounded-[15px] z-0"
-              style={{ height: "100%" }}
+              className="rounded-[15px] z-0 w-full h-full"
             />
             <GameOverlay
               timer={timer}

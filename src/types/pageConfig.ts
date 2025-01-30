@@ -70,6 +70,12 @@ const MULTIROOM_PLATFORMER = {
   path: "/multiroom-platformer",
 };
 
+const THREE_D_RACING_GAME = {
+  name: "THREE_D_RACING_GAME",
+  label: "3D Racing Game",
+  path: "/3d-racing-game",
+};
+
 export {
   GORGEOUS_SWAGGER,
   CRUD_GENERATOR,
@@ -83,4 +89,5 @@ export {
   DATA_GENERATOR,
   FIGHTING_GAME,
   MULTIROOM_PLATFORMER,
+  THREE_D_RACING_GAME,
 };

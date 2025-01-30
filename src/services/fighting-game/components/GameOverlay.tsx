@@ -11,7 +11,7 @@ const GameOverlay = ({
 }: any) => {
   return (
     <div>
-      <div className="absolute inset-0 z-10 pointer-events-none top-10">
+      <div className="absolute inset-0 z-10 pointer-events-none top-10 max-w-6xl mx-auto">
         <motion.div
           className="flex items-center justify-between h-20"
           style={{ fontFamily: '"Press Start 2P", system-ui' }}

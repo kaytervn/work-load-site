@@ -14,6 +14,7 @@ import {
   PERMISSIONS_GENERATOR,
   FIGHTING_GAME,
   MULTIROOM_PLATFORMER,
+  THREE_D_RACING_GAME,
 } from "./types/pageConfig";
 import QrCodeGenerator from "./views/Tools/QrGenerator";
 import SequenceActivator from "./views/Tools/SequenceActivator";
@@ -22,6 +23,7 @@ import Games from "./views/Other/Games";
 import Permissions from "./views/Tools/Permissions";
 import FightingGame from "./views/Other/FightingGame";
 import MultiroomPlatformer from "./views/Other/MultiroomPlatformer";
+import ThreeDRacingGame from "./views/Other/ThreeDRacingGame";
 
 const App = () => {
   return (
@@ -36,6 +38,7 @@ const App = () => {
         <Route path={GAMES.path} element={<Games />} />
         <Route path={PERMISSIONS_GENERATOR.path} element={<Permissions />} />
         <Route path={FIGHTING_GAME.path} element={<FightingGame />} />
+        <Route path={THREE_D_RACING_GAME.path} element={<ThreeDRacingGame />} />
         <Route
           path={MULTIROOM_PLATFORMER.path}
           element={<MultiroomPlatformer />}

@@ -4,12 +4,18 @@ import {
   FIGHTING_GAME,
   GAMES,
   MULTIROOM_PLATFORMER,
+  THREE_D_RACING_GAME,
 } from "../../types/pageConfig";
 import NoData from "../../components/NoData";
 import ToolCard from "../../components/ToolCard";
 import Header from "../../components/swagger/Header";
 import InputBox from "../../components/InputBox";
-import { LayoutTemplateIcon, SearchIcon, SwordsIcon } from "lucide-react";
+import {
+  CarFrontIcon,
+  LayoutTemplateIcon,
+  SearchIcon,
+  SwordsIcon,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Games = () => {
@@ -26,6 +32,12 @@ const Games = () => {
       icon: LayoutTemplateIcon,
       color: "#7B5C7F",
       onButtonClick: () => navigate(MULTIROOM_PLATFORMER.path),
+    },
+    {
+      label: THREE_D_RACING_GAME.label,
+      icon: CarFrontIcon,
+      color: "#6A8B87",
+      onButtonClick: () => navigate(THREE_D_RACING_GAME.path),
     },
   ];
   const [searchValue, setSearchValue] = useState("");
