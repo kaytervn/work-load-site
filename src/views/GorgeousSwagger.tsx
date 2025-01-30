@@ -209,8 +209,7 @@ const GorgeousSwagger = () => {
     const item = getItemById(GORGEOUS_SWAGGER.name, id);
     const requests = [];
     if (item.requests?.length > 0) {
-      for (const i in item.requests) {
-        const req = item.requests[i];
+      for (const req of item.requests) {
         requests.push({
           name: req.name,
           method: req.method,
@@ -227,17 +226,16 @@ const GorgeousSwagger = () => {
         });
       }
     }
+    console.log(requests);
     const localHeaders = [];
     if (item.local?.headers?.length > 0) {
-      for (const i in item.local.headers) {
-        const head = item.local.headers[i];
+      for (const head of item.local.headers) {
         localHeaders.push({ key: head.key, value: head.value });
       }
     }
     const remoteHeaders = [];
     if (item.remote?.headers?.length > 0) {
-      for (const i in item.remote.headers) {
-        const head = item.remote.headers[i];
+      for (const head of item.remote.headers) {
         remoteHeaders.push({ key: head.key, value: head.value });
       }
     }
