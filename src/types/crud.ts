@@ -80,6 +80,8 @@ const generateCriteriaClass = (modelName: any, fields: any) => {
 import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -354,6 +356,7 @@ public class ${createFormName} {
 
   const updateForm = `import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class ${updateFormName} {
@@ -365,6 +368,7 @@ public class ${updateFormName} {
   if (containOrdering(fields)) {
     forms.updateSortForm = `import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class ${updateSortFormName} {
@@ -546,9 +550,12 @@ const generateController = (modelName: any, fields: any) => {
     : "";
 
   const sortOrderingAutoComplete = containOrdering(fields)
-    ? `int size = ${lowerModelName}Criteria.getIsPaged().equals(AppConstant.BOOLEAN_FALSE) ? Integer.MAX_VALUE : 10;
-        Pageable pageable = PageRequest.of(0, size, Sort.by("ordering").ascending().and(Sort.by("createdDate").descending()));\n        `
-    : "Pageable pageable = PageRequest.of(0, 10);\n        ";
+    ? `if (AppConstant.BOOLEAN_FALSE.equals(${lowerModelName}Criteria.getIsPaged())) {
+            pageable = PageRequest.of(0, Integer.MAX_VALUE, Sort.by("ordering").ascending().and(Sort.by("createdDate").descending()));
+        } else {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("ordering").ascending().and(Sort.by("createdDate").descending()));
+        }\n        `
+    : "";
 
   const updateSortEndpoint = containOrdering(fields)
     ? `    \n\n    @PutMapping(value = "/update-sort", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -573,6 +580,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -621,7 +629,7 @@ ${autowiredRepos}
     }
 
     @GetMapping(value = "/auto-complete", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<ResponseListDto<List<${upperModelName}Dto>>> autoComplete(${upperModelName}Criteria ${lowerModelName}Criteria) {
+    public ApiMessageDto<ResponseListDto<List<${upperModelName}Dto>>> autoComplete(${upperModelName}Criteria ${lowerModelName}Criteria, @PageableDefault Pageable pageable) {
         ${sortOrderingAutoComplete}${lowerModelName}Criteria.setStatus(AppConstant.STATUS_ACTIVE);
         Page<${upperModelName}> list${upperModelName} = ${lowerModelName}Repository.findAll(${lowerModelName}Criteria.getCriteria(), pageable);
         ResponseListDto<List<${upperModelName}Dto>> responseListObj = new ResponseListDto<>();
