@@ -256,7 +256,7 @@ const addAdditionalRequestItem = (
     },
   });
   baseItem.item.push({
-    name: "permission",
+    name: "default-permission",
     item: [
       {
         name: "create",
