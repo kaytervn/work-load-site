@@ -59,6 +59,9 @@ const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
 
   const handleSubmit = async () => {
     if (isValidForm()) {
+      if (form.isCustomHost === "0") {
+        form.host = "";
+      }
       formConfig.onButtonClick(form);
     } else {
       toast.error("Please enter valid information");
