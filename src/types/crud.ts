@@ -739,11 +739,11 @@ const generateOutput = (input: any) => {
       name: "AppConstant",
       value: constantsCode,
     },
+    ...validations,
     {
       name: upperModelName + "Dto",
       value: dto,
     },
-    ...validations,
     {
       name: "Create" + upperModelName + "Form",
       value: createForm,
