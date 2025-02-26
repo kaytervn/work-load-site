@@ -4,8 +4,11 @@ import {
   useContext,
   Dispatch,
   useState,
+  useEffect,
 } from "react";
 import { getRandomGif } from "../types/utils";
+import { getStorageData, setStorageData } from "../services/storages";
+import { LOCAL_STORAGE } from "../types/constant";
 
 const GlobalContext = createContext<{
   imgSrc: any;
@@ -31,10 +34,20 @@ const GlobalContext = createContext<{
 
 export const GlobalProvider = ({ children }: any) => {
   const [imgSrc, setImgSrc] = useState<any>(getRandomGif());
-  const [isCollapsed, setIsCollapsed] = useState<any>(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(
+    getStorageData(LOCAL_STORAGE.IS_COLLAPSED, false)
+  );
   const [collapsedGroups, setCollapsedGroups] = useState<{
     [key: string]: boolean;
-  }>({});
+  }>(getStorageData(LOCAL_STORAGE.COLLAPSED_GROUPS, {}));
+
+  useEffect(() => {
+    setStorageData(LOCAL_STORAGE.IS_COLLAPSED, isCollapsed);
+  }, [isCollapsed]);
+
+  useEffect(() => {
+    setStorageData(LOCAL_STORAGE.COLLAPSED_GROUPS, collapsedGroups);
+  }, [collapsedGroups]);
 
   return (
     <GlobalContext.Provider

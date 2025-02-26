@@ -14,11 +14,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "./GlobalProvider";
 import { useEffect, useState } from "react";
-import {
-  GAMES,
-  GORGEOUS_SWAGGER,
-  TOOLS,
-} from "../types/pageConfig";
+import { GAMES, GORGEOUS_SWAGGER, TOOLS } from "../types/pageConfig";
+import { getStorageData, setStorageData } from "../services/storages";
+import { LOCAL_STORAGE } from "../types/constant";
 
 const Sidebar = ({ activeItem, renderContent }: any) => {
   const {
@@ -92,18 +90,25 @@ const Sidebar = ({ activeItem, renderContent }: any) => {
     }
   };
 
+  useEffect(() => {
+    setCollapsedGroups(getStorageData(LOCAL_STORAGE.COLLAPSED_GROUPS, {}));
+  }, []);
+
   const toggleGroupCollapse = (groupName: string) => {
-    setCollapsedGroups((prev) => ({
-      ...prev,
-      [groupName]: !prev[groupName],
-    }));
+    setCollapsedGroups((prev) => {
+      const updatedGroups = { ...prev, [groupName]: !prev[groupName] };
+      getStorageData(LOCAL_STORAGE.COLLAPSED_GROUPS, updatedGroups);
+      return updatedGroups;
+    });
   };
 
   const toggleSidebar = () => {
     if (isMobile) {
       setIsSidebarVisible(!isSidebarVisible);
     } else {
-      setIsCollapsed(!isCollapsed);
+      const newCollapsed = !isCollapsed;
+      setIsCollapsed(newCollapsed);
+      setStorageData(LOCAL_STORAGE.IS_COLLAPSED, newCollapsed);
     }
   };
 

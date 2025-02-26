@@ -131,6 +131,11 @@ const defaultTenantHeader = [
 
 const myPublicSecretKey = "D@y1aK3yDu0cC0n9";
 
+const LOCAL_STORAGE = {
+  IS_COLLAPSED: "is_collapsed",
+  COLLAPSED_GROUPS: "collapsed_groups",
+};
+
 export {
   defaultInteger,
   defaultLong,
@@ -144,4 +149,5 @@ export {
   defaultNoAuth,
   HeaderPattern,
   HostPattern,
+  LOCAL_STORAGE,
 };
