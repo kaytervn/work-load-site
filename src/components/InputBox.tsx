@@ -1,4 +1,10 @@
+import { XIcon } from "lucide-react";
+
 const InputBox = ({ value, placeholder, onChangeText, icon: Icon }: any) => {
+  const handleClear = () => {
+    onChangeText("");
+  };
+
   return (
     <div className="w-full md:w-[20rem] flex items-center p-3 rounded-md bg-gray-600">
       <input
@@ -7,7 +13,16 @@ const InputBox = ({ value, placeholder, onChangeText, icon: Icon }: any) => {
         value={value}
         onChange={(e) => onChangeText(e.target.value)}
       />
-      {Icon && <Icon size={16} className={"text-gray-100"} />}
+      {value ? (
+        <button
+          onClick={handleClear}
+          className="p-1 text-gray-300 hover:text-gray-100 rounded-full hover:bg-gray-700 transition-colors duration-200"
+        >
+          <XIcon size={16} />
+        </button>
+      ) : (
+        Icon && <Icon size={16} className="text-gray-100" />
+      )}
     </div>
   );
 };
