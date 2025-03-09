@@ -14,7 +14,7 @@ const ToolCard = ({ item, onButtonClick }: any) => {
 
         <div className="flex flex-col h-full justify-between">
           <div className="flex justify-end">
-            <h2 className="text-3xl font-bold text-white tracking-tight text-end">
+            <h2 className="text-2xl font-bold text-white tracking-tight text-end">
               {item.label}
             </h2>
           </div>
