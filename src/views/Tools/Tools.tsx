@@ -76,7 +76,7 @@ const Tools = () => {
     {
       label: TOKEN_CUSTOMIZATION.label,
       icon: LockKeyholeOpenIcon,
-      color: "#FF9800",
+      color: "#795548",
       onButtonClick: () => navigate(TOKEN_CUSTOMIZATION.path),
     },
   ];
