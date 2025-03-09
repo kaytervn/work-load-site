@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import Breadcrumb from "../../components/Breadcrumb";
 import Sidebar from "../../components/Sidebar";
 import { TOOLS, SEQUENCE_ACTIVATOR } from "../../types/pageConfig";
 import { useEffect, useState } from "react";
@@ -8,7 +6,6 @@ import { CheckCircleIcon, CopyIcon } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 
 const SequenceActivator: React.FC = () => {
-  const navigate = useNavigate();
   const [inputPUML, setInputPUML] = useState<string>("");
   const [outputPUML, setOutputPUML] = useState<string>("");
   const [copied, setCopied] = useState(false);
@@ -27,14 +24,13 @@ const SequenceActivator: React.FC = () => {
   return (
     <Sidebar
       activeItem={TOOLS.name}
+      breadcrumbs={[
+        { label: TOOLS.label, path: TOOLS.path },
+        { label: SEQUENCE_ACTIVATOR.label },
+      ]}
       renderContent={
         <>
-          <Breadcrumb
-            parentLabel={TOOLS.label}
-            childLabel={SEQUENCE_ACTIVATOR.label}
-            onClickParent={() => navigate(TOOLS.path)}
-          />
-          <div className="bg-gray-900 p-6 rounded-3xl shadow-xl w-full max-w-7xl mx-auto mt-6 border border-gray-800">
+          <div className="bg-gray-900 p-6 rounded-3xl shadow-xl w-full max-w-7xl mx-auto border border-gray-800">
             <div className="mb-8">
               <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500 mb-2">
                 Sequence UML Activator

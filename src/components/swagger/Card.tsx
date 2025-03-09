@@ -1,6 +1,7 @@
 import {
   ArrowLeftRightIcon,
   CalendarFoldIcon,
+  CircleChevronUpIcon,
   EditIcon,
   ExternalLinkIcon,
   RepeatIcon,
@@ -12,7 +13,15 @@ import { format } from "date-fns";
 import { truncateString, updateItemInStorage } from "../../types/utils";
 import { GORGEOUS_SWAGGER } from "../../types/pageConfig";
 
-const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
+const Card = ({
+  item,
+  onConvert,
+  onUpdate,
+  onDelete,
+  onExport,
+  onClickHeaders,
+  onClickRequests,
+}: any) => {
   const [initialValue, setInitialValue] = useState<any>(null);
   const [options, setOptions] = useState<any>([]);
   useEffect(() => {
@@ -58,18 +67,15 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
   return (
     <div className="rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02]">
       <div
-        className="h-48 relative flex flex-col justify-between p-4"
+        className="h-40 relative flex flex-col justify-between p-4"
         style={{
           background: `linear-gradient(45deg, ${item.color}99, ${item.color}66)`,
         }}
       >
-        <div className="flex justify-between items-start">
-          <div className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 text-gray-200 flex items-center space-x-2">
-            <CalendarFoldIcon className="w-4 h-4" />
-            <span className="text-sm font-medium">
-              {format(new Date(item.createdAt), "dd/MM/yyyy")}
-            </span>
-          </div>
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-gray-200 tracking-tight whitespace-nowrap">
+            {truncateString(item.collectionName, 25)}
+          </h2>
           <div className="flex space-x-1">
             <button
               onClick={() => onExport(item.id)}
@@ -94,19 +100,38 @@ const Card = ({ item, onConvert, onUpdate, onDelete, onExport }: any) => {
             </button>
           </div>
         </div>
-        <div className="mt-2">
-          <h2 className="text-3xl font-bold text-gray-200 tracking-tight whitespace-nowrap">
-            {truncateString(item.collectionName, 25)}
-          </h2>
-          <div className="inline-flex mt-2 bg-black/30 backdrop-blur-sm rounded-full px-4 py-1.5 text-gray-200 items-center space-x-2">
-            <RepeatIcon className="w-4 h-4" />
-            <span className="font-medium">
-              {item.requests?.length || 0} Requests
+
+        <div className="flex justify-between items-center">
+          <div className="bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 text-gray-200 flex items-center space-x-2">
+            <CalendarFoldIcon className="w-4 h-4" />
+            <span className="text-sm font-medium">
+              {format(new Date(item.createdAt), "dd/MM/yyyy")}
             </span>
+          </div>
+
+          <div className="flex space-x-1.5">
+            <div
+              className="inline-flex bg-blue-600/60 backdrop-blur-sm rounded-full px-3 py-1.5 text-blue-200 
+          items-center space-x-2 cursor-pointer hover:bg-blue-400/40 transition text-sm font-medium"
+              onClick={() => onClickRequests(item.id)}
+            >
+              <RepeatIcon className="w-4 h-4" />
+              <span className="font-medium">
+                {item.requests?.length || 0} Requests
+              </span>
+            </div>
+            <div
+              className="inline-flex bg-red-600/60 backdrop-blur-sm rounded-full px-3 py-1.5 text-red-200 
+          items-center space-x-2 cursor-pointer hover:bg-red-400/40 transition text-sm font-medium"
+              onClick={() => onClickHeaders(item.id)}
+            >
+              <CircleChevronUpIcon className="w-4 h-4" />
+              <span className="font-medium">Headers</span>
+            </div>
           </div>
         </div>
       </div>
-      <div className="bg-gray-900 p-6 flex flex-col flex-grow">
+      <div className="bg-gray-900 p-4 flex flex-col flex-grow">
         <RadioButtons
           options={options}
           selectedValue={initialValue}

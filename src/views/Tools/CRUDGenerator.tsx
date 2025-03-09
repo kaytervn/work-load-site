@@ -2,13 +2,10 @@ import { useEffect, useState } from "react";
 import { Copy, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
 import { CRUD_GENERATOR, TOOLS } from "../../types/pageConfig";
-import Breadcrumb from "../../components/Breadcrumb";
-import { useNavigate } from "react-router-dom";
 import { generateOutput } from "../../types/crud";
 import { toast, ToastContainer } from "react-toastify";
 
 const CRUDGenerator = () => {
-  const navigate = useNavigate();
   const [inputText, setInputText] = useState("");
   const [outputItems, setOutputItems] = useState<any[]>([]);
   const [copiedStates, setCopiedStates] = useState<{ [key: string]: boolean }>(
@@ -53,13 +50,12 @@ const CRUDGenerator = () => {
   return (
     <Sidebar
       activeItem={TOOLS.name}
+      breadcrumbs={[
+        { label: TOOLS.label, path: TOOLS.path },
+        { label: CRUD_GENERATOR.label },
+      ]}
       renderContent={
         <>
-          <Breadcrumb
-            parentLabel={TOOLS.label}
-            childLabel={CRUD_GENERATOR.label}
-            onClickParent={() => navigate(TOOLS.path)}
-          />
           <div className="p-4 space-y-4 max-w-6xl w-full mx-auto">
             <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-xl p-8 border border-gray-700">
               <div className="mb-6">
@@ -82,7 +78,7 @@ const CRUDGenerator = () => {
                       <div className="w-3 h-3 rounded-full bg-green-500"></div>
                     </div>
                     <span className="ml-4 text-xs text-gray-400">
-                      model_definition.txt
+                      model_definition.java
                     </span>
                   </div>
                   <textarea

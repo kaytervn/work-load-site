@@ -105,6 +105,27 @@ const getPaginatedStorageData = (
   }
 };
 
+const getItemPage = (
+  storageKey: string,
+  itemId: string,
+  size: number = 5
+): number => {
+  const data = localStorage.getItem(storageKey);
+  if (!data) return -1;
+  try {
+    const parsedData = JSON.parse(data);
+    parsedData.sort(
+      (a: any, b: any) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    const itemIndex = parsedData.findIndex((item: any) => item.id === itemId);
+    if (itemIndex === -1) return -1;
+    return Math.floor(itemIndex / size);
+  } catch (err) {
+    return -1;
+  }
+};
+
 const getStorageData = (storageKey: string): any => {
   const data = localStorage.getItem(storageKey);
   if (data === null) {
@@ -212,4 +233,5 @@ export {
   findStorageItemBy,
   initializeStorage,
   isValidURL,
+  getItemPage,
 };

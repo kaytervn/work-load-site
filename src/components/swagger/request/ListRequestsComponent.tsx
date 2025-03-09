@@ -1,16 +1,17 @@
 import { FolderIcon, PlusIcon } from "lucide-react";
 import RequestForm from "./RequestForm";
 import useModal from "../../../hooks/useModal";
-import { toast } from "react-toastify";
 import TableRowComponent from "./TableRowComponent";
 import { getUniqueFolders } from "../../../services/SwaggerService";
 import { truncateString } from "../../../types/utils";
+import NoData from "../../NoData";
 
 const ListRequestsComponent = ({
   handleAddRequest,
   handleEditRequest,
   handleRemoveRequest,
   requests,
+  title,
 }: any) => {
   const { isModalVisible, showModal, hideModal, formConfig } = useModal();
 
@@ -57,7 +58,6 @@ const ListRequestsComponent = ({
       onButtonClick: (form: any) => {
         handleAddRequest(form);
         hideModal();
-        toast.success("Request added successfully");
       },
       initForm: {
         name: "",
@@ -84,7 +84,6 @@ const ListRequestsComponent = ({
       onButtonClick: (request: any) => {
         handleEditRequest(index, request);
         hideModal();
-        toast.success("Request edited successfully");
       },
       initForm: {
         ...request,
@@ -98,14 +97,12 @@ const ListRequestsComponent = ({
       <div className="space-y-4 text-gray-300">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <label className="text-base font-semibold text-blue-300">
-              Request(s)
+            <label className="ml-2 text-base font-semibold text-blue-300">
+              {title && truncateString(title, 25)}
             </label>
-            {requests.length > 0 && (
-              <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-800 text-blue-200">
-                {requests.length}
-              </span>
-            )}
+            <span className="px-3 py-1 text-xs font-medium rounded-full bg-blue-800 text-blue-200">
+              {requests.length || 0}
+            </span>
           </div>
           <button
             onClick={onAddButtonClick}
@@ -115,13 +112,15 @@ const ListRequestsComponent = ({
             Add
           </button>
         </div>
-        {requests.length > 0 && (
+        {requests.length > 0 ? (
           <TableRowComponent
             requests={requests}
             columns={columns}
             handleRemoveRequest={handleRemoveRequest}
             handleEditRequest={onEditButtonClick}
           />
+        ) : (
+          <NoData />
         )}
       </div>
       <RequestForm

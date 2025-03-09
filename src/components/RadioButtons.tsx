@@ -13,11 +13,11 @@ const RadioButtons = ({ options, selectedValue, onValueChange }: any) => {
     }
   };
   return (
-    <div className="mb-4">
+    <div className="mb-2">
       {options.map((option: any, index: any) => (
         <label
           key={index}
-          className="flex items-center mb-2 whitespace-nowrap text-gray-200"
+          className="flex items-center mb-2 whitespace-nowrap text-gray-200 text-md"
         >
           <input
             type="radio"
@@ -31,7 +31,7 @@ const RadioButtons = ({ options, selectedValue, onValueChange }: any) => {
               <span className="h-2 w-2 bg-blue-50 rounded-full"></span>
             )}
           </span>
-          {truncateString(option.label, 45)}
+          {truncateString(option.label, 100)}
         </label>
       ))}
       {options.length < 2 && <div className="my-10"></div>}

@@ -4,33 +4,41 @@ import {
   deleteItemFromStorage,
   encrypt,
   getItemById,
+  getItemPage,
   getPaginatedStorageData,
   getStorageData,
   initializeStorage,
   overwriteItemInStorage,
   parseResponseText,
-} from "../types/utils";
-import Header from "../components/swagger/Header";
-import InputBox from "../components/InputBox";
+} from "../../types/utils";
+import Header from "../../components/swagger/Header";
+import InputBox from "../../components/InputBox";
 import { SearchIcon } from "lucide-react";
-import Card from "../components/swagger/Card";
-import { SwaggerCollection } from "../types/interfaces";
+import Card from "../../components/swagger/Card";
+import { SwaggerCollection } from "../../types/interfaces";
 import { toast, ToastContainer } from "react-toastify";
-import NoData from "../components/NoData";
-import Pagination from "../components/Pagination";
-import { ConfirmationDialog, LoadingDialog } from "../components/Dialog";
-import useDialog from "../hooks/useDialog";
-import ConvertCollection from "../components/swagger/ConvertCollections";
-import { transformJson } from "../types/converter";
-import { useLoading } from "../hooks/useLoading";
-import ExportCollection from "../components/swagger/ExportCollection";
-import ImportCollection from "../components/swagger/ImportCollection";
-import CollectionForm from "../components/swagger/CollectionForm";
-import useModal from "../hooks/useModal";
-import Sidebar from "../components/Sidebar";
-import { GORGEOUS_SWAGGER } from "../types/pageConfig";
+import NoData from "../../components/NoData";
+import Pagination from "../../components/Pagination";
+import { ConfirmationDialog, LoadingDialog } from "../../components/Dialog";
+import useDialog from "../../hooks/useDialog";
+import ConvertCollection from "../../components/swagger/ConvertCollections";
+import { transformJson } from "../../types/converter";
+import { useLoading } from "../../hooks/useLoading";
+import ExportCollection from "../../components/swagger/ExportCollection";
+import ImportCollection from "../../components/swagger/ImportCollection";
+import CollectionForm from "../../components/swagger/CollectionForm";
+import useModal from "../../hooks/useModal";
+import Sidebar from "../../components/Sidebar";
+import {
+  GORGEOUS_SWAGGER,
+  HEADER_MANAGER,
+  REQUEST_MANAGER,
+} from "../../types/pageConfig";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const GorgeousSwagger = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
   const { isDialogVisible, showDialog, hideDialog, dialogConfig } = useDialog();
   const { isModalVisible, showModal, hideModal, formConfig } = useModal();
   const [convertModalVisible, setConvertModalVisible] = useState(false);
@@ -47,7 +55,24 @@ const GorgeousSwagger = () => {
 
   useEffect(() => {
     document.title = GORGEOUS_SWAGGER.label;
-    fetchData(0, searchValue);
+
+    const initializePage = async () => {
+      if (state?.collectionId) {
+        const itemPage = getItemPage(
+          GORGEOUS_SWAGGER.name,
+          state.collectionId,
+          size
+        );
+        if (itemPage !== -1) {
+          setCurrentPage(itemPage);
+          await fetchData(itemPage, searchValue);
+          return;
+        }
+      }
+      await fetchData(currentPage, searchValue);
+    };
+
+    initializePage();
   }, []);
 
   const fetchData = (page: number, search: string) => {
@@ -226,7 +251,6 @@ const GorgeousSwagger = () => {
         });
       }
     }
-    console.log(requests);
     const localHeaders = [];
     if (item.local?.headers?.length > 0) {
       for (const head of item.local.headers) {
@@ -268,6 +292,7 @@ const GorgeousSwagger = () => {
   return (
     <Sidebar
       activeItem={GORGEOUS_SWAGGER.name}
+      breadcrumbs={[{ label: GORGEOUS_SWAGGER.label }]}
       renderContent={
         <>
           <Header
@@ -300,6 +325,20 @@ const GorgeousSwagger = () => {
                         getItemById(GORGEOUS_SWAGGER.name, id),
                       ]);
                     }}
+                    onClickHeaders={(id: any) => {
+                      navigate(HEADER_MANAGER.path, {
+                        state: {
+                          collectionId: id,
+                        },
+                      });
+                    }}
+                    onClickRequests={(id: any) => {
+                      navigate(REQUEST_MANAGER.path, {
+                        state: {
+                          collectionId: id,
+                        },
+                      });
+                    }}
                     onUpdate={(id: any) => {
                       onUpdateButtonClick(id);
                     }}
@@ -312,11 +351,13 @@ const GorgeousSwagger = () => {
                   />
                 ))}
               </div>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+              {totalPages > 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
             </>
           ) : (
             <NoData />

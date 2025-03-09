@@ -62,6 +62,7 @@ const Games = () => {
   return (
     <Sidebar
       activeItem={GAMES.name}
+      breadcrumbs={[{ label: GAMES.label }]}
       renderContent={
         <>
           <Header

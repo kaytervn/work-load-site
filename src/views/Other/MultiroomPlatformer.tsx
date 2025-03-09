@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { GAMES, MULTIROOM_PLATFORMER } from "../../types/pageConfig";
-import Breadcrumb from "../../components/Breadcrumb";
 import Sidebar from "../../components/Sidebar";
 import {
   collisionLevel1,
@@ -14,7 +12,6 @@ import useKeyPress from "../../services/multiroom/hooks/useKeyPress";
 import "../../services/multiroom/utils";
 
 const MultiroomPlatformer = () => {
-  const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [context, setContext] = useState<any>(null);
   const [background, setBackground] = useState<any>(null);
@@ -148,13 +145,12 @@ const MultiroomPlatformer = () => {
   return (
     <Sidebar
       activeItem={GAMES.name}
+      breadcrumbs={[
+        { label: GAMES.label, path: GAMES.path },
+        { label: MULTIROOM_PLATFORMER.label },
+      ]}
       renderContent={
         <>
-          <Breadcrumb
-            parentLabel={GAMES.label}
-            childLabel={MULTIROOM_PLATFORMER.label}
-            onClickParent={() => navigate(GAMES.path)}
-          />
           <div className="p-4 max-w-7xl flex justify-center mx-auto">
             <canvas ref={canvasRef} className="rounded-[15px] h-full w-full" />
           </div>

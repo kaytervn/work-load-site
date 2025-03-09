@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import GorgeousSwagger from "./views/GorgeousSwagger";
+import GorgeousSwagger from "./views/swagger/GorgeousSwagger";
 import CRUDGenerator from "./views/Tools/CRUDGenerator";
 import NotFound from "./views/NotFound";
 import Tools from "./views/Tools/Tools";
@@ -15,6 +15,8 @@ import {
   FIGHTING_GAME,
   MULTIROOM_PLATFORMER,
   THREE_D_RACING_GAME,
+  REQUEST_MANAGER,
+  HEADER_MANAGER,
 } from "./types/pageConfig";
 import QrCodeGenerator from "./views/Tools/QrGenerator";
 import SequenceActivator from "./views/Tools/SequenceActivator";
@@ -24,12 +26,16 @@ import Permissions from "./views/Tools/Permissions";
 import FightingGame from "./views/Other/FightingGame";
 import MultiroomPlatformer from "./views/Other/MultiroomPlatformer";
 import ThreeDRacingGame from "./views/Other/ThreeDRacingGame";
+import RequestManager from "./views/swagger/RequestManager";
+import HeaderManager from "./views/swagger/HeaderManager";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path={GORGEOUS_SWAGGER.path} element={<GorgeousSwagger />} />
+        <Route path={REQUEST_MANAGER.path} element={<RequestManager />} />
+        <Route path={HEADER_MANAGER.path} element={<HeaderManager />} />
         <Route path={TOOLS.path} element={<Tools />} />
         <Route path={CRUD_GENERATOR.path} element={<CRUDGenerator />} />
         <Route path={QR_GENERATOR.path} element={<QrCodeGenerator />} />

@@ -1,13 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { getCurrentDate_2 } from "../../types/utils";
 import { TOOLS, QR_GENERATOR } from "../../types/pageConfig";
 import Sidebar from "../../components/Sidebar";
-import Breadcrumb from "../../components/Breadcrumb";
 import { QRCodeCanvas } from "qrcode.react";
 
 const QrCodeGenerator = () => {
-  const navigate = useNavigate();
   const [text, setText] = useState<string>("");
   const [size, setSize] = useState<number>(200);
   const hiddenCanvasRef = useRef<HTMLDivElement>(null);
@@ -28,15 +25,14 @@ const QrCodeGenerator = () => {
   return (
     <Sidebar
       activeItem={TOOLS.name}
+      breadcrumbs={[
+        { label: TOOLS.label, path: TOOLS.path },
+        { label: QR_GENERATOR.label },
+      ]}
       renderContent={
         <>
-          <Breadcrumb
-            parentLabel={TOOLS.label}
-            childLabel={QR_GENERATOR.label}
-            onClickParent={() => navigate(TOOLS.path)}
-          />
           <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-8 rounded-3xl shadow-2xl border border-gray-700 w-full max-w-2xl mx-auto">
-            <div className="mb-8 text-center">
+            <div className="mb-4 text-center">
               <div className="inline-block p-2 bg-blue-500 bg-opacity-20 rounded-xl mb-3">
                 <svg
                   className="w-8 h-8 text-blue-400"
@@ -62,7 +58,7 @@ const QrCodeGenerator = () => {
               </p>
             </div>
 
-            <div className="space-y-5">
+            <div className="space-y-4">
               <div className="relative">
                 <label className="block text-sm font-medium text-gray-400 mb-2 ml-1">
                   Content

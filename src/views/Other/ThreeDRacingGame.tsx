@@ -7,12 +7,9 @@ import { boxCollision } from "../../services/3d-racing-game/utils";
 import { Truck } from "../../services/3d-racing-game/Truck.js";
 import Sidebar from "../../components/Sidebar.js";
 import { GAMES, THREE_D_RACING_GAME } from "../../types/pageConfig.js";
-import Breadcrumb from "../../components/Breadcrumb.js";
-import { useNavigate } from "react-router-dom";
 import { RotateCcwIcon } from "lucide-react";
 
 const ThreeDRacingGame = () => {
-  const navigate = useNavigate();
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameText, setGameText] = useState("");
@@ -302,13 +299,12 @@ const ThreeDRacingGame = () => {
   return (
     <Sidebar
       activeItem={GAMES.name}
+      breadcrumbs={[
+        { label: GAMES.label, path: GAMES.path },
+        { label: THREE_D_RACING_GAME.label },
+      ]}
       renderContent={
         <>
-          <Breadcrumb
-            parentLabel={GAMES.label}
-            childLabel={THREE_D_RACING_GAME.label}
-            onClickParent={() => navigate(GAMES.path)}
-          />
           <div className="relative p-4 flex justify-center mx-auto">
             <div className="absolute top-10 left-4 z-10">
               <div className="bg-black/80 px-6 py-4 rounded-lg border-2 border-yellow-400 flex flex-col gap-4">

@@ -1,17 +1,26 @@
-const Breadcrumb = ({ parentLabel, onClickParent, childLabel }: any) => {
+import { useNavigate } from "react-router-dom";
+
+const Breadcrumb = ({ items }: any) => {
+  const navigate = useNavigate();
+
   return (
-    <nav className="text-gray-100 mb-2 font-semibold">
+    <nav className="text-gray-100 font-semibold">
       <ul className="flex space-x-2">
-        <li
-          className="cursor-pointer py-1 px-2 rounded-lg hover:bg-gray-700 hover:text-gray-200"
-          onClick={onClickParent}
-        >
-          {parentLabel}
-        </li>
-        <>
-          <li className="p-1">/</li>
-          <li className="text-blue-400 p-1 font-semibold">{childLabel}</li>
-        </>
+        {items.map((item: any, index: any) => (
+          <li key={index} className="flex items-center">
+            {index > 0 && <span className="px-2">/</span>}
+            <span
+              className={`py-1 px-2 rounded-lg ${
+                item.path
+                  ? "cursor-pointer hover:bg-gray-700 hover:text-gray-200"
+                  : "text-blue-400 font-semibold"
+              }`}
+              onClick={() => navigate(item.path, { state: item.state })}
+            >
+              {item.label}
+            </span>
+          </li>
+        ))}
       </ul>
     </nav>
   );

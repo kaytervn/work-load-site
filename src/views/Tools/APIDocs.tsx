@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { API_DOCS, TOOLS } from "../../types/pageConfig";
-import Breadcrumb from "../../components/Breadcrumb";
 import Sidebar from "../../components/Sidebar";
 import { convertJson } from "../../types/apidocs";
 import { toast, ToastContainer } from "react-toastify";
@@ -16,7 +14,6 @@ interface QueryParam {
 }
 
 const APIDocs = () => {
-  const navigate = useNavigate();
   const [apiUrl, setApiUrl] = useState<string>("");
   const [apiContent, setApiContent] = useState<any[]>([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
@@ -130,13 +127,12 @@ const APIDocs = () => {
   return (
     <Sidebar
       activeItem={TOOLS.name}
+      breadcrumbs={[
+        { label: TOOLS.label, path: TOOLS.path },
+        { label: API_DOCS.label },
+      ]}
       renderContent={
         <>
-          <Breadcrumb
-            parentLabel={TOOLS.label}
-            childLabel={API_DOCS.label}
-            onClickParent={() => navigate(TOOLS.path)}
-          />
           <div className="bg-gray-900 rounded-xl shadow-xl p-6 border border-gray-700 max-w-4xl w-full mx-auto mb-4">
             <div className="mb-6">
               <h1 className="mb-2 text-3xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent flex items-center">

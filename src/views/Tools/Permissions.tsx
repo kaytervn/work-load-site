@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import Breadcrumb from "../../components/Breadcrumb";
 import Sidebar from "../../components/Sidebar";
-import { useNavigate } from "react-router-dom";
 import { PERMISSIONS_GENERATOR, TOOLS } from "../../types/pageConfig";
 import { useLoading } from "../../hooks/useLoading";
 import { isValidURL } from "../../types/utils";
@@ -10,7 +8,6 @@ import { convertJsonPermissions } from "../../types/permissions";
 import { LoadingDialog } from "../../components/Dialog";
 
 const Permissions = () => {
-  const navigate = useNavigate();
   const { isLoading, showLoading, hideLoading } = useLoading();
   const [apiUrl, setApiUrl] = useState<string>("");
   const [data, setData] = useState<any>([]);
@@ -40,13 +37,12 @@ const Permissions = () => {
   return (
     <Sidebar
       activeItem={TOOLS.name}
+      breadcrumbs={[
+        { label: TOOLS.label, path: TOOLS.path },
+        { label: PERMISSIONS_GENERATOR.label },
+      ]}
       renderContent={
         <>
-          <Breadcrumb
-            parentLabel={TOOLS.label}
-            childLabel={PERMISSIONS_GENERATOR.label}
-            onClickParent={() => navigate(TOOLS.path)}
-          />
           <div className="mb-4 max-w-4xl w-full mx-auto">
             <h1 className="mb-4 text-2xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
               Permissions Generator

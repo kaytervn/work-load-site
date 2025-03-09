@@ -9,6 +9,7 @@ import {
   PERMISSIONS_GENERATOR,
   DATA_MERGING,
   DATA_GENERATOR,
+  TOKEN_CUSTOMIZATION,
 } from "../../types/pageConfig";
 import NoData from "../../components/NoData";
 import ToolCard from "../../components/ToolCard";
@@ -20,6 +21,7 @@ import {
   FileBoxIcon,
   FolderOpenDotIcon,
   LifeBuoyIcon,
+  LockKeyholeOpenIcon,
   QrCodeIcon,
   SearchIcon,
   ShieldCheckIcon,
@@ -71,6 +73,12 @@ const Tools = () => {
       color: "#01579B",
       onButtonClick: () => navigate(QR_GENERATOR.path),
     },
+    {
+      label: TOKEN_CUSTOMIZATION.label,
+      icon: LockKeyholeOpenIcon,
+      color: "#FF9800",
+      onButtonClick: () => navigate(TOKEN_CUSTOMIZATION.path),
+    },
   ];
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState<any>(data);
@@ -94,6 +102,7 @@ const Tools = () => {
   return (
     <Sidebar
       activeItem={TOOLS.name}
+      breadcrumbs={[{ label: TOOLS.label }]}
       renderContent={
         <>
           <Header

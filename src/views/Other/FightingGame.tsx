@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FIGHTING_GAME, GAMES } from "../../types/pageConfig";
-import Breadcrumb from "../../components/Breadcrumb";
 import Sidebar from "../../components/Sidebar";
 import useKeyPress from "../../services/fighting-game/hooks/useKeyPress";
 import { canvasConfig, fps } from "../../services/fighting-game/constant";
@@ -10,7 +8,6 @@ import { isColliding } from "../../services/fighting-game/utils";
 import GameOverlay from "../../services/fighting-game/components/GameOverlay";
 
 const FightingGame = () => {
-  const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [timer, setTimer] = useState(60);
   const [gameText, setGameText] = useState("");
@@ -230,13 +227,12 @@ const FightingGame = () => {
   return (
     <Sidebar
       activeItem={GAMES.name}
+      breadcrumbs={[
+        { label: GAMES.label, path: GAMES.path },
+        { label: FIGHTING_GAME.label },
+      ]}
       renderContent={
         <>
-          <Breadcrumb
-            parentLabel={GAMES.label}
-            childLabel={FIGHTING_GAME.label}
-            onClickParent={() => navigate(GAMES.path)}
-          />
           <div className="relative p-4 max-w-7xl flex justify-center mx-auto">
             <canvas
               ref={canvasRef}

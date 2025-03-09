@@ -10,15 +10,22 @@ import {
   ContainerIcon,
   Gamepad2,
   DraftingCompassIcon,
+  RocketIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "./GlobalProvider";
 import { useEffect, useState } from "react";
-import { GAMES, GORGEOUS_SWAGGER, TOOLS } from "../types/pageConfig";
+import {
+  GAMES,
+  GORGEOUS_SWAGGER,
+  SOCKET_CLIENT,
+  TOOLS,
+} from "../types/pageConfig";
 import { getStorageData, setStorageData } from "../services/storages";
 import { LOCAL_STORAGE } from "../types/constant";
+import Breadcrumb from "./Breadcrumb";
 
-const Sidebar = ({ activeItem, renderContent }: any) => {
+const Sidebar = ({ activeItem, renderContent, breadcrumbs }: any) => {
   const {
     imgSrc,
     isCollapsed,
@@ -40,6 +47,12 @@ const Sidebar = ({ activeItem, renderContent }: any) => {
           label: GORGEOUS_SWAGGER.label,
           icon: <ArrowLeftRightIcon size={20} />,
           path: GORGEOUS_SWAGGER.path,
+        },
+        {
+          name: SOCKET_CLIENT.name,
+          label: SOCKET_CLIENT.label,
+          icon: <RocketIcon size={20} />,
+          path: SOCKET_CLIENT.path,
         },
         {
           name: TOOLS.name,
@@ -204,7 +217,13 @@ const Sidebar = ({ activeItem, renderContent }: any) => {
           isMobile ? "ml-0" : isCollapsed ? "ml-20" : "ml-[20rem]"
         }`}
       >
-        <div className="p-6 min-h-screen bg-gray-800">{renderContent}</div>
+        <div className="min-h-screen flex flex-col bg-gray-800">
+          <div className="p-4 border-b-2 border-gray-700">
+            <Breadcrumb items={breadcrumbs} />
+          </div>
+          <div className="p-4 flex-1 overflow-auto">{renderContent}</div>
+        </div>
+        {/* <div className="p-6 min-h-screen bg-gray-800">{renderContent}</div> */}
       </div>
       {isMobile && isSidebarVisible && (
         <div

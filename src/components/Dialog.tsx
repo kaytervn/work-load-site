@@ -31,21 +31,23 @@ const ConfirmationDialog = ({
       message={message}
       color={color}
     >
-      <div className="flex flex-col items-center w-full max-w-md px-4">
-        <div className="flex gap-2 w-full mt-4">
-          <button
-            onClick={onCancel}
-            className="p-3 rounded-md bg-gray-800 w-full text-gray-200 text-center text-lg font-semibold hover:bg-gray-700"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onConfirm}
-            className="p-3 rounded-md w-full text-gray-200 text-center text-lg font-semibold hover:opacity-90"
-            style={{ backgroundColor: color }}
-          >
-            {confirmText}
-          </button>
+      <div className="flex flex-col w-full min-w-[20rem]">
+        <div className="flex items-center justify-end">
+          <div className="flex flex-row space-x-2">
+            <button
+              onClick={onCancel}
+              className="p-3 rounded-md bg-gray-800 w-full text-gray-200 text-center text-lg font-semibold hover:bg-gray-700"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={onConfirm}
+              className="p-3 rounded-md w-full text-gray-200 text-center text-lg font-semibold hover:opacity-90"
+              style={{ backgroundColor: color }}
+            >
+              {confirmText}
+            </button>
+          </div>
         </div>
       </div>
     </ModalForm>
