@@ -12,14 +12,17 @@ import {
   parseResponseText,
 } from "../../types/utils";
 import Header from "../../components/swagger/Header";
-import InputBox from "../../components/InputBox";
+import InputBox from "../../components/form/InputBox";
 import { SearchIcon } from "lucide-react";
 import Card from "../../components/swagger/Card";
 import { SwaggerCollection } from "../../types/interfaces";
 import { toast, ToastContainer } from "react-toastify";
 import NoData from "../../components/NoData";
 import Pagination from "../../components/Pagination";
-import { ConfirmationDialog, LoadingDialog } from "../../components/Dialog";
+import {
+  ConfirmationDialog,
+  LoadingDialog,
+} from "../../components/form/Dialog";
 import useDialog from "../../hooks/useDialog";
 import ConvertCollection from "../../components/swagger/ConvertCollections";
 import { transformJson } from "../../types/converter";

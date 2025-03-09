@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { truncateString } from "../types/utils";
+import { truncateString } from "../../types/utils";
 
 const RadioButtons = ({ options, selectedValue, onValueChange }: any) => {
   const [selectedOption, setSelectedOption] = useState(selectedValue);

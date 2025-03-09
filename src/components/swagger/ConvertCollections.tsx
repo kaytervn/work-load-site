@@ -1,5 +1,5 @@
 import CopyToClipboard from "react-copy-to-clipboard";
-import CustomModal from "../CustomModal";
+import CustomModal from "../form/CustomModal";
 import { toast } from "react-toastify";
 import { CheckCircleIcon, CopyIcon } from "lucide-react";
 import { useState } from "react";

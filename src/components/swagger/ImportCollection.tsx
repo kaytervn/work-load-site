@@ -1,6 +1,6 @@
 import useForm from "../../hooks/useForm";
-import CustomModal from "../CustomModal";
-import TextareaField from "../TextareaField";
+import CustomModal from "../form/CustomModal";
+import TextareaField from "../form/TextareaField";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { importCollectionData } from "../../services/SwaggerService";

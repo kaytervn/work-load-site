@@ -40,59 +40,22 @@ const SequenceActivator: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="bg-gray-800 p-5 rounded-2xl border border-gray-700 shadow-lg">
-                <h2 className="text-xl font-semibold text-gray-200 mb-4 flex items-center">
-                  <span className="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center text-white mr-2">
-                    1
-                  </span>
-                  Input
-                </h2>
-                <textarea
-                  value={inputPUML}
-                  onChange={(e) => {
-                    setOutputPUML("");
-                    setInputPUML(e.target.value);
-                  }}
-                  placeholder="Enter PlantUML sequence diagram code here"
-                  className="w-full h-64 lg:h-96 p-4 rounded-xl resize-none bg-gray-700 text-gray-200 placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none font-mono text-sm shadow-inner border border-gray-600"
-                />
-              </div>
-
-              <div className="bg-gray-800 p-5 rounded-2xl border border-gray-700 shadow-lg relative">
-                <h2 className="text-xl font-semibold text-gray-200 mb-4 flex items-center">
-                  <span className="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center text-white mr-2">
-                    2
-                  </span>
-                  Output
-                </h2>
-                <textarea
-                  value={outputPUML}
-                  readOnly
-                  placeholder="Processed output will appear here"
-                  className="w-full h-64 lg:h-96 p-4 rounded-xl resize-none bg-gray-700 text-gray-200 placeholder-gray-500 focus:outline-none font-mono text-sm shadow-inner border border-gray-600"
-                />
-                <button
-                  onClick={handleCopy}
-                  className={`mt-2 px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-1 ${
-                    copied
-                      ? "bg-green-500 text-white"
-                      : "bg-gray-600 text-white hover:bg-gray-500"
-                  }`}
-                >
-                  {copied ? (
-                    <>
-                      <CheckCircleIcon size={16} className="mr-1" />
-                      <span>Copied</span>
-                    </>
-                  ) : (
-                    <>
-                      <CopyIcon size={16} className="mr-1" />
-                      <span>Copy</span>
-                    </>
-                  )}
-                </button>
-              </div>
+            <div className="bg-gray-800 p-5 rounded-2xl border border-gray-700 shadow-lg">
+              <h2 className="text-xl font-semibold text-gray-200 mb-4 flex items-center">
+                <span className="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center text-white mr-2">
+                  1
+                </span>
+                Input
+              </h2>
+              <textarea
+                value={inputPUML}
+                onChange={(e) => {
+                  setOutputPUML("");
+                  setInputPUML(e.target.value);
+                }}
+                placeholder="Enter PlantUML sequence diagram code here"
+                className="w-full h-64 lg:h-96 p-4 rounded-xl resize-none bg-gray-700 text-gray-200 placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none font-mono text-sm shadow-inner border border-gray-600"
+              />
             </div>
 
             <button
@@ -104,6 +67,41 @@ const SequenceActivator: React.FC = () => {
               <span className="mr-2">✨</span>
               <span className="font-bold">PROCESS</span>
             </button>
+
+            <div className="mt-8 bg-gray-800 p-5 rounded-2xl border border-gray-700 shadow-lg relative">
+              <h2 className="text-xl font-semibold text-gray-200 mb-4 flex items-center">
+                <span className="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center text-white mr-2">
+                  2
+                </span>
+                Output
+              </h2>
+              <textarea
+                value={outputPUML}
+                readOnly
+                placeholder="Processed output will appear here"
+                className="w-full h-64 lg:h-96 p-4 rounded-xl resize-none bg-gray-700 text-gray-200 placeholder-gray-500 focus:outline-none font-mono text-sm shadow-inner border border-gray-600"
+              />
+              <button
+                onClick={handleCopy}
+                className={`mt-2 px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-1 ${
+                  copied
+                    ? "bg-green-500 text-white"
+                    : "bg-gray-600 text-white hover:bg-gray-500"
+                }`}
+              >
+                {copied ? (
+                  <>
+                    <CheckCircleIcon size={16} className="mr-1" />
+                    <span>Copied</span>
+                  </>
+                ) : (
+                  <>
+                    <CopyIcon size={16} className="mr-1" />
+                    <span>Copy</span>
+                  </>
+                )}
+              </button>
+            </div>
 
             <div className="mt-6 text-center text-gray-500 text-sm">
               Process your PlantUML code with a single click

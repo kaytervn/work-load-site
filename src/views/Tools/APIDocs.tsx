@@ -3,7 +3,7 @@ import { API_DOCS, TOOLS } from "../../types/pageConfig";
 import Sidebar from "../../components/Sidebar";
 import { convertJson } from "../../types/apidocs";
 import { toast, ToastContainer } from "react-toastify";
-import { LoadingDialog } from "../../components/Dialog";
+import { LoadingDialog } from "../../components/form/Dialog";
 import { useLoading } from "../../hooks/useLoading";
 import { isValidURL } from "../../types/utils";
 import { CopyIcon } from "lucide-react";

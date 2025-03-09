@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { LaptopMinimalIcon, MapPinIcon, PackageIcon } from "lucide-react";
 import { toast } from "react-toastify";
-import CustomModal from "../CustomModal";
+import CustomModal from "../form/CustomModal";
 import useForm from "../../hooks/useForm";
-import InputField from "../InputField";
-import InputFieldWithCheckbox from "../InputFieldWithCheckbox";
+import InputField from "../form/InputField";
+import InputFieldWithCheckbox from "../form/InputFieldWithCheckbox";
 import {
   generateUniqueId,
   getItemById,

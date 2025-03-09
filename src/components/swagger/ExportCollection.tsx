@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import CustomModal from "../CustomModal";
+import CustomModal from "../form/CustomModal";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { CheckCircleIcon, CopyIcon } from "lucide-react";
 import { getCurrentDate_2 } from "../../types/utils";

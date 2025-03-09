@@ -14,7 +14,7 @@ import {
 import NoData from "../../components/NoData";
 import ToolCard from "../../components/ToolCard";
 import Header from "../../components/swagger/Header";
-import InputBox from "../../components/InputBox";
+import InputBox from "../../components/form/InputBox";
 import {
   CodeIcon,
   CombineIcon,
@@ -43,18 +43,18 @@ const Tools = () => {
       color: "#8C4E4E",
       onButtonClick: () => navigate(CRUD_GENERATOR.path),
     },
-    {
-      label: DATA_GENERATOR.label,
-      icon: FileBoxIcon,
-      color: "#304C73",
-      onButtonClick: () => navigate(DATA_GENERATOR.path),
-    },
-    {
-      label: DATA_MERGING.label,
-      icon: CombineIcon,
-      color: "#463457",
-      onButtonClick: () => navigate(DATA_MERGING.path),
-    },
+    // {
+    //   label: DATA_GENERATOR.label,
+    //   icon: FileBoxIcon,
+    //   color: "#304C73",
+    //   onButtonClick: () => navigate(DATA_GENERATOR.path),
+    // },
+    // {
+    //   label: DATA_MERGING.label,
+    //   icon: CombineIcon,
+    //   color: "#463457",
+    //   onButtonClick: () => navigate(DATA_MERGING.path),
+    // },
     {
       label: SEQUENCE_ACTIVATOR.label,
       icon: ShieldCheckIcon,
@@ -73,12 +73,12 @@ const Tools = () => {
       color: "#01579B",
       onButtonClick: () => navigate(QR_GENERATOR.path),
     },
-    {
-      label: TOKEN_CUSTOMIZATION.label,
-      icon: LockKeyholeOpenIcon,
-      color: "#795548",
-      onButtonClick: () => navigate(TOKEN_CUSTOMIZATION.path),
-    },
+    // {
+    //   label: TOKEN_CUSTOMIZATION.label,
+    //   icon: LockKeyholeOpenIcon,
+    //   color: "#795548",
+    //   onButtonClick: () => navigate(TOKEN_CUSTOMIZATION.path),
+    // },
   ];
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState<any>(data);

@@ -48,12 +48,12 @@ const Sidebar = ({ activeItem, renderContent, breadcrumbs }: any) => {
           icon: <ArrowLeftRightIcon size={20} />,
           path: GORGEOUS_SWAGGER.path,
         },
-        {
-          name: SOCKET_CLIENT.name,
-          label: SOCKET_CLIENT.label,
-          icon: <RocketIcon size={20} />,
-          path: SOCKET_CLIENT.path,
-        },
+        // {
+        //   name: SOCKET_CLIENT.name,
+        //   label: SOCKET_CLIENT.label,
+        //   icon: <RocketIcon size={20} />,
+        //   path: SOCKET_CLIENT.path,
+        // },
         {
           name: TOOLS.name,
           label: TOOLS.label,

@@ -1,6 +1,6 @@
 import { PencilIcon, TrashIcon } from "lucide-react";
 import useDialog from "../../../hooks/useDialog";
-import { ConfirmationDialog } from "../../Dialog";
+import { ConfirmationDialog } from "../../form/Dialog";
 
 const TableRowComponentHeader = ({
   handleEdit,

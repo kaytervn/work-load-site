@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import useForm from "../../../hooks/useForm";
 import { HostPattern, PathPattern } from "../../../types/constant";
-import CodeMirrorInput from "../../CodeMirrorInput";
-import CodeMirrorWithCheckbox from "../../CodeMirrorWithCheckbox";
-import CustomModal from "../../CustomModal";
-import InputFieldWithoutTitle from "../../InputFieldWithoutTitle";
-import SelectFieldWithoutTitle from "../../SelectFieldWithoutTitle";
+import CodeMirrorInput from "../../form/CodeMirrorInput";
+import CodeMirrorWithCheckbox from "../../form/CodeMirrorWithCheckbox";
+import CustomModal from "../../form/CustomModal";
+import InputFieldWithoutTitle from "../../form/InputFieldWithoutTitle";
+import SelectFieldWithoutTitle from "../../form/SelectFieldWithoutTitle";
 import { toast } from "react-toastify";
 import { FolderPenIcon, LinkIcon, RouterIcon } from "lucide-react";
-import SearchField from "../../SearchField";
+import SearchField from "../../form/SearchField";
 
 const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
   const validate = (form: any) => {

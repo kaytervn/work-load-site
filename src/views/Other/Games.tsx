@@ -9,7 +9,7 @@ import {
 import NoData from "../../components/NoData";
 import ToolCard from "../../components/ToolCard";
 import Header from "../../components/swagger/Header";
-import InputBox from "../../components/InputBox";
+import InputBox from "../../components/form/InputBox";
 import {
   CarFrontIcon,
   LayoutTemplateIcon,

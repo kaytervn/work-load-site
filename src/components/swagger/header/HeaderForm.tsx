@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import useForm from "../../../hooks/useForm";
-import CustomModal from "../../CustomModal";
+import CustomModal from "../../form/CustomModal";
 import { toast } from "react-toastify";
 import { ChevronsLeftRightEllipsisIcon, KeyRoundIcon } from "lucide-react";
-import InputField from "../../InputField";
+import InputField from "../../form/InputField";
 import { HeaderPattern } from "../../../types/constant";
 
 const HeaderForm = ({ isVisible, hideModal, formConfig }: any) => {
