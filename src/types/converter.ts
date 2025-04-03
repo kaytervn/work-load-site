@@ -444,6 +444,7 @@ const addEventScripts = (
           exec: [
             "const { data } = pm.response.json();",
             "const ids = data?.content ? data.content.map(item => item.id) : [];",
+            "console.log(JSON.stringify(ids));",
             "pm.variables.set('ids', ids);",
             "pm.collectionVariables.set('temp_ids', ids);",
           ],
