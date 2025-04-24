@@ -4,7 +4,6 @@ import {
   GoalIcon,
   PaletteIcon,
   RocketIcon,
-  StickyNoteIcon,
   VideoIcon,
 } from "lucide-react";
 
@@ -22,15 +21,8 @@ const EMBED_LIST = [
     label: "COOKIEDU Demo",
     path: "/cookiedu",
     icon: CookieIcon,
-    color: "#FB8C00",
-    url: BASE_EMBED_URL + "cookiedu",
-  },
-  {
-    label: "My CV",
-    path: "/my-cv",
-    icon: StickyNoteIcon,
     color: "#81C784",
-    url: BASE_EMBED_URL + "cv",
+    url: BASE_EMBED_URL + "cookiedu",
   },
   {
     label: "Dev Notes",
