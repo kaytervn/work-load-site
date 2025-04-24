@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main/Sidebar";
 import {
   FIGHTING_GAME,
   GAMES,
   MULTIROOM_PLATFORMER,
   THREE_D_RACING_GAME,
 } from "../../types/pageConfig";
-import NoData from "../../components/NoData";
 import ToolCard from "../../components/ToolCard";
 import Header from "../../components/swagger/Header";
-import InputBox from "../../components/form/InputBox";
 import {
   CarFrontIcon,
   LayoutTemplateIcon,
@@ -17,6 +15,8 @@ import {
   SwordsIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { InputBox } from "../../components/form/InputTextField";
+import { NoData } from "../../components/NoData";
 
 const Games = () => {
   const navigate = useNavigate();

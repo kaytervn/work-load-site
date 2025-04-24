@@ -1,78 +1,165 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-case-declarations */
 import { useState, useCallback } from "react";
+import { getStorageData, removeSessionCache } from "../services/storages";
+import {
+  API_HEADER,
+  AUTH_TYPE,
+  BASIC_MESSAGES,
+  ENV,
+  LOCAL_STORAGE,
+  METHOD,
+} from "../types/constant";
+import { useGlobalContext } from "../components/config/GlobalProvider";
+import { getAuthHeader } from "../types/utils";
+import { encryptClientField } from "../services/encryption/clientEncryption";
 
 interface FetchOptions {
-  method: "GET" | "POST" | "PUT" | "DELETE";
-  body?: any;
+  apiUrl: string;
+  endpoint: string;
+  method: string;
+  payload?: any;
+  authType: string;
   headers?: Record<string, string>;
 }
 
 const useFetch = () => {
+  const { refreshSessionTimeout, setIsUnauthorized } = useGlobalContext();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
 
-  const fetchData = useCallback(
-    async (apiUrl: string, options: FetchOptions) => {
-      setLoading(true);
-      setError(null);
+  const handleFetch = useCallback(async (options: FetchOptions) => {
+    setLoading(true);
 
-      try {
-        const headers: Record<string, string> = {
-          ...options.headers,
-        };
+    try {
+      const { timestamp, messageSignature } = getAuthHeader();
+      const url = `${options.apiUrl}${options.endpoint}`;
+      const headers: Record<string, string> = {
+        ...options.headers,
+        [`${API_HEADER.MESSAGE_SIGNATURE}`]:
+          encryptClientField(messageSignature),
+        [`${API_HEADER.TIMESTAMP}`]: encryptClientField(timestamp),
+      };
 
-        if (!(options.body instanceof FormData)) {
-          headers["Content-Type"] = "application/json";
+      switch (options.authType) {
+        case AUTH_TYPE.BEARER:
+          const token = getStorageData(LOCAL_STORAGE.ACCESS_TOKEN);
+          if (token) {
+            headers[API_HEADER.AUTHORIZATION] = `Bearer ${encryptClientField(
+              token
+            )}`;
+          }
+          break;
+        case AUTH_TYPE.BASIC:
+          const encodedCredentials = btoa(
+            `${ENV.CLIENT_ID}:${ENV.CLIENT_SECRET}`
+          );
+          headers[API_HEADER.AUTHORIZATION] = `Basic ${encryptClientField(
+            encodedCredentials
+          )}`;
+          break;
+        case AUTH_TYPE.NONE:
+        default:
+          break;
+      }
+
+      if (!(options.payload instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+      }
+
+      const response = await fetch(url, {
+        method: options.method,
+        headers,
+        body:
+          options.method !== METHOD.GET && options.payload
+            ? options.payload instanceof FormData
+              ? options.payload
+              : JSON.stringify(options.payload)
+            : undefined,
+      });
+
+      const contentDisposition = response.headers.get("content-disposition");
+      const isFileDownload = contentDisposition
+        ?.toLowerCase()
+        .includes("attachment");
+
+      if (isFileDownload) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+
+        const filename = contentDisposition
+          ?.split("filename=")[1]
+          ?.replace(/"/g, "");
+
+        if (!filename) {
+          return {
+            result: false,
+            message: "File downloaded failed",
+          };
         }
 
-        const response = await fetch(apiUrl, {
-          method: options.method,
-          headers,
-          body:
-            options.method !== "GET" && options.body
-              ? options.body instanceof FormData
-                ? options.body
-                : JSON.stringify(options.body)
-              : undefined,
-        });
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
 
-        const contentType = response.headers.get("content-type");
+        return { result: true, message: "File downloaded successfully" };
+      } else {
+        const contentType = response.headers.get("content-type")?.toLowerCase();
         const data = contentType?.includes("application/json")
           ? await response.json()
           : await response.text();
+
+        if (response.status === 401) {
+          removeSessionCache();
+          setIsUnauthorized(true);
+        } else {
+          refreshSessionTimeout();
+        }
+
         return data;
-      } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error("An unknown error occurred")
-        );
-        throw err;
-      } finally {
-        setLoading(false);
       }
-    },
-    []
-  );
+    } catch (err: any) {
+      return { result: false, message: err.message || BASIC_MESSAGES.FAILED };
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  const createMethod =
-    (method: FetchOptions["method"]) =>
-    (apiUrl: string, bodyOrParams?: any) => {
-      let queryString = "";
-      if (method === "GET" && bodyOrParams) {
-        queryString = `?${new URLSearchParams(bodyOrParams).toString()}`;
+  const fetchApi = (options: FetchOptions) => {
+    if (options.payload && !(options.payload instanceof FormData)) {
+      options.payload = Object.fromEntries(
+        Object.entries(options.payload).filter(([_, value]: any) => {
+          if (value === null || value === undefined) return false;
+          if (
+            options.method === METHOD.GET &&
+            typeof value === "string" &&
+            value.trim() === ""
+          ) {
+            return false;
+          }
+          return true;
+        })
+      );
+    }
+    if (options.method === METHOD.GET && options.payload) {
+      const queryString = new URLSearchParams(
+        options.payload as any
+      ).toString();
+      if (queryString) {
+        options.endpoint += `?${queryString}`;
       }
+    }
 
-      return fetchData(apiUrl + queryString, {
-        method,
-        body: method !== "GET" ? bodyOrParams : undefined,
-      });
-    };
+    return handleFetch(options);
+  };
 
   return {
-    get: createMethod("GET"),
-    post: createMethod("POST"),
-    put: createMethod("PUT"),
-    del: createMethod("DELETE"),
+    fetchApi,
     loading,
-    error,
   };
 };
 

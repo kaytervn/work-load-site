@@ -1,11 +1,13 @@
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main/Sidebar";
 import { TOOLS, SEQUENCE_ACTIVATOR } from "../../types/pageConfig";
 import { useEffect, useState } from "react";
 import { processPUML } from "../../types/sequence";
 import { CheckCircleIcon, CopyIcon } from "lucide-react";
-import { toast, ToastContainer } from "react-toastify";
+import { useGlobalContext } from "../../components/config/GlobalProvider";
+import { TOAST } from "../../types/constant";
 
-const SequenceActivator: React.FC = () => {
+const SequenceActivator = () => {
+  const { setToast } = useGlobalContext();
   const [inputPUML, setInputPUML] = useState<string>("");
   const [outputPUML, setOutputPUML] = useState<string>("");
   const [copied, setCopied] = useState(false);
@@ -17,7 +19,7 @@ const SequenceActivator: React.FC = () => {
   const handleCopy = () => {
     navigator.clipboard.writeText(outputPUML);
     setCopied(true);
-    toast.success("Output copied to clipboard");
+    setToast("Output copied to clipboard", TOAST.SUCCESS);
     setTimeout(() => setCopied(false), 1000);
   };
 
@@ -107,11 +109,6 @@ const SequenceActivator: React.FC = () => {
               Process your PlantUML code with a single click
             </div>
           </div>
-          <ToastContainer
-            position="bottom-right"
-            style={{ width: "400px" }}
-            theme="dark"
-          />
         </>
       }
     />

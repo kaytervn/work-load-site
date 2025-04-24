@@ -12,12 +12,9 @@ import {
   parseResponseText,
 } from "../../types/utils";
 import Header from "../../components/swagger/Header";
-import InputBox from "../../components/form/InputBox";
 import { SearchIcon } from "lucide-react";
 import Card from "../../components/swagger/Card";
 import { SwaggerCollection } from "../../types/interfaces";
-import { toast, ToastContainer } from "react-toastify";
-import NoData from "../../components/NoData";
 import Pagination from "../../components/Pagination";
 import {
   ConfirmationDialog,
@@ -31,15 +28,20 @@ import ExportCollection from "../../components/swagger/ExportCollection";
 import ImportCollection from "../../components/swagger/ImportCollection";
 import CollectionForm from "../../components/swagger/CollectionForm";
 import useModal from "../../hooks/useModal";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main/Sidebar";
 import {
   GORGEOUS_SWAGGER,
   HEADER_MANAGER,
   REQUEST_MANAGER,
 } from "../../types/pageConfig";
 import { useLocation, useNavigate } from "react-router-dom";
+import { InputBox } from "../../components/form/InputTextField";
+import { NoData } from "../../components/NoData";
+import { useGlobalContext } from "../../components/config/GlobalProvider";
+import { TOAST } from "../../types/constant";
 
 const GorgeousSwagger = () => {
+  const { setToast } = useGlobalContext();
   const { state } = useLocation();
   const navigate = useNavigate();
   const { isDialogVisible, showDialog, hideDialog, dialogConfig } = useDialog();
@@ -124,7 +126,7 @@ const GorgeousSwagger = () => {
   const handleDelete = (id: any) => {
     hideDialog();
     deleteItemFromStorage(GORGEOUS_SWAGGER.name, id);
-    toast.success("Collection deleted successfully");
+    setToast("Collection deleted successfully", TOAST.SUCCESS);
     fetchData(currentPage, searchValue);
   };
 
@@ -147,7 +149,7 @@ const GorgeousSwagger = () => {
       setFetchedJson(JSON.stringify(transformedJson, null, 2));
       setConvertModalVisible(true);
     } catch (error: any) {
-      toast.error("Error: " + error.message);
+      setToast("Error: " + error.message, TOAST.ERROR);
       setFetchedJson(null);
     } finally {
       hideLoading();
@@ -170,7 +172,7 @@ const GorgeousSwagger = () => {
   const handleDeleteAllDialog = () => {
     const count = getStorageData(GORGEOUS_SWAGGER.name).length;
     if (!count) {
-      toast.warning("There is no collection to delete");
+      setToast("There is no collection to delete", TOAST.WARN);
       return;
     }
     showDialog({
@@ -184,7 +186,7 @@ const GorgeousSwagger = () => {
         hideDialog();
         initializeStorage(GORGEOUS_SWAGGER.name, []);
         fetchData(0, "");
-        toast.success(`Deleted ${count} collections`);
+        setToast(`Deleted ${count} collections`, TOAST.SUCCESS);
       },
       onCancel: hideDialog,
     });
@@ -198,13 +200,14 @@ const GorgeousSwagger = () => {
   const onExportButtonClick = (value: any) => {
     const count = value.length;
     if (!count) {
-      toast.warning("There is no collection to export");
+      setToast("There is no collection to export", TOAST.WARN);
       return;
     }
     setExportedText(encrypt(JSON.stringify(value, null, 2)));
     setExportModalVisible(true);
-    toast.success(
-      `Exported ${count} ${count === 1 ? "collection" : "collections"}`
+    setToast(
+      `Exported ${count} ${count === 1 ? "collection" : "collections"}`,
+      TOAST.SUCCESS
     );
   };
 
@@ -216,7 +219,7 @@ const GorgeousSwagger = () => {
       buttonText: "CREATE",
       onButtonClick: (formattedItem: any) => {
         addItemToStorage(GORGEOUS_SWAGGER.name, formattedItem);
-        toast.success("Collection created successfully");
+        setToast("Collection created successfully", TOAST.SUCCESS);
         hideModal();
         fetchData(0, "");
       },
@@ -273,7 +276,7 @@ const GorgeousSwagger = () => {
       buttonText: "UPDATE",
       onButtonClick: (formattedItem: any) => {
         overwriteItemInStorage(GORGEOUS_SWAGGER.name, formattedItem);
-        toast.success("Collection updated successfully");
+        setToast("Collection updated successfully", TOAST.SUCCESS);
         hideModal();
         fetchData(currentPage, searchValue);
       },
@@ -293,118 +296,115 @@ const GorgeousSwagger = () => {
   };
 
   return (
-    <Sidebar
-      activeItem={GORGEOUS_SWAGGER.name}
-      breadcrumbs={[{ label: GORGEOUS_SWAGGER.label }]}
-      renderContent={
-        <>
-          <Header
-            onCreate={onCreateButtonClick}
-            onDeleteAll={handleDeleteAllDialog}
-            onImport={() => {
-              setImportModalVisible(true);
-            }}
-            onExport={() => {
-              onExportButtonClick(getStorageData(GORGEOUS_SWAGGER.name));
-            }}
-            SearchBoxes={
-              <InputBox
-                placeholder="Searching..."
-                icon={SearchIcon}
-                value={searchValue}
-                onChangeText={handleSearch}
-              />
-            }
-          />
-          {data.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {data.map((item) => (
-                  <Card
-                    key={item.id}
-                    item={item}
-                    onExport={(id: any) => {
-                      onExportButtonClick([
-                        getItemById(GORGEOUS_SWAGGER.name, id),
-                      ]);
-                    }}
-                    onClickHeaders={(id: any) => {
-                      navigate(HEADER_MANAGER.path, {
-                        state: {
-                          collectionId: id,
-                        },
-                      });
-                    }}
-                    onClickRequests={(id: any) => {
-                      navigate(REQUEST_MANAGER.path, {
-                        state: {
-                          collectionId: id,
-                        },
-                      });
-                    }}
-                    onUpdate={(id: any) => {
-                      onUpdateButtonClick(id);
-                    }}
-                    onDelete={(id: any) => {
-                      handleDeleteDialog(id);
-                    }}
-                    onConvert={async (id: any) => {
-                      await handleConvert(id);
-                    }}
-                  />
-                ))}
-              </div>
-              {totalPages > 1 && (
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
+    <>
+      <LoadingDialog isVisible={isLoading} />
+      <ConfirmationDialog
+        isVisible={isDialogVisible}
+        title={dialogConfig.title}
+        message={dialogConfig.message}
+        onConfirm={dialogConfig.onConfirm}
+        onCancel={dialogConfig.onCancel}
+        confirmText={dialogConfig.confirmText}
+        color={dialogConfig.color}
+      />
+      <CollectionForm
+        isVisible={isModalVisible}
+        hideModal={hideModal}
+        formConfig={formConfig}
+      />
+      <ConvertCollection
+        isVisible={convertModalVisible}
+        setVisible={setConvertModalVisible}
+        json={fetchedJson}
+        onButtonClick={handleCloseConvertModal}
+      />
+      <ExportCollection
+        isVisible={exportModalVisible}
+        setVisible={setExportModalVisible}
+        onButtonClick={handleExport}
+        text={exportedText}
+      />
+      <ImportCollection
+        isVisible={importModalVisible}
+        setVisible={setImportModalVisible}
+        onButtonClick={handleImport}
+      />
+      <Sidebar
+        activeItem={GORGEOUS_SWAGGER.name}
+        breadcrumbs={[{ label: GORGEOUS_SWAGGER.label }]}
+        renderContent={
+          <>
+            <Header
+              onCreate={onCreateButtonClick}
+              onDeleteAll={handleDeleteAllDialog}
+              onImport={() => {
+                setImportModalVisible(true);
+              }}
+              onExport={() => {
+                onExportButtonClick(getStorageData(GORGEOUS_SWAGGER.name));
+              }}
+              SearchBoxes={
+                <InputBox
+                  placeholder="Searching..."
+                  icon={SearchIcon}
+                  value={searchValue}
+                  onChangeText={handleSearch}
                 />
-              )}
-            </>
-          ) : (
-            <NoData />
-          )}
-          <ToastContainer
-            position="bottom-right"
-            style={{ width: "400px" }}
-            theme="dark"
-          />
-          <ConfirmationDialog
-            isVisible={isDialogVisible}
-            title={dialogConfig.title}
-            message={dialogConfig.message}
-            onConfirm={dialogConfig.onConfirm}
-            onCancel={dialogConfig.onCancel}
-            confirmText={dialogConfig.confirmText}
-            color={dialogConfig.color}
-          />
-          <CollectionForm
-            isVisible={isModalVisible}
-            hideModal={hideModal}
-            formConfig={formConfig}
-          />
-          <ConvertCollection
-            isVisible={convertModalVisible}
-            setVisible={setConvertModalVisible}
-            json={fetchedJson}
-            onButtonClick={handleCloseConvertModal}
-          />
-          <ExportCollection
-            isVisible={exportModalVisible}
-            setVisible={setExportModalVisible}
-            onButtonClick={handleExport}
-            text={exportedText}
-          />
-          <ImportCollection
-            isVisible={importModalVisible}
-            setVisible={setImportModalVisible}
-            onButtonClick={handleImport}
-          />
-          <LoadingDialog isVisible={isLoading} />
-        </>
-      }
-    ></Sidebar>
+              }
+            />
+            {data.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {data.map((item) => (
+                    <Card
+                      key={item.id}
+                      item={item}
+                      onExport={(id: any) => {
+                        onExportButtonClick([
+                          getItemById(GORGEOUS_SWAGGER.name, id),
+                        ]);
+                      }}
+                      onClickHeaders={(id: any) => {
+                        navigate(HEADER_MANAGER.path, {
+                          state: {
+                            collectionId: id,
+                          },
+                        });
+                      }}
+                      onClickRequests={(id: any) => {
+                        navigate(REQUEST_MANAGER.path, {
+                          state: {
+                            collectionId: id,
+                          },
+                        });
+                      }}
+                      onUpdate={(id: any) => {
+                        onUpdateButtonClick(id);
+                      }}
+                      onDelete={(id: any) => {
+                        handleDeleteDialog(id);
+                      }}
+                      onConvert={async (id: any) => {
+                        await handleConvert(id);
+                      }}
+                    />
+                  ))}
+                </div>
+                {totalPages > 1 && (
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                )}
+              </>
+            ) : (
+              <NoData />
+            )}
+          </>
+        }
+      ></Sidebar>
+    </>
   );
 };
 

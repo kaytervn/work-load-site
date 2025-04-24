@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { API_DOCS, TOOLS } from "../../types/pageConfig";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main/Sidebar";
 import { convertJson } from "../../types/apidocs";
-import { toast, ToastContainer } from "react-toastify";
 import { LoadingDialog } from "../../components/form/Dialog";
 import { useLoading } from "../../hooks/useLoading";
 import { isValidURL } from "../../types/utils";
 import { CopyIcon } from "lucide-react";
+import { useGlobalContext } from "../../components/config/GlobalProvider";
+import { TOAST } from "../../types/constant";
 
 interface QueryParam {
   key: string;
@@ -14,6 +15,7 @@ interface QueryParam {
 }
 
 const APIDocs = () => {
+  const { setToast } = useGlobalContext();
   const [apiUrl, setApiUrl] = useState<string>("");
   const [apiContent, setApiContent] = useState<any[]>([]);
   const { isLoading, showLoading, hideLoading } = useLoading();
@@ -48,7 +50,7 @@ const APIDocs = () => {
 
   const fetchAndConvert = async () => {
     if (!apiUrl.trim() || !isValidURL(apiUrl)) {
-      toast.error("Please enter a valid API URL");
+      setToast("Please enter a valid API URL", TOAST.ERROR);
       return;
     }
     setApiContent([]);
@@ -57,7 +59,10 @@ const APIDocs = () => {
       const data = await convertJson(apiUrl);
       setApiContent(data);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "An error occurred");
+      setToast(
+        err instanceof Error ? err.message : "An error occurred",
+        TOAST.ERROR
+      );
     } finally {
       hideLoading();
     }
@@ -120,7 +125,7 @@ const APIDocs = () => {
         }),
       ])
       .then(() => {
-        toast.success("Request copied to clipboard!");
+        setToast("Request copied to clipboard", TOAST.SUCCESS);
       });
   };
 
@@ -133,6 +138,7 @@ const APIDocs = () => {
       ]}
       renderContent={
         <>
+          <LoadingDialog isVisible={isLoading} />
           <div className="bg-gray-900 rounded-xl shadow-xl p-6 border border-gray-700 max-w-4xl w-full mx-auto mb-4">
             <div className="mb-6">
               <h1 className="mb-2 text-3xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent flex items-center">
@@ -370,12 +376,6 @@ const APIDocs = () => {
               </div>
             ))}
           </div>
-          <ToastContainer
-            position="bottom-right"
-            style={{ width: "400px" }}
-            theme="dark"
-          />
-          <LoadingDialog isVisible={isLoading} />
         </>
       }
     />

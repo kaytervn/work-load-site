@@ -3,8 +3,6 @@ import { LaptopMinimalIcon, MapPinIcon, PackageIcon } from "lucide-react";
 import { toast } from "react-toastify";
 import CustomModal from "../form/CustomModal";
 import useForm from "../../hooks/useForm";
-import InputField from "../form/InputField";
-import InputFieldWithCheckbox from "../form/InputFieldWithCheckbox";
 import {
   generateUniqueId,
   getItemById,
@@ -15,6 +13,7 @@ import {
   getNewCollectionName,
   mapCollectionRequests,
 } from "../../services/SwaggerService";
+import { InputField, InputFieldWithCheckbox } from "../form/InputTextField";
 
 const CollectionForm = ({ isVisible, hideModal, formConfig }: any) => {
   const validate = (form: any) => {
@@ -32,7 +31,7 @@ const CollectionForm = ({ isVisible, hideModal, formConfig }: any) => {
   };
 
   const { form, errors, setForm, setErrors, handleChange, isValidForm } =
-    useForm(formConfig.initForm, {}, validate);
+    useForm(formConfig.initForm, validate);
 
   useEffect(() => {
     setForm(formConfig.initForm);

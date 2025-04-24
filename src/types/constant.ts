@@ -131,9 +131,99 @@ const defaultTenantHeader = [
 
 const myPublicSecretKey = "D@y1aK3yDu0cC0n9";
 
+const ITEMS_PER_PAGE = 20;
+const TRUNCATE_LENGTH = 150;
+const FETCH_INTERVAL = 300;
+const SESSION_KEY_TIMEOUT = 2 * 60 * 60 * 1000; // 2 hours
+
 const LOCAL_STORAGE = {
-  IS_COLLAPSED: "is_collapsed",
-  COLLAPSED_GROUPS: "collapsed_groups",
+  SESSION_KEY: "msa_session_key",
+  ACCESS_TOKEN: "msa_access_token",
+  MSA_COLLAPSED_GROUPS: "msa_collapsed_groups",
+  IS_COLLAPSED: "wls_is_collapsed",
+  COLLAPSED_GROUPS: "wls_collapsed_groups",
+};
+
+const METHOD = {
+  GET: "GET",
+  POST: "POST",
+  PUT: "PUT",
+  DELETE: "DELETE",
+};
+
+const ALIGNMENT = {
+  LEFT: "left",
+  RIGHT: "right",
+  CENTER: "center",
+};
+
+const ERROR_CODE = {
+  SYSTEM_NOT_READY: "SYSTEM_NOT_READY",
+  INVALID_SESSION: "INVALID_SESSION",
+  INVALID_TOKEN: "INVALID_TOKEN",
+  UNAUTHORIZED: "UNAUTHORIZED",
+  INVALID_SIGNATURE: "INVALID_SIGNATURE",
+};
+
+const API_HEADER = {
+  MESSAGE_SIGNATURE: "message-signature",
+  TIMESTAMP: "timestamp",
+  AUTHORIZATION: "authorization",
+};
+
+const AUTH_TYPE = {
+  NONE: "none",
+  BEARER: "bearer",
+  BASIC: "basic",
+};
+
+const BASIC_MESSAGES = {
+  INVALID_FORM: "Please enter valid data",
+  SUCCESS: "Request successfully",
+  FAILED: "Request failed",
+  LOGGED_IN: "Log in successfully",
+  LOG_IN_FAILED: "Log in failed",
+  CREATED: "Created successfully",
+  UPDATED: "Updated successfully",
+  DELETED: "Deleted successfully",
+  NO_DATA: "No data",
+};
+
+const BUTTON_TEXT = {
+  REQUEST_KEY: "Request key",
+  HOME: "Home",
+  SUBMIT: "Submit",
+  TWO_FACTOR: "Verify Code",
+  CONTINUE: "Continue",
+  LOGIN: "Sign in",
+  SEARCH: "Search",
+  REFRESH: "Refresh",
+  CREATE: "Create",
+  UPDATE: "Update",
+  DELETE: "Delete",
+  CANCEL: "Cancel",
+  DONE: "Done",
+  BACK: "Back",
+  CHANGE_PASSWORD: "Change password",
+  LOGOUT: "Logout",
+  CLEAR_SYSTEM_KEY: "Clear system key",
+};
+
+const ENV = {
+  CLIENT_ID: import.meta.env.VITE_CLIENT_ID,
+  CLIENT_SECRET: import.meta.env.VITE_CLIENT_SECRET,
+  MSA_API_URL: import.meta.env.VITE_MSA_API_URL,
+};
+
+const TOAST = {
+  SUCCESS: "success",
+  ERROR: "error",
+  WARN: "warning",
+};
+
+const SOCKET_CMD = {
+  CLIENT_PING: "CLIENT_PING",
+  CMD_LOCK_DEVICE: "CMD_LOCK_DEVICE",
 };
 
 export {
@@ -150,4 +240,18 @@ export {
   HeaderPattern,
   HostPattern,
   LOCAL_STORAGE,
+  ENV,
+  TOAST,
+  ITEMS_PER_PAGE,
+  TRUNCATE_LENGTH,
+  FETCH_INTERVAL,
+  METHOD,
+  ALIGNMENT,
+  ERROR_CODE,
+  BASIC_MESSAGES,
+  BUTTON_TEXT,
+  SESSION_KEY_TIMEOUT,
+  AUTH_TYPE,
+  API_HEADER,
+  SOCKET_CMD,
 };

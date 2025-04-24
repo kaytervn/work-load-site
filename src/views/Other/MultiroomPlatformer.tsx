@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { GAMES, MULTIROOM_PLATFORMER } from "../../types/pageConfig";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main/Sidebar";
 import {
   collisionLevel1,
   collisionLevel2,

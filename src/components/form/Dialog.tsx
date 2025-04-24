@@ -1,3 +1,6 @@
+import { BASIC_MESSAGES, BUTTON_TEXT, TOAST } from "../../types/constant";
+import { CancelButton, SubmitButton } from "../form/Button";
+
 const ModalForm = ({ children, isVisible, color, title, message }: any) => {
   if (!isVisible) return null;
   return (
@@ -17,36 +20,36 @@ const ModalForm = ({ children, isVisible, color, title, message }: any) => {
 
 const ConfirmationDialog = ({
   isVisible,
-  title,
-  message,
-  color = "#22c55e",
-  onConfirm,
-  confirmText = "Accept",
-  onCancel,
+  formConfig = {
+    title: "Title",
+    message: "Message",
+    color: "#22c55e",
+    onConfirm: () => {},
+    confirmText: "Accept",
+    onCancel: () => {},
+  },
 }: any) => {
   return (
     <ModalForm
       isVisible={isVisible}
-      title={title}
-      message={message}
-      color={color}
+      title={formConfig.title}
+      message={formConfig.message}
+      color={formConfig.color}
     >
       <div className="flex flex-col w-full min-w-[20rem]">
         <div className="flex items-center justify-end">
           <div className="flex flex-row space-x-2">
-            <button
-              onClick={onCancel}
-              className="p-3 rounded-md bg-gray-800 w-full text-gray-200 text-center text-lg font-semibold hover:bg-gray-700"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={onConfirm}
-              className="p-3 rounded-md w-full text-gray-200 text-center text-lg font-semibold hover:opacity-90"
-              style={{ backgroundColor: color }}
-            >
-              {confirmText}
-            </button>
+            {formConfig.onCancel && (
+              <CancelButton
+                onClick={formConfig.onCancel}
+                text={BUTTON_TEXT.CANCEL}
+              />
+            )}
+            <SubmitButton
+              onClick={formConfig.onConfirm}
+              text={formConfig.confirmText}
+              color={formConfig.color}
+            />
           </div>
         </div>
       </div>
@@ -101,4 +104,76 @@ const LoadingDialog = ({
   );
 };
 
-export { ConfirmationDialog, AlertDialog, LoadingDialog };
+const configDeleteFileDialog = ({ label, hideModal, onConfirm }: any) => {
+  return {
+    title: label,
+    message: "You want to delete?",
+    color: "crimson",
+    onConfirm: onConfirm,
+    confirmText: BUTTON_TEXT.DELETE,
+    onCancel: hideModal,
+  };
+};
+
+const configDeleteDialog = ({
+  label,
+  deleteApi,
+  refreshData,
+  hideModal,
+  setToast,
+}: any) => {
+  return {
+    title: label,
+    message: "You want to delete?",
+    color: "crimson",
+    onConfirm: async () => {
+      hideModal();
+      const res = await deleteApi();
+      if (res.result) {
+        setToast(BASIC_MESSAGES.DELETED, TOAST.SUCCESS);
+        await refreshData();
+      } else {
+        setToast(res.message, TOAST.ERROR);
+      }
+    },
+    confirmText: BUTTON_TEXT.DELETE,
+    onCancel: hideModal,
+  };
+};
+
+const configModalForm = ({
+  label,
+  fetchApi,
+  refreshData,
+  hideModal,
+  setToast,
+  successMessage = BASIC_MESSAGES.SUCCESS,
+  initForm,
+}: any) => {
+  return {
+    title: label,
+    onButtonClick: async (form: any) => {
+      const res = await fetchApi(form);
+      if (res.result) {
+        hideModal();
+        setToast(successMessage, TOAST.SUCCESS);
+        if (refreshData) {
+          await refreshData();
+        }
+      } else {
+        setToast(res.message, TOAST.ERROR);
+      }
+    },
+    hideModal,
+    initForm,
+  };
+};
+
+export {
+  ConfirmationDialog,
+  AlertDialog,
+  LoadingDialog,
+  configDeleteDialog,
+  configModalForm,
+  configDeleteFileDialog,
+};

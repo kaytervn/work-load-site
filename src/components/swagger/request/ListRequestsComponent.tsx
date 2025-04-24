@@ -4,7 +4,7 @@ import useModal from "../../../hooks/useModal";
 import TableRowComponent from "./TableRowComponent";
 import { getUniqueFolders } from "../../../services/SwaggerService";
 import { truncateString } from "../../../types/utils";
-import NoData from "../../NoData";
+import { NoData } from "../../NoData";
 
 const ListRequestsComponent = ({
   handleAddRequest,

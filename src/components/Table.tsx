@@ -1,6 +1,6 @@
 import { EyeIcon, PencilIcon, TrashIcon } from "lucide-react";
 import Pagination from "./Pagination";
-import NoData from "./NoData";
+import { NoData } from "./NoData";
 
 const Table = ({
   data,

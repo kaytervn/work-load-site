@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main/Sidebar";
 import {
   API_DOCS,
   TOOLS,
@@ -7,26 +7,20 @@ import {
   SEQUENCE_ACTIVATOR,
   CRUD_GENERATOR,
   PERMISSIONS_GENERATOR,
-  DATA_MERGING,
-  DATA_GENERATOR,
-  TOKEN_CUSTOMIZATION,
 } from "../../types/pageConfig";
-import NoData from "../../components/NoData";
 import ToolCard from "../../components/ToolCard";
 import Header from "../../components/swagger/Header";
-import InputBox from "../../components/form/InputBox";
 import {
   CodeIcon,
-  CombineIcon,
-  FileBoxIcon,
   FolderOpenDotIcon,
   LifeBuoyIcon,
-  LockKeyholeOpenIcon,
   QrCodeIcon,
   SearchIcon,
   ShieldCheckIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { InputBox } from "../../components/form/InputTextField";
+import { NoData } from "../../components/NoData";
 
 const Tools = () => {
   const navigate = useNavigate();

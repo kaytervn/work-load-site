@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GORGEOUS_SWAGGER, REQUEST_MANAGER } from "../../types/pageConfig";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main/Sidebar";
 import ListRequestsComponent from "../../components/swagger/request/ListRequestsComponent";
 import { getItemById, overwriteItemInStorage } from "../../types/utils";
-import { toast, ToastContainer } from "react-toastify";
 import { mapCollectionRequests } from "../../services/SwaggerService";
+import { useGlobalContext } from "../../components/config/GlobalProvider";
+import { TOAST } from "../../types/constant";
 
 const RequestManager = () => {
+  const { setToast } = useGlobalContext();
   const navigate = useNavigate();
   const [item, setItem] = useState<any>(null);
   const [requests, setRequests] = useState<any[]>([]);
@@ -31,7 +33,7 @@ const RequestManager = () => {
     item.requests = mapCollectionRequests(handledRequests);
     overwriteItemInStorage(GORGEOUS_SWAGGER.name, item);
     setRequests(handledRequests);
-    toast.success("Request added successfully");
+    setToast("Request added successfully", TOAST.SUCCESS);
   };
 
   const handleEditRequest = (index: any, updatedRequest: any) => {
@@ -50,7 +52,7 @@ const RequestManager = () => {
       overwriteItemInStorage(GORGEOUS_SWAGGER.name, item);
       return updatedRequests;
     });
-    toast.success("Request edited successfully");
+    setToast("Request edited successfully", TOAST.SUCCESS);
   };
 
   const handleRemoveRequest = (index: number) => {
@@ -63,7 +65,7 @@ const RequestManager = () => {
     item.requests = mapCollectionRequests(handledRequests);
     overwriteItemInStorage(GORGEOUS_SWAGGER.name, item);
     setRequests(handledRequests);
-    toast.success("Request deleted successfully");
+    setToast("Request deleted successfully", TOAST.SUCCESS);
   };
 
   useEffect(() => {
@@ -118,11 +120,6 @@ const RequestManager = () => {
             handleAddRequest={handleAddRequest}
             handleEditRequest={handleEditRequest}
             handleRemoveRequest={handleRemoveRequest}
-          />
-          <ToastContainer
-            position="bottom-right"
-            style={{ width: "400px" }}
-            theme="dark"
           />
         </>
       }

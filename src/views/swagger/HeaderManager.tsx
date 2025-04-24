@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  GORGEOUS_SWAGGER,
-  HEADER_MANAGER,
-  REQUEST_MANAGER,
-} from "../../types/pageConfig";
-import Sidebar from "../../components/Sidebar";
-import ListRequestsComponent from "../../components/swagger/request/ListRequestsComponent";
+import { GORGEOUS_SWAGGER, HEADER_MANAGER } from "../../types/pageConfig";
+import Sidebar from "../../components/main/Sidebar";
 import {
   getItemById,
   overwriteItemInStorage,
   truncateString,
 } from "../../types/utils";
-import { toast, ToastContainer } from "react-toastify";
-import { mapCollectionRequests } from "../../services/SwaggerService";
 import ListHeadersComponent from "../../components/swagger/header/ListHeadersComponent";
 import { PlusIcon } from "lucide-react";
 import useModal from "../../hooks/useModal";
 import HeaderForm from "../../components/swagger/header/HeaderForm";
 import { Header } from "../../types/interfaces";
+import { useGlobalContext } from "../../components/config/GlobalProvider";
+import { TOAST } from "../../types/constant";
 
 const HeaderManager = () => {
+  const { setToast } = useGlobalContext();
   const [activeTab, setActiveTab] = useState<any>(null);
   const navigate = useNavigate();
   const [item, setItem] = useState<any>(null);
@@ -52,7 +48,7 @@ const HeaderManager = () => {
       setRemoteHeaders(handledHeaders);
     }
     overwriteItemInStorage(GORGEOUS_SWAGGER.name, item);
-    toast.success("Header added successfully");
+    setToast("Header added successfully", TOAST.SUCCESS);
   };
 
   const handleEditHeader = (index: number, updatedHeader: any) => {
@@ -70,7 +66,7 @@ const HeaderManager = () => {
       setRemoteHeaders(handledHeaders);
     }
     overwriteItemInStorage(GORGEOUS_SWAGGER.name, item);
-    toast.success("Header edited successfully");
+    setToast("Header edited successfully", TOAST.SUCCESS);
   };
 
   const handleRemoveHeader = (index: number) => {
@@ -88,7 +84,7 @@ const HeaderManager = () => {
       setRemoteHeaders(handledHeaders);
     }
     overwriteItemInStorage(GORGEOUS_SWAGGER.name, item);
-    toast.success("Header deleted successfully");
+    setToast("Header deleted successfully", TOAST.SUCCESS);
   };
 
   useEffect(() => {
@@ -145,6 +141,11 @@ const HeaderManager = () => {
       ]}
       renderContent={
         <>
+          <HeaderForm
+            isVisible={isModalVisible}
+            hideModal={hideModal}
+            formConfig={formConfig}
+          />
           <div className="flex items-center justify-between border-b border-gray-700">
             <div className="flex items-center gap-2">
               <label className="ml-2 text-base font-semibold text-red-300">
@@ -193,20 +194,10 @@ const HeaderManager = () => {
               Add
             </button>
           </div>
-          <HeaderForm
-            isVisible={isModalVisible}
-            hideModal={hideModal}
-            formConfig={formConfig}
-          />
           <ListHeadersComponent
             handleRemove={handleRemoveHeader}
             handleEdit={handleEditHeader}
             headers={activeTab === "local" ? localHeaders : remoteHeaders}
-          />
-          <ToastContainer
-            position="bottom-right"
-            style={{ width: "400px" }}
-            theme="dark"
           />
         </>
       }

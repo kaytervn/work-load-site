@@ -2,7 +2,7 @@ import useModal from "../../../hooks/useModal";
 import TableRowComponentHeader from "./TableRowComponentHeader";
 import HeaderForm from "./HeaderForm";
 import { truncateString } from "../../../types/utils";
-import NoData from "../../NoData";
+import { NoData } from "../../NoData";
 
 const ListHeadersComponent = ({ handleRemove, handleEdit, headers }: any) => {
   const { isModalVisible, showModal, hideModal, formConfig } = useModal();

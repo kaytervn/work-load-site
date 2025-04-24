@@ -1,7 +1,9 @@
 import * as CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
-import { colors, myPublicSecretKey } from "./constant";
+import { colors, ENV, myPublicSecretKey } from "./constant";
 import gifs from "./gifs";
+import SparkMD5 from "spark-md5";
+import forge from "node-forge";
 
 const getCurrentDate = () => {
   const now = new Date();
@@ -100,7 +102,7 @@ const getPaginatedStorageData = (
       currentPage: page,
       items: paginatedData,
     };
-  } catch (err) {
+  } catch {
     return initializeStorage(storageKey, []);
   }
 };
@@ -121,7 +123,7 @@ const getItemPage = (
     const itemIndex = parsedData.findIndex((item: any) => item.id === itemId);
     if (itemIndex === -1) return -1;
     return Math.floor(itemIndex / size);
-  } catch (err) {
+  } catch {
     return -1;
   }
 };
@@ -133,7 +135,7 @@ const getStorageData = (storageKey: string): any => {
   }
   try {
     return JSON.parse(data);
-  } catch (err) {
+  } catch {
     return initializeStorage(storageKey, []);
   }
 };
@@ -208,9 +210,122 @@ const isValidURL = (url: string) => {
   try {
     new URL(url);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
+};
+
+const getEnumItem = (map: any, value: number) =>
+  Object.values(map).find((item: any) => item.value === value) ?? {
+    label: "Unknown",
+    className: "bg-gray-700 text-gray-300",
+  };
+
+const getNestedValue = (obj: any, path: string, defaultValue = "") => {
+  return path.split(".").reduce((acc, key) => acc?.[key], obj) ?? defaultValue;
+};
+
+const convertAlignment = (value: any) => {
+  const mapping: any = {
+    left: "start",
+    right: "end",
+  };
+  return mapping[value] || value;
+};
+
+const encryptClient = (key: any, value: any) => {
+  return CryptoJS.AES.encrypt(value, key).toString();
+};
+
+const decryptClient = (key: any, encryptedValue: any) => {
+  const decrypted = CryptoJS.AES.decrypt(encryptedValue, key);
+  return decrypted.toString(CryptoJS.enc.Utf8);
+};
+
+const encryptAES = (secretKey: any, plainText: any) => {
+  try {
+    const encrypted = CryptoJS.AES.encrypt(
+      plainText,
+      CryptoJS.enc.Utf8.parse(secretKey),
+      {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7,
+      }
+    );
+    return encrypted.toString();
+  } catch {
+    return null;
+  }
+};
+
+const decryptAES = (secretKey: any, encryptedStr: any) => {
+  try {
+    const decrypted = CryptoJS.AES.decrypt(
+      encryptedStr,
+      CryptoJS.enc.Utf8.parse(secretKey),
+      {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7,
+      }
+    );
+    const decryptedText = decrypted.toString(CryptoJS.enc.Utf8);
+    return decryptedText;
+  } catch {
+    return null;
+  }
+};
+
+const decryptRSA = (privateKeyRaw: any, encryptedBase64: any) => {
+  try {
+    const privateKeyBytes = forge.util.decode64(privateKeyRaw);
+    const privateAsn1 = forge.asn1.fromDer(
+      forge.util.createBuffer(privateKeyBytes)
+    );
+    const privateKey = forge.pki.privateKeyFromAsn1(privateAsn1);
+
+    const encryptedBytes = forge.util.decode64(encryptedBase64);
+    const decryptedBytes = privateKey.decrypt(
+      encryptedBytes,
+      "RSAES-PKCS1-V1_5"
+    );
+
+    return forge.util.decodeUtf8(decryptedBytes);
+  } catch {
+    return null;
+  }
+};
+
+const encryptRSA = (publicKeyRawBase64: any, data: any) => {
+  try {
+    const rawBytes = forge.util.decode64(publicKeyRawBase64);
+    const publicAsn1 = forge.asn1.fromDer(forge.util.createBuffer(rawBytes));
+    const publicKey = forge.pki.publicKeyFromAsn1(publicAsn1);
+
+    const encryptedBytes = publicKey.encrypt(data, "RSAES-PKCS1-V1_5");
+    return forge.util.encode64(encryptedBytes);
+  } catch {
+    return null;
+  }
+};
+
+const generateMd5 = (text: string): string => {
+  return SparkMD5.hash(text);
+};
+
+const generateTimestamp = () => {
+  return Date.now().toString();
+};
+
+const extractBase64FromPem = (pem: any) => {
+  return pem.replace(/-----.*-----/g, "").replace(/\s+/g, "");
+};
+
+const getAuthHeader = () => {
+  const timestamp = generateTimestamp();
+  const messageSignature = generateMd5(
+    ENV.CLIENT_ID + ENV.CLIENT_SECRET + timestamp
+  );
+  return { timestamp, messageSignature };
 };
 
 export {
@@ -234,4 +349,17 @@ export {
   initializeStorage,
   isValidURL,
   getItemPage,
+  getEnumItem,
+  getNestedValue,
+  convertAlignment,
+  encryptClient,
+  decryptClient,
+  encryptAES,
+  decryptAES,
+  generateMd5,
+  generateTimestamp,
+  extractBase64FromPem,
+  getAuthHeader,
+  decryptRSA,
+  encryptRSA,
 };

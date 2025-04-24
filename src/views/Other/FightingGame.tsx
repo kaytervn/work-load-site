@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { FIGHTING_GAME, GAMES } from "../../types/pageConfig";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main/Sidebar";
 import useKeyPress from "../../services/fighting-game/hooks/useKeyPress";
 import { canvasConfig, fps } from "../../services/fighting-game/constant";
 import useGameElements from "../../services/fighting-game/hooks/useGameElements";

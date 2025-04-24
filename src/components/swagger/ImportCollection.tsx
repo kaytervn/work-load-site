@@ -1,9 +1,9 @@
 import useForm from "../../hooks/useForm";
 import CustomModal from "../form/CustomModal";
-import TextareaField from "../form/TextareaField";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { importCollectionData } from "../../services/SwaggerService";
+import { TextareaField } from "../form/TextareaField";
 
 const ImportCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
   const validate = (form: any) => {
@@ -14,7 +14,7 @@ const ImportCollection = ({ isVisible, setVisible, onButtonClick }: any) => {
     return newErrors;
   };
   const { form, errors, setForm, setErrors, handleChange, isValidForm } =
-    useForm({ data: "" }, {}, validate);
+    useForm({ data: "" }, validate);
   const handleButtonClick = () => {
     if (isValidForm()) {
       const count = importCollectionData(form.data);

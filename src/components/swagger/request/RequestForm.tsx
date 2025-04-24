@@ -1,14 +1,16 @@
 import { useEffect } from "react";
 import useForm from "../../../hooks/useForm";
 import { HostPattern, PathPattern } from "../../../types/constant";
-import CodeMirrorInput from "../../form/CodeMirrorInput";
-import CodeMirrorWithCheckbox from "../../form/CodeMirrorWithCheckbox";
 import CustomModal from "../../form/CustomModal";
-import InputFieldWithoutTitle from "../../form/InputFieldWithoutTitle";
-import SelectFieldWithoutTitle from "../../form/SelectFieldWithoutTitle";
 import { toast } from "react-toastify";
 import { FolderPenIcon, LinkIcon, RouterIcon } from "lucide-react";
 import SearchField from "../../form/SearchField";
+import { InputFieldWithoutTitle } from "../../form/InputTextField";
+import { SelectFieldWithoutTitle } from "../../form/SelectTextField";
+import {
+  CodeMirrorInput,
+  CodeMirrorWithCheckbox,
+} from "../../form/CodeMirrorField";
 
 const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
   const validate = (form: any) => {
@@ -46,7 +48,7 @@ const RequestForm = ({ isVisible, hideModal, formConfig, folders }: any) => {
   };
 
   const { form, errors, setForm, setErrors, handleChange, isValidForm } =
-    useForm(formConfig.initForm, {}, validate);
+    useForm(formConfig.initForm, validate);
 
   useEffect(() => {
     setForm(formConfig.initForm);

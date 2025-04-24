@@ -5,7 +5,7 @@ import { Car } from "../../services/3d-racing-game/Car";
 import { Box } from "../../services/3d-racing-game/Box";
 import { boxCollision } from "../../services/3d-racing-game/utils";
 import { Truck } from "../../services/3d-racing-game/Truck.js";
-import Sidebar from "../../components/Sidebar.js";
+import Sidebar from "../../components/main/Sidebar.js";
 import { GAMES, THREE_D_RACING_GAME } from "../../types/pageConfig.js";
 import { RotateCcwIcon } from "lucide-react";
 

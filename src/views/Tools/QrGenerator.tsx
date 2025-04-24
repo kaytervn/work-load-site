@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { getCurrentDate_2 } from "../../types/utils";
 import { TOOLS, QR_GENERATOR } from "../../types/pageConfig";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main/Sidebar";
 import { QRCodeCanvas } from "qrcode.react";
 
 const QrCodeGenerator = () => {

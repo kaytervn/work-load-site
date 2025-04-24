@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Copy, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main/Sidebar";
 import { CRUD_GENERATOR, TOOLS } from "../../types/pageConfig";
 import { generateOutput } from "../../types/crud";
-import { toast, ToastContainer } from "react-toastify";
+import { useGlobalContext } from "../../components/config/GlobalProvider";
+import { TOAST } from "../../types/constant";
 
 const CRUDGenerator = () => {
+  const { setToast } = useGlobalContext();
   const [inputText, setInputText] = useState("");
   const [outputItems, setOutputItems] = useState<any[]>([]);
   const [copiedStates, setCopiedStates] = useState<{ [key: string]: boolean }>(
@@ -19,22 +21,25 @@ const CRUDGenerator = () => {
 
   const handleGenerate = () => {
     if (!inputText.trim()) {
-      toast.error("Please enter your input model");
+      setToast("Please enter your input model", TOAST.ERROR);
       return;
     }
     try {
-      toast.success("Generated successfully");
+      setToast("Generated successfully", TOAST.SUCCESS);
       const results = generateOutput(inputText);
       setOutputItems(results);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "An error occurred");
+      setToast(
+        err instanceof Error ? err.message : "An error occurred",
+        TOAST.ERROR
+      );
     }
   };
 
   const handleCopy = async (text: string, id: string) => {
     await navigator.clipboard.writeText(text);
     setCopiedStates((prev) => ({ ...prev, [id]: true }));
-    toast.success("Copied to clipboard");
+    setToast("Copied to clipboard", TOAST.SUCCESS);
     setTimeout(() => {
       setCopiedStates((prev) => ({ ...prev, [id]: false }));
     }, 1000);
@@ -157,11 +162,6 @@ const CRUDGenerator = () => {
               ))}
             </div>
           </div>
-          <ToastContainer
-            position="bottom-right"
-            style={{ width: "300px" }}
-            theme="dark"
-          />
         </>
       }
     />

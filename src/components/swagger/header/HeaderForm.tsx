@@ -3,8 +3,8 @@ import useForm from "../../../hooks/useForm";
 import CustomModal from "../../form/CustomModal";
 import { toast } from "react-toastify";
 import { ChevronsLeftRightEllipsisIcon, KeyRoundIcon } from "lucide-react";
-import InputField from "../../form/InputField";
 import { HeaderPattern } from "../../../types/constant";
+import { InputField } from "../../form/InputTextField";
 
 const HeaderForm = ({ isVisible, hideModal, formConfig }: any) => {
   const validate = (form: any) => {
@@ -21,7 +21,7 @@ const HeaderForm = ({ isVisible, hideModal, formConfig }: any) => {
   };
 
   const { form, errors, setForm, setErrors, handleChange, isValidForm } =
-    useForm(formConfig.initForm, {}, validate);
+    useForm(formConfig.initForm, validate);
 
   useEffect(() => {
     setForm(formConfig.initForm);
