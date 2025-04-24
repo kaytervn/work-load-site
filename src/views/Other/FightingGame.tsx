@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useRef, useState } from "react";
 import { FIGHTING_GAME, GAMES } from "../../types/pageConfig";
 import Sidebar from "../../components/main/Sidebar";

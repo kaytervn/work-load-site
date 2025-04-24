@@ -94,4 +94,4 @@ const removeSessionCache = () => {
   localStorage.removeItem(LOCAL_STORAGE.SESSION_KEY);
 };
 
-export { getStorageData, setStorageData, removeSessionCache };
+export { getStorageData, setStorageData, removeSessionCache, isValidJWT };

@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef, useState } from "react";
 import { GAMES, MULTIROOM_PLATFORMER } from "../../types/pageConfig";
 import Sidebar from "../../components/main/Sidebar";

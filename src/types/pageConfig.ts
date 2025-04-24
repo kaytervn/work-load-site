@@ -76,12 +76,6 @@ const THREE_D_RACING_GAME = {
   path: "/3d-racing-game",
 };
 
-const SOCKET_CLIENT = {
-  name: "SOCKET_CLIENT",
-  label: "Socket Client",
-  path: "/socket-client",
-};
-
 const TOKEN_CUSTOMIZATION = {
   name: "TOKEN_CUSTOMIZATION",
   label: "Token Customization",
@@ -100,6 +94,12 @@ const HEADER_MANAGER = {
   path: "/header-manager",
 };
 
+const EMBED_STUFF = {
+  name: "EMBED",
+  label: "Embed",
+  path: "/embed",
+};
+
 export {
   GORGEOUS_SWAGGER,
   CRUD_GENERATOR,
@@ -114,8 +114,8 @@ export {
   FIGHTING_GAME,
   MULTIROOM_PLATFORMER,
   THREE_D_RACING_GAME,
-  SOCKET_CLIENT,
   TOKEN_CUSTOMIZATION,
   REQUEST_MANAGER,
   HEADER_MANAGER,
+  EMBED_STUFF,
 };

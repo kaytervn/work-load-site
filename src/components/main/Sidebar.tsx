@@ -13,11 +13,17 @@ import {
   DraftingCompassIcon,
   UserIcon,
   LogInIcon,
+  FlameIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../config/GlobalProvider";
 import { useEffect, useState } from "react";
-import { GAMES, GORGEOUS_SWAGGER, TOOLS } from "../../types/pageConfig";
+import {
+  EMBED_STUFF,
+  GAMES,
+  GORGEOUS_SWAGGER,
+  TOOLS,
+} from "../../types/pageConfig";
 import { getStorageData, setStorageData } from "../../services/storages";
 import { LOCAL_STORAGE } from "../../types/constant";
 import { Breadcrumb } from "./Breadcrumb";
@@ -64,6 +70,12 @@ const Sidebar = ({ activeItem, renderContent, breadcrumbs }: any) => {
           label: GAMES.label,
           icon: <Gamepad2 size={20} />,
           path: GAMES.path,
+        },
+        {
+          name: EMBED_STUFF.name,
+          label: EMBED_STUFF.label,
+          icon: <FlameIcon size={20} />,
+          path: EMBED_STUFF.path,
         },
       ],
     },
