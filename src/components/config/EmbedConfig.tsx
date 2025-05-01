@@ -2,6 +2,7 @@ import {
   CookieIcon,
   FilesIcon,
   GoalIcon,
+  ImageIcon,
   LayoutDashboardIcon,
   PaletteIcon,
   RocketIcon,
@@ -11,6 +12,13 @@ import {
 const BASE_EMBED_URL = "https://kaytervn.github.io/kaytervn/";
 
 const EMBED_LIST = [
+  {
+    label: "Caro Online",
+    path: "/caro",
+    icon: LayoutDashboardIcon,
+    color: "#3F51B5",
+    url: BASE_EMBED_URL + "caro",
+  },
   {
     label: "Color",
     path: "/color",
@@ -52,13 +60,6 @@ const EMBED_LIST = [
     icon: VideoIcon,
     color: "#FBC02D",
     url: BASE_EMBED_URL + "web-rtc",
-  },
-  {
-    label: "Caro Online",
-    path: "/caro",
-    icon: LayoutDashboardIcon,
-    color: "#3F51B5",
-    url: BASE_EMBED_URL + "caro",
   },
 ];
 
