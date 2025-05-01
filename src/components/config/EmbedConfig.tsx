@@ -2,7 +2,6 @@ import {
   CookieIcon,
   FilesIcon,
   GoalIcon,
-  ImageIcon,
   LayoutDashboardIcon,
   PaletteIcon,
   RocketIcon,
