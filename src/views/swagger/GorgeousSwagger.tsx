@@ -90,7 +90,7 @@ const GorgeousSwagger = () => {
       search
     );
     let newPage = page;
-    if (items.length === 0 && newPage > 0) {
+    if (items?.length === 0 && newPage > 0) {
       newPage = totalPages - 1;
       ({ items, totalPages } = getPaginatedStorageData(
         GORGEOUS_SWAGGER.name,

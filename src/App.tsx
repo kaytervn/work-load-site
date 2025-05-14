@@ -60,13 +60,17 @@ const App = () => {
 
   useEffect(() => {
     const fetchAuthData = async () => {
-      const token = getStorageData(LOCAL_STORAGE.ACCESS_TOKEN, null);
+      if (profile) {
+        return;
+      }
+      const token = await getStorageData(LOCAL_STORAGE.ACCESS_TOKEN, null);
       if (!token || !isValidJWT(token)) {
         setProfile(null);
+        removeSessionCache();
         return;
       }
       const res = await user.verifyToken();
-      if (res?.result) {
+      if (res.result) {
         setProfile(res.data?.token);
         return;
       }

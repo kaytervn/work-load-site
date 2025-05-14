@@ -17,7 +17,6 @@ import {
   TOAST,
 } from "../../types/constant";
 import { toast } from "react-toastify";
-import { jwtDecode } from "jwt-decode";
 import useSocket from "../../hooks/useSocket";
 
 const GlobalContext = createContext<{
@@ -65,13 +64,7 @@ const GlobalContext = createContext<{
 export const GlobalProvider = ({ children }: any) => {
   const { emit, on, off } = useSocket();
   const [isUnauthorized, setIsUnauthorized] = useState(false);
-  const [profile, setProfile] = useState<any>(() => {
-    const token = getStorageData(LOCAL_STORAGE.ACCESS_TOKEN, null);
-    if (token) {
-      return jwtDecode(token);
-    }
-    return null;
-  });
+  const [profile, setProfile] = useState<any>(null);
   const [sessionKey, setSessionKey] = useState<any>(() => {
     const storedSession = getStorageData(LOCAL_STORAGE.SESSION_KEY, null);
     if (storedSession) {

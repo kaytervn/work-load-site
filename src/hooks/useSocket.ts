@@ -1,25 +1,21 @@
 import { useEffect, useRef, useCallback } from "react";
 import { io } from "socket.io-client";
-import { useGlobalContext } from "../components/config/GlobalProvider";
 import { ENV, LOCAL_STORAGE, SOCKET_CMD } from "../types/constant";
 import { getStorageData } from "../services/storages";
 
 type EventHandler = (...args: any[]) => void;
 
 const useSocket = () => {
-  const { profile } = useGlobalContext();
   const socketRef = useRef<any>(null);
 
   useEffect(() => {
     const token = getStorageData(LOCAL_STORAGE.ACCESS_TOKEN, null);
-    if (profile && token) {
+    if (token) {
       if (socketRef.current?.connected) {
         socketRef.current.disconnect();
       }
 
-      const socket = io(ENV.MSA_API_URL, {
-        auth: { token },
-      });
+      const socket = io(ENV.MSA_API_URL);
 
       socketRef.current = socket;
 
@@ -52,7 +48,7 @@ const useSocket = () => {
       socketRef.current?.disconnect();
       socketRef.current = null;
     };
-  }, [profile]);
+  }, []);
 
   const emit = useCallback((event: string, payload?: any) => {
     socketRef.current?.emit(event, payload);
