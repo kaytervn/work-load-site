@@ -226,6 +226,11 @@ const SOCKET_CMD = {
   CMD_LOCK_DEVICE: "CMD_LOCK_DEVICE",
 };
 
+const Z_INDEXES = {
+  UNAUTHORIZED_DIALOG: 1000,
+  DEFAULT_MODAL: 50,
+};
+
 export {
   defaultInteger,
   defaultLong,
@@ -254,4 +259,5 @@ export {
   AUTH_TYPE,
   API_HEADER,
   SOCKET_CMD,
+  Z_INDEXES,
 };

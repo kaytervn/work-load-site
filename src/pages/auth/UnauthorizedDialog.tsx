@@ -4,18 +4,16 @@ import { useGlobalContext } from "../../components/config/GlobalProvider";
 import useModal from "../../hooks/useModal";
 import { ConfirmationDialog } from "../../components/form/Dialog";
 import { USER_CONFIG } from "../../components/config/PageConfigDetails";
-import { SOCKET_CMD } from "../../types/constant";
+import { SOCKET_CMD, Z_INDEXES } from "../../types/constant";
 import { removeSessionCache } from "../../services/storages";
 
 const UnauthorizedDialog = () => {
-  const { isUnauthorized, on, setIsUnauthorized, setProfile } =
-    useGlobalContext();
+  const { isUnauthorized, on, setIsUnauthorized } = useGlobalContext();
   const { isModalVisible, showModal, hideModal, formConfig } = useModal();
 
   useEffect(() => {
     on(SOCKET_CMD.CMD_LOCK_DEVICE, () => {
       removeSessionCache();
-      setProfile(null);
       setIsUnauthorized(true);
     });
   }, []);
@@ -36,7 +34,11 @@ const UnauthorizedDialog = () => {
   }, [isUnauthorized]);
 
   return (
-    <ConfirmationDialog isVisible={isModalVisible} formConfig={formConfig} />
+    <ConfirmationDialog
+      zIndex={Z_INDEXES.UNAUTHORIZED_DIALOG}
+      isVisible={isModalVisible}
+      formConfig={formConfig}
+    />
   );
 };
 

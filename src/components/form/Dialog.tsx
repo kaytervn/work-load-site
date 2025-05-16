@@ -1,10 +1,21 @@
+/* eslint-disable react-refresh/only-export-components */
 import { BASIC_MESSAGES, BUTTON_TEXT, TOAST } from "../../types/constant";
 import { CancelButton, SubmitButton } from "../form/Button";
 
-const ModalForm = ({ children, isVisible, color, title, message }: any) => {
+const ModalForm = ({
+  children,
+  isVisible,
+  color,
+  title,
+  message,
+  zIndex = 50,
+}: any) => {
   if (!isVisible) return null;
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+    <div
+      style={{ zIndex }}
+      className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center"
+    >
       <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
         <h2 className="text-xl font-bold mb-2 text-gray-200" style={{ color }}>
           {title}
@@ -28,6 +39,7 @@ const ConfirmationDialog = ({
     confirmText: "Accept",
     onCancel: () => {},
   },
+  zIndex = 50,
 }: any) => {
   return (
     <ModalForm
@@ -35,6 +47,7 @@ const ConfirmationDialog = ({
       title={formConfig.title}
       message={formConfig.message}
       color={formConfig.color}
+      zIndex={zIndex}
     >
       <div className="flex flex-col w-full min-w-[20rem]">
         <div className="flex items-center justify-end">
