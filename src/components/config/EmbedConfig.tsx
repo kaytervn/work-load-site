@@ -1,4 +1,5 @@
 import {
+  BracesIcon,
   CookieIcon,
   FilesIcon,
   GoalIcon,
@@ -44,7 +45,7 @@ const EMBED_LIST = [
     label: "Ducky vs Pengy",
     path: "/ducky-vs-pengy",
     icon: PlayIcon,
-    color: "#382B66",
+    color: "#9575CD",
     url: BASE_EMBED_URL + "ducky-vs-pengy",
   },
   {
@@ -60,6 +61,13 @@ const EMBED_LIST = [
     icon: RocketIcon,
     color: "#BA68C8",
     url: BASE_EMBED_URL + "socket-client",
+  },
+  {
+    label: "JSON Tool",
+    path: "/json-tool",
+    icon: BracesIcon,
+    color: "#C8A165",
+    url: BASE_EMBED_URL + "/json-tool",
   },
   {
     label: "Web RTC Demo",
