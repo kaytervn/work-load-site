@@ -97,6 +97,37 @@ const colors = [
   "#C5CAE9",
 ];
 
+const MIME_TYPES = {
+  // Images
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+  ".gif": "image/gif",
+  ".svg": "image/svg+xml",
+  ".webp": "image/webp",
+  ".bmp": "image/bmp",
+
+  // Videos
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
+  ".ogg": "video/ogg",
+  ".m3u8": "application/x-mpegURL",
+  ".ts": "video/mp2t",
+
+  // Soundtracks
+  ".mp3": "audio/mpeg",
+  ".wav": "audio/wav",
+
+  // Documents
+  ".pdf": "application/pdf",
+  ".txt": "text/plain",
+  ".csv": "text/csv",
+  ".json": "application/json",
+  ".xml": "application/xml",
+  ".md": "text/markdown",
+  ".html": "text/html",
+};
+
 const HostPattern = /^(?:https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/;
 const PathPattern = /^\/([a-zA-Z0-9_-]+\/)*([a-zA-Z0-9_-]+)(\?[^#]*)?$/;
 const HeaderPattern = /^[a-zA-Z0-9-]+$/;
@@ -142,6 +173,8 @@ const LOCAL_STORAGE = {
   MSA_COLLAPSED_GROUPS: "msa_collapsed_groups",
   IS_COLLAPSED: "wls_is_collapsed",
   COLLAPSED_GROUPS: "wls_collapsed_groups",
+  N_LESSONS_COLLAPSED_GROUPS: "n_lessons_collapsed_groups",
+  N_LESSONS_API_KEY: "n_lessons_api_key",
 };
 
 const METHOD = {
@@ -169,6 +202,7 @@ const API_HEADER = {
   MESSAGE_SIGNATURE: "message-signature",
   TIMESTAMP: "timestamp",
   AUTHORIZATION: "authorization",
+  X_API_KEY: "x-api-key",
 };
 
 const AUTH_TYPE = {
@@ -187,6 +221,7 @@ const BASIC_MESSAGES = {
   UPDATED: "Updated successfully",
   DELETED: "Deleted successfully",
   NO_DATA: "No data",
+  VERIFY_FAILED: "Verify failed",
 };
 
 const BUTTON_TEXT = {
@@ -231,6 +266,11 @@ const Z_INDEXES = {
   DEFAULT_MODAL: 50,
 };
 
+const DOC_TITLE = {
+  MSA: "MSA",
+  N_LESSONS: "N Lessons",
+};
+
 export {
   defaultInteger,
   defaultLong,
@@ -260,4 +300,6 @@ export {
   API_HEADER,
   SOCKET_CMD,
   Z_INDEXES,
+  MIME_TYPES,
+  DOC_TITLE,
 };

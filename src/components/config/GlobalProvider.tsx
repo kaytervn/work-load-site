@@ -39,6 +39,12 @@ const GlobalContext = createContext<{
   emit: any;
   on: any;
   off: any;
+  apiKey: any;
+  setApiKey: Dispatch<SetStateAction<any>>;
+  nLessonscollapsedGroups: { [key: string]: boolean };
+  setNLessonsCollapsedGroups: Dispatch<
+    SetStateAction<{ [key: string]: boolean }>
+  >;
 }>({
   imgSrc: null,
   setImgSrc: () => {},
@@ -59,12 +65,30 @@ const GlobalContext = createContext<{
   emit: () => {},
   on: () => {},
   off: () => {},
+  apiKey: null,
+  setApiKey: () => {},
+  nLessonscollapsedGroups: {},
+  setNLessonsCollapsedGroups: () => {},
 });
 
 export const GlobalProvider = ({ children }: any) => {
+  const [nLessonscollapsedGroups, setNLessonsCollapsedGroups] = useState(
+    getStorageData(LOCAL_STORAGE.N_LESSONS_COLLAPSED_GROUPS, {})
+  );
+  const [apiKey, setApiKey] = useState<any>(
+    getStorageData(LOCAL_STORAGE.N_LESSONS_API_KEY, null)
+  );
   const { emit, on, off } = useSocket();
   const [isUnauthorized, setIsUnauthorized] = useState(false);
   const [profile, setProfile] = useState<any>(null);
+
+  useEffect(() => {
+    setStorageData(
+      LOCAL_STORAGE.N_LESSONS_COLLAPSED_GROUPS,
+      nLessonscollapsedGroups
+    );
+  }, [nLessonscollapsedGroups]);
+
   const [sessionKey, setSessionKey] = useState<any>(() => {
     const storedSession = getStorageData(LOCAL_STORAGE.SESSION_KEY, null);
     if (storedSession) {
@@ -199,6 +223,10 @@ export const GlobalProvider = ({ children }: any) => {
         emit: emit as any,
         on: on as any,
         off: off as any,
+        apiKey,
+        setApiKey,
+        nLessonscollapsedGroups,
+        setNLessonsCollapsedGroups,
       }}
     >
       {children}

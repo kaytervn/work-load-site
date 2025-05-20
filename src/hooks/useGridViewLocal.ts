@@ -28,7 +28,7 @@ const useGridViewLocal = ({
   }, [sessionKey]);
 
   useEffect(() => {
-    const filtered = filterData(allData, query);
+    const filtered = filterData(allData || [], query);
     const newTotalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
     const startIndex = query[pageAccesor] * ITEMS_PER_PAGE;
     const paginatedData = filtered.slice(
@@ -78,15 +78,11 @@ const useGridViewLocal = ({
   };
 
   const handleRefreshData = async () => {
-    if (!sessionKey) {
-      updateData([]);
-      return;
-    }
     const res = await fetchListApi({
       ...queryParams,
     });
     if (res.result) {
-      const data = res.data;
+      const data = res?.data?.content || res?.data;
       updateData(data || []);
     } else {
       setToast(res.message, TOAST.ERROR);
@@ -99,10 +95,10 @@ const useGridViewLocal = ({
       setAllData(
         newData?.map((item) =>
           decryptDataByUserKey(sessionKey, item, decryptFields)
-        )
+        ) || []
       );
     } else {
-      setAllData(newData);
+      setAllData(newData || []);
     }
   };
 

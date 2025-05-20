@@ -6,14 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../components/config/GlobalProvider";
 import { LoadingDialog } from "../../components/form/Dialog";
 import { InputField2 } from "../../components/form/InputTextField";
-import { BASIC_MESSAGES, BUTTON_TEXT, TOAST } from "../../types/constant";
+import { BASIC_MESSAGES, BUTTON_TEXT, DOC_TITLE, TOAST } from "../../types/constant";
 import { encryptClientData } from "../../services/encryption/clientEncryption";
 import { ENCRYPT_FIELDS } from "../../services/encryption/encryptFields";
 import { USER_CONFIG } from "../../components/config/PageConfigDetails";
 import useDocTitle from "../../hooks/useDocTitle";
 
 const ForgotPassword = () => {
-  useDocTitle();
+  useDocTitle(DOC_TITLE.MSA);
   const { setToast } = useGlobalContext();
   const navigate = useNavigate();
   const { user, loading } = useApi();

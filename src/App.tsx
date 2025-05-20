@@ -30,12 +30,18 @@ import MultiroomPlatformer from "./views/Other/MultiroomPlatformer";
 import ThreeDRacingGame from "./views/Other/ThreeDRacingGame";
 import RequestManager from "./views/swagger/RequestManager";
 import HeaderManager from "./views/swagger/HeaderManager";
-import { PAGE_CONFIG } from "./components/config/PageConfig";
+import {
+  N_LESSONS_PAGE_CONFIG,
+  PAGE_CONFIG,
+} from "./components/config/PageConfig";
 import { useGlobalContext } from "./components/config/GlobalProvider";
 import useApi from "./hooks/useApi";
 import { useEffect } from "react";
 import Loading from "./views/Loading";
-import { USER_CONFIG } from "./components/config/PageConfigDetails";
+import {
+  N_LESSONS_CONFIG,
+  USER_CONFIG,
+} from "./components/config/PageConfigDetails";
 import {
   getStorageData,
   isValidJWT,
@@ -45,6 +51,7 @@ import { LOCAL_STORAGE } from "./types/constant";
 import { EMBED_LIST } from "./components/config/EmbedConfig";
 import BasicEmbeded from "./views/Embed/BasicEmbeded";
 import EmbedList from "./views/Embed/EmbedList";
+import LessonClient from "./pages/n-lessons/client/LessonClient";
 
 const PAGE_CONFIG_FILTERED = Object.values(PAGE_CONFIG).filter(
   (item: any) => item.path && item.element
@@ -55,7 +62,7 @@ const USER_CONFIG_FILTERED = Object.values(USER_CONFIG).filter(
 );
 
 const App = () => {
-  const { profile, setProfile } = useGlobalContext();
+  const { profile, setProfile, apiKey } = useGlobalContext();
   const { user, loading } = useApi();
 
   useEffect(() => {
@@ -80,6 +87,10 @@ const App = () => {
     fetchAuthData();
   }, []);
 
+  const N_LESSONS_PAGE_CONFIG_FILTERED = Object.values(
+    N_LESSONS_PAGE_CONFIG
+  ).filter((item: any) => item.path && item.element);
+
   return (
     <>
       {loading ? (
@@ -94,6 +105,22 @@ const App = () => {
               : USER_CONFIG_FILTERED.map(({ path, element }: any) => (
                   <Route key={path} path={path} element={element} />
                 ))}
+            {apiKey ? (
+              <>
+                {N_LESSONS_PAGE_CONFIG_FILTERED.map(
+                  ({ path, element }: any) => (
+                    <Route key={path} path={path} element={element} />
+                  )
+                )}
+              </>
+            ) : (
+              <>
+                <Route
+                  path={N_LESSONS_CONFIG.CLIENT.path}
+                  element={<LessonClient />}
+                />
+              </>
+            )}
             <Route path={GORGEOUS_SWAGGER.path} element={<GorgeousSwagger />} />
             <Route path={REQUEST_MANAGER.path} element={<RequestManager />} />
             <Route path={HEADER_MANAGER.path} element={<HeaderManager />} />

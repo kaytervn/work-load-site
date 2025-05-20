@@ -1,6 +1,6 @@
 import * as CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
-import { colors, ENV, myPublicSecretKey } from "./constant";
+import { colors, ENV, MIME_TYPES, myPublicSecretKey } from "./constant";
 import gifs from "./gifs";
 import SparkMD5 from "spark-md5";
 import forge from "node-forge";
@@ -328,6 +328,23 @@ const getAuthHeader = () => {
   return { timestamp, messageSignature };
 };
 
+const getMimeType = (fileName: string) => {
+  const extension = `.${fileName.split(".").pop()?.toLowerCase() || ""}`;
+  return (MIME_TYPES as any)[extension] || "application/octet-stream";
+};
+
+const parseDocuments = (documentString: string) => {
+  try {
+    return JSON.parse(documentString);
+  } catch {
+    return [];
+  }
+};
+
+const getMediaImage = (url: string) => {
+  return `${ENV.MSA_API_URL}/v1/media/download/${url}`;
+};
+
 export {
   getRandomGif,
   getRandomColor,
@@ -362,4 +379,7 @@ export {
   getAuthHeader,
   decryptRSA,
   encryptRSA,
+  getMimeType,
+  parseDocuments,
+  getMediaImage,
 };

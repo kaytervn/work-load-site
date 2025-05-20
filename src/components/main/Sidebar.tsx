@@ -14,6 +14,7 @@ import {
   UserIcon,
   LogInIcon,
   FlameIcon,
+  BookCheckIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../config/GlobalProvider";
@@ -27,7 +28,7 @@ import {
 import { getStorageData, setStorageData } from "../../services/storages";
 import { LOCAL_STORAGE } from "../../types/constant";
 import { Breadcrumb } from "./Breadcrumb";
-import { PAGE_CONFIG } from "../config/PageConfig";
+import { N_LESSONS_PAGE_CONFIG, PAGE_CONFIG } from "../config/PageConfig";
 
 const Sidebar = ({ activeItem, renderContent, breadcrumbs }: any) => {
   const {
@@ -230,6 +231,13 @@ const Sidebar = ({ activeItem, renderContent, breadcrumbs }: any) => {
               </div>
 
               <div className="flex items-center space-x-4">
+                <button
+                  className="relative focus:outline-none"
+                  onClick={() => navigate(N_LESSONS_PAGE_CONFIG.CLIENT.path)}
+                  title="N Lessons"
+                >
+                  <BookCheckIcon size={24} className="text-white" />
+                </button>
                 {profile ? (
                   <button
                     title="MSA"

@@ -7,9 +7,62 @@ import Login from "../../pages/auth/Login";
 import RequestResetMfa from "../../pages/auth/RequestResetMfa";
 import ResetMfa from "../../pages/auth/ResetMfa";
 import ResetPassword from "../../pages/auth/ResetPassword";
+import Category from "../../pages/n-lessons/category/Category";
+import LessonClient from "../../pages/n-lessons/client/LessonClient";
+import CreateLesson from "../../pages/n-lessons/lesson/CreateLesson";
+import Lesson from "../../pages/n-lessons/lesson/Lesson";
+import UpdateLesson from "../../pages/n-lessons/lesson/UpdateLesson";
 import CreatePlatform from "../../pages/platform/CreatePlatform";
 import Platform from "../../pages/platform/Platform";
 import UpdatePlatform from "../../pages/platform/UpdatePlatform";
+
+const CATEGORY_CONFIG = {
+  CATEGORY: {
+    name: "category",
+    label: "Danh mục",
+    path: "/category",
+    element: <Category />,
+  },
+  CREATE_CATEGORY: {
+    label: "Thêm mới danh mục",
+  },
+  UPDATE_CATEGORY: {
+    label: "Cập nhật danh mục",
+  },
+  DELETE_CATEGORY: {
+    label: "Xóa danh mục",
+  },
+};
+
+const LESSON_CONFIG = {
+  LESSON: {
+    name: "lesson",
+    label: "Bài học",
+    path: "/lesson",
+    element: <Lesson />,
+  },
+  CREATE_LESSON: {
+    label: "Thêm mới bài học",
+    path: "/lesson/create",
+    element: <CreateLesson />,
+  },
+  UPDATE_LESSON: {
+    label: "Cập nhật bài học",
+    path: "/lesson/update/:id",
+    element: <UpdateLesson />,
+  },
+  DELETE_LESSON: {
+    label: "Xóa bài học",
+  },
+};
+
+const N_LESSONS_CONFIG = {
+  CLIENT: {
+    label: "N Lessons",
+    path: "/n-lessons",
+    element: <LessonClient />,
+  },
+};
 
 const ACCOUNT_CONFIG = {
   ACCOUNT: {
@@ -88,4 +141,11 @@ const USER_CONFIG = {
   },
 };
 
-export { ACCOUNT_CONFIG, PLATFORM_CONFIG, USER_CONFIG };
+export {
+  ACCOUNT_CONFIG,
+  PLATFORM_CONFIG,
+  USER_CONFIG,
+  CATEGORY_CONFIG,
+  LESSON_CONFIG,
+  N_LESSONS_CONFIG,
+};

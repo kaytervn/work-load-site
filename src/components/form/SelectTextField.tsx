@@ -641,6 +641,186 @@ const SelectFieldLazy = ({
   );
 };
 
+const SelectBoxLazy = ({
+  placeholder,
+  onChange,
+  fetchListApi,
+  value,
+  valueKey = "id",
+  labelKey = "name",
+  queryParams,
+  colorCodeField = "",
+}: any) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [items, setItems] = useState<any[]>([]);
+  const [filteredItems, setFilteredItems] = useState<any[]>([]);
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const ITEMS_PER_PAGE = 5;
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const res = await fetchListApi({
+        ...queryParams,
+      });
+      const data = res?.data?.content || [];
+      setItems(data);
+      setFilteredItems(data.slice(0, ITEMS_PER_PAGE));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setItems([]);
+      setFilteredItems([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (!value) {
+      setSelectedItem(null);
+    } else if (items.length > 0) {
+      const foundItem = items.find((item) => item[valueKey] === value);
+      setSelectedItem(foundItem || null);
+    }
+  }, [value, items, valueKey]);
+
+  useEffect(() => {
+    if (searchTerm) {
+      const filtered = items
+        .filter((item) =>
+          item[labelKey].toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .slice(0, ITEMS_PER_PAGE);
+      setFilteredItems(filtered);
+    } else {
+      setFilteredItems(items.slice(0, ITEMS_PER_PAGE));
+    }
+  }, [searchTerm, items]);
+
+  const handleSelect = (item: any) => {
+    setSelectedItem(item);
+    onChange(item[valueKey]);
+    setIsOpen(false);
+    setSearchTerm("");
+  };
+
+  const handleClear = () => {
+    setSelectedItem(null);
+    onChange(null);
+    setSearchTerm("");
+  };
+
+  const handleRefresh = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    fetchData();
+  };
+
+  const renderColorTag = (item: any) => {
+    if (getNestedValue(item, colorCodeField)) {
+      return (
+        <span
+          className="inline-block w-4 h-4 mr-2 rounded"
+          style={{ backgroundColor: getNestedValue(item, colorCodeField) }}
+        />
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div ref={wrapperRef} className="w-full md:w-[15rem] relative text-sm">
+      <div
+        className="w-full flex items-center p-2 rounded-md bg-gray-600 cursor-pointer"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? (
+          <input
+            className="flex-1 text-sm outline-none text-gray-100 placeholder:text-gray-300 bg-gray-600 cursor-pointer"
+            placeholder={placeholder}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen(true);
+            }}
+          />
+        ) : (
+          <div
+            className={`flex-1 text-sm truncate flex items-center ${
+              selectedItem ? "text-gray-100" : "text-gray-300"
+            }`}
+          >
+            {selectedItem ? (
+              <>
+                {renderColorTag(selectedItem)}
+                {selectedItem[labelKey]}
+              </>
+            ) : (
+              placeholder
+            )}
+          </div>
+        )}
+        <div className="flex items-center space-x-1">
+          {selectedItem && !isOpen && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClear();
+              }}
+              className="p-1 text-gray-300 hover:text-gray-100 rounded-full hover:bg-gray-700 transition-colors duration-200"
+            >
+              <XIcon size={14} />
+            </button>
+          )}
+          <button
+            onClick={handleRefresh}
+            title={BUTTON_TEXT.REFRESH}
+            className="p-1 text-gray-300 hover:text-gray-100 rounded-full hover:bg-gray-700 transition-colors duration-200"
+          >
+            <RefreshCwIcon size={14} />
+          </button>
+          <ChevronDownIcon size={16} className="text-gray-100" />
+        </div>
+      </div>
+
+      {isOpen && (
+        <div className="absolute w-full mt-1 max-h-60 overflow-y-auto rounded-md bg-gray-600 shadow-lg z-10">
+          {filteredItems.length > 0 ? (
+            filteredItems.map((item, index) => (
+              <div
+                key={index}
+                className="p-2 hover:bg-gray-500 text-gray-100 cursor-pointer whitespace-nowrap flex items-center"
+                onClick={() => handleSelect(item)}
+              >
+                {renderColorTag(item)}
+                {item[labelKey]}
+              </div>
+            ))
+          ) : (
+            <div className="p-2 text-gray-300">{BASIC_MESSAGES.NO_DATA}</div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
 export {
   SelectBox,
   SelectField,
@@ -648,4 +828,5 @@ export {
   SelectField2,
   StaticSelectField,
   SelectFieldLazy,
+  SelectBoxLazy,
 };

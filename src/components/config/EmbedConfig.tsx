@@ -67,7 +67,7 @@ const EMBED_LIST = [
     path: "/json-tool",
     icon: BracesIcon,
     color: "#C8A165",
-    url: BASE_EMBED_URL + "/json-tool",
+    url: BASE_EMBED_URL + "json-tool",
   },
   {
     label: "Web RTC Demo",
