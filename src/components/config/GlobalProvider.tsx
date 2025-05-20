@@ -41,7 +41,7 @@ const GlobalContext = createContext<{
   off: any;
   apiKey: any;
   setApiKey: Dispatch<SetStateAction<any>>;
-  nLessonscollapsedGroups: { [key: string]: boolean };
+  nLessonsCollapsedGroups: { [key: string]: boolean };
   setNLessonsCollapsedGroups: Dispatch<
     SetStateAction<{ [key: string]: boolean }>
   >;
@@ -67,12 +67,12 @@ const GlobalContext = createContext<{
   off: () => {},
   apiKey: null,
   setApiKey: () => {},
-  nLessonscollapsedGroups: {},
+  nLessonsCollapsedGroups: {},
   setNLessonsCollapsedGroups: () => {},
 });
 
 export const GlobalProvider = ({ children }: any) => {
-  const [nLessonscollapsedGroups, setNLessonsCollapsedGroups] = useState(
+  const [nLessonsCollapsedGroups, setNLessonsCollapsedGroups] = useState(
     getStorageData(LOCAL_STORAGE.N_LESSONS_COLLAPSED_GROUPS, {})
   );
   const [apiKey, setApiKey] = useState<any>(
@@ -85,9 +85,9 @@ export const GlobalProvider = ({ children }: any) => {
   useEffect(() => {
     setStorageData(
       LOCAL_STORAGE.N_LESSONS_COLLAPSED_GROUPS,
-      nLessonscollapsedGroups
+      nLessonsCollapsedGroups
     );
-  }, [nLessonscollapsedGroups]);
+  }, [nLessonsCollapsedGroups]);
 
   const [sessionKey, setSessionKey] = useState<any>(() => {
     const storedSession = getStorageData(LOCAL_STORAGE.SESSION_KEY, null);
@@ -225,7 +225,7 @@ export const GlobalProvider = ({ children }: any) => {
         off: off as any,
         apiKey,
         setApiKey,
-        nLessonscollapsedGroups,
+        nLessonsCollapsedGroups,
         setNLessonsCollapsedGroups,
       }}
     >

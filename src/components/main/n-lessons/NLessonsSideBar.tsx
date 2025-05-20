@@ -13,7 +13,7 @@ import useDocTitle from "../../../hooks/useDocTitle";
 const NLessonsSideBar = ({ activeItem, breadcrumbs, renderContent }: any) => {
   useDocTitle(DOC_TITLE.N_LESSONS);
   const menuGroups = N_LESSONS_SIDEBAR_MENUS;
-  const { nLessonscollapsedGroups, setNLessonsCollapsedGroups, imgSrc } =
+  const { nLessonsCollapsedGroups, setNLessonsCollapsedGroups, imgSrc } =
     useGlobalContext();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -78,7 +78,7 @@ const NLessonsSideBar = ({ activeItem, breadcrumbs, renderContent }: any) => {
         const item = activeItemRef.current;
 
         const activeGroup = findActiveGroup();
-        if (activeGroup && nLessonscollapsedGroups[activeGroup]) {
+        if (activeGroup && nLessonsCollapsedGroups[activeGroup]) {
           setNLessonsCollapsedGroups((prev) => ({
             ...prev,
             [activeGroup]: false,
@@ -168,7 +168,7 @@ const NLessonsSideBar = ({ activeItem, breadcrumbs, renderContent }: any) => {
                       text-sm flex justify-between items-center p-2.5
                       rounded-lg cursor-pointer transition-all duration-200
                       ${
-                        nLessonscollapsedGroups[group.name]
+                        nLessonsCollapsedGroups[group.name]
                           ? "bg-gray-800 mb-1"
                           : "bg-gray-900 mb-1"
                       }
@@ -183,7 +183,7 @@ const NLessonsSideBar = ({ activeItem, breadcrumbs, renderContent }: any) => {
                       <span>{group.name}</span>
                     </div>
                     <span className="text-gray-200 transition-transform duration-200">
-                      {nLessonscollapsedGroups[group.name] ? (
+                      {nLessonsCollapsedGroups[group.name] ? (
                         <ChevronDownIcon size={16} />
                       ) : (
                         <ChevronUpIcon size={16} />
@@ -195,7 +195,7 @@ const NLessonsSideBar = ({ activeItem, breadcrumbs, renderContent }: any) => {
                     className={`
                       overflow-hidden transition-all duration-200
                       ${
-                        nLessonscollapsedGroups[group.name]
+                        nLessonsCollapsedGroups[group.name]
                           ? "max-h-0 opacity-0"
                           : "max-h-96 opacity-100"
                       }
