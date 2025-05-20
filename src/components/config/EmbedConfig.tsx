@@ -4,6 +4,7 @@ import {
   GoalIcon,
   LayoutDashboardIcon,
   PaletteIcon,
+  PlayIcon,
   RocketIcon,
   VideoIcon,
 } from "lucide-react";
@@ -38,6 +39,13 @@ const EMBED_LIST = [
     icon: FilesIcon,
     color: "#64B5F6",
     url: BASE_EMBED_URL + "dev-notes",
+  },
+  {
+    label: "Ducky vs Pengy",
+    path: "/ducky-vs-pengy",
+    icon: PlayIcon,
+    color: "#382B66",
+    url: BASE_EMBED_URL + "ducky-vs-pengy",
   },
   {
     label: "FPS Game Demo",
