@@ -82,13 +82,6 @@ export const GlobalProvider = ({ children }: any) => {
   const [isUnauthorized, setIsUnauthorized] = useState(false);
   const [profile, setProfile] = useState<any>(null);
 
-  useEffect(() => {
-    setStorageData(
-      LOCAL_STORAGE.N_LESSONS_COLLAPSED_GROUPS,
-      nLessonsCollapsedGroups
-    );
-  }, [nLessonsCollapsedGroups]);
-
   const [sessionKey, setSessionKey] = useState<any>(() => {
     const storedSession = getStorageData(LOCAL_STORAGE.SESSION_KEY, null);
     if (storedSession) {

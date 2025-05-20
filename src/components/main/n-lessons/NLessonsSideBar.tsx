@@ -127,7 +127,7 @@ const NLessonsSideBar = ({ activeItem, breadcrumbs, renderContent }: any) => {
   const toggleGroupCollapse = (groupName: string) => {
     setNLessonsCollapsedGroups((prev) => {
       const updatedGroups = { ...prev, [groupName]: !prev[groupName] };
-      setStorageData(LOCAL_STORAGE.COLLAPSED_GROUPS, updatedGroups);
+      setStorageData(LOCAL_STORAGE.N_LESSONS_COLLAPSED_GROUPS, updatedGroups);
       return updatedGroups;
     });
   };
